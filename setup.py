@@ -41,7 +41,7 @@ if sys.argv[-1] == 'publish':
 
 
 setup(
-    name='tapioca',
+    name='tapioca-wrapper',
     version=get_version(package),
     description='Tapioca API wrapper',
     long_description=readme,
