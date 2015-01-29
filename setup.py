@@ -47,7 +47,7 @@ setup(
     long_description=readme,
     author='Filipe Ximenes',
     author_email='filipeximenes@gmail.com',
-    url='https://github.com/filipeximenes/tapioca-wrapper',
+    url='https://github.com/vintasoftware/tapioca-wrapper',
     packages=[
         'tapioca',
     ],

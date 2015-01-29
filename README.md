@@ -141,7 +141,7 @@ Whenever the data contained in Tapioca object is a URL, you can open it in brows
 
 ## Tapioca comes in many flavours
 
-Facebook - [https://github.com/filipeximenes/tapioca-facebook](https://github.com/filipeximenes/tapioca-facebook)   
-Twitter - [https://github.com/filipeximenes/tapioca-twitter](https://github.com/filipeximenes/tapioca-twitter)   
+Facebook - [https://github.com/vintasoftware/tapioca-facebook](https://github.com/vintasoftware/tapioca-facebook)   
+Twitter - [https://github.com/vintasoftware/tapioca-twitter](https://github.com/vintasoftware/tapioca-twitter)   
 
 Send a pull request to add new ones to the list.
