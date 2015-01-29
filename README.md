@@ -92,7 +92,7 @@ likes.data    likes.paging
 
 ### Executor object
 
-Whenever you use brackets, Tapioca will return to you an ```Executor``` object. You will use the executor every time you want to perform an action over data you poccess. An example was when we filled url params for the user_likes resource, and the used the ```get``` method to fetch data.
+Whenever you use brackets, Tapioca will return to you an ```Executor``` object. You will use the executor every time you want to perform an action over data you possess. An example was when we filled url params for the user_likes resource, and then used the ```get``` method to fetch data.
 
 Tapioca provides many methods, here are they:
 
@@ -136,7 +136,7 @@ api.user_likes().open_docs()
 
 #### open_in_browser()
 
-Whenever the data contained in Tapioca object is a URL, you can open it in browser by using the ```open_in_borowser``` method.
+Whenever the data contained in Tapioca object is a URL, you can open it in browser by using the ```open_in_browser``` method.
 
 
 ## Tapioca comes in many flavours
