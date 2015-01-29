@@ -148,7 +148,7 @@ Send a pull request to add new ones to the list.
 
 ## Wrapping an API with Tapioca
 
-This is all the code you need to build the Facebook Graph API you just played:   
+This is all the code you need to build the Facebook Graph API wrapper you just played with:   
 ``` python
 # surce here: https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py
 
@@ -187,4 +187,4 @@ class FacebookClientAdapter(TapiocaAdapter):
 
 Facebook = TapiocaClient(FacebookClientAdapter())
 ```
-Everything else is what we call ```resource_mapping``` and its merely documentation. You can take a look  [here](https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/resource_mapping.py)
+Everything else is what we call ```resource_mapping``` and its merely documentation. You can take a look  [here](https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/resource_mapping.py).
