@@ -150,7 +150,7 @@ Send a pull request to add new ones to the list.
 
 This is all the code you need to build the Facebook Graph API wrapper you just played with:   
 ``` python
-# surce here: https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py
+# source here: https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py
 
 from tapioca import (TapiocaClient, TapiocaAdapter)
 from requests_oauthlib import OAuth2
