@@ -92,13 +92,13 @@ likes.data    likes.paging
 
 ### Executor object
 
-Whenever you use brackets, Tapioca will return to you an ```Executor``` object. You will use the executor every time you want to perform an action over data you possess. An example was when we filled url params for the user_likes resource, and then used the ```get``` method to fetch data.
+Whenever you use brackets, Tapioca will return to you an ```Executor``` object. You will use the executor every time you want to perform an action over data you possess. An example was when we filled url params for the ```user_likes``` resource, and then used the ```get``` method to fetch data.
 
 Tapioca provides many methods, here are they:
 
 #### get()/post()
 
-Tapioca uses ```requests``` library to make requests, soo http methods will work just the same.
+Tapioca uses ```requests``` library to make requests, so http methods will work just the same.
 ``` python 
 likes = api.user_likes(url_params={'id': 'me'}).get()
 ```
