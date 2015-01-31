@@ -3,11 +3,11 @@
 ![Tapioca!!](tapioca.jpg "Tapioca")
 
 Tapioca provides an easy way to make explorable python API wrappers.
-APIs wrapped by Tapioca follow a simple interaction pattern that works uniformelly so developers don't need to learn how to use a new library for each service they want to interact with.
+APIs wrapped by Tapioca follow a simple interaction pattern that works uniformelly so developers don't need to learn how to use a new coding interface/style for each service API.
 
 ## Concepts
 
-Tapioca is thought to reduce the effort needed to use a service API, this is done by making the API wrapper explorable, so developers don't need to read full API and wrapper docs before starting to play with it.
+Uniform and explorable wrappers means developers don't need to read full API and wrapper documentation before starting to play with it.
 
 We will use ```tapioca-facebook``` as example to gide us through Tapioca.   
 We start by installing ```tapioca-facebook```:
@@ -27,7 +27,7 @@ Go to [https://developers.facebook.com/tools/explorer/](https://developers.faceb
 from tapioca_facebook import Facebook
 
 api = Facebook(api_params={
-    'access_token': '{{your_genereated_access_token}}'})
+    'access_token': '{your_genereated_access_token}'})
 
 ```
 
