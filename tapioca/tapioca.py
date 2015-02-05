@@ -27,7 +27,8 @@ class TapiocaClient(object):
         return TapiocaClientExecutor(self._api.__class__(), data=self._data, api_params=self._api_params,
             resource=self._resource)
 
-    def __getattr__(self, name):
+
+    def _get_client_from_name(self, name):
         if self._data and \
             ((isinstance(self._data, list) and isinstance(name, int)) or \
                 (hasattr(self._data, '__iter__') and name in self._data)):
@@ -38,12 +39,17 @@ class TapiocaClient(object):
             resource = resource_mapping[name]
             url = self._api.api_root + '/' + resource['resource']
             return TapiocaClient(self._api.__class__(), data=url, api_params=self._api_params,
-                resource=resource)
+                                 resource=resource)
 
-        raise KeyError(name)
+    def __getattr__(self, name):
+        ret = self._get_client_from_name(name)
+        if ret is None:
+            raise AttributeError(name)
 
     def __getitem__(self, key):
-        return self.__getattr__(key)
+        ret = self._get_client_from_name(key)
+        if ret is None:
+            raise KeyError(key)
 
     def __iter__(self):
         return TapiocaClientExecutor(self._api.__class__(),
