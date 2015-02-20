@@ -13,7 +13,7 @@ import sys
 
 
 package = 'tapioca'
-readme = open('README.rst').read()
+readme = open('README.md').read()
 requirements = [
     'requests'
 ]
