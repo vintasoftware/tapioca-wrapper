@@ -2,7 +2,7 @@
 
 __author__ = 'Filipe Ximenes'
 __email__ = 'filipeximenes@gmail.com'
-__version__ = '0.0.3'
+__version__ = '0.0.7'
 
 
 from tapioca import (

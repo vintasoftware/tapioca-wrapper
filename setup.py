@@ -12,8 +12,14 @@ import os
 import sys
 
 
+try:
+    import pypandoc
+    readme = pypandoc.convert('README.md', 'rst')
+except (IOError, ImportError):
+    readme = ''
+
+
 package = 'tapioca'
-readme = open('README.md').read()
 requirements = [
     'requests'
 ]
