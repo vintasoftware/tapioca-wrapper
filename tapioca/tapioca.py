@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import json
 import requests
 import webbrowser
 
@@ -81,10 +82,18 @@ class TapiocaClientExecutor(TapiocaClient):
 
     def _make_request(self, request_method, raw=False, *args, **kwargs):
         request_kwargs = self._api.get_request_kwargs(self._api_params)
-        request_kwargs.update(kwargs)
 
-        if not 'url' in request_kwargs:
-            request_kwargs['url'] = self._data
+        if 'params' in request_kwargs:
+            request_kwargs['params'].update(kwargs.pop('params', {}))
+
+        if 'data' in request_kwargs:
+            request_kwargs['data'].update(kwargs.pop('data', {}))
+
+        request_kwargs.update(kwargs)
+        request_kwargs.update({
+            'url': self._data,
+            'data': self._api.prepare_request_params(request_kwargs['data']),
+        })
 
         response = requests.request(request_method, **request_kwargs)
         if not raw:
@@ -135,6 +144,9 @@ class TapiocaAdapter(object):
 
     def fill_resource_template_url(self, template, params):
         return template.format(**params)
+
+    def prepare_request_params(self, data):
+        return json.dumps(data)
 
     def response_to_native(self, response):
         return response.json()
