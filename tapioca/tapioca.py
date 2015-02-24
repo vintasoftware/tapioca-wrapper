@@ -108,6 +108,18 @@ class TapiocaClientExecutor(TapiocaClient):
     def raw_get(self, *args, **kwargs):
         return self._make_request('GET', raw=True, *args, **kwargs)
 
+    def post(self, *args, **kwargs):
+        return self._make_request('POST', *args, **kwargs)
+
+    def put(self, *args, **kwargs):
+        return self._make_request('PUT', *args, **kwargs)
+
+    def patch(self, *args, **kwargs):
+        return self._make_request('PATCH', *args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        return self._make_request('DELETE', *args, **kwargs)
+
     def next(self):
         iterator_list = self._api.get_iterator_list(self._data)
         if self._iterator_index >= len(iterator_list):
