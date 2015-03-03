@@ -91,9 +91,11 @@ class TapiocaClientExecutor(TapiocaClient):
 
         request_kwargs.update(kwargs)
         request_kwargs.update({
-            'url': self._data,
-            'data': self._api.prepare_request_params(request_kwargs['data']),
+            'data': self._api.prepare_request_params(request_kwargs.get('data')),
         })
+
+        if not 'url' in request_kwargs:
+            request_kwargs['url'] = self._data
 
         response = requests.request(request_method, **request_kwargs)
         if not raw:
