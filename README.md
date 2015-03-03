@@ -46,14 +46,15 @@ api.object                       api.page_conversations           api.page_miles
 
 Those are the available endpoints for the facebook API. As we can see there is one called: ```user_likes```, lets take a closer look.
 
-Type ```api.user_likes``` and press ```enter```
+Type ```api.user_likes?``` and press ```enter```
 
 ``` python
-In [3]: api.user_likes
-Out [3]: {
-    'resource': '{id}/likes',
-    'docs': 'https://developers.facebook.com/docs/graph-api/reference/v2.2/user/likes'
-}
+In [3]: api.user_likes?
+...
+Docstring:
+Automatic generated __doc__ from resource_mapping.
+Resource: {id}/likes
+Docs: https://developers.facebook.com/docs/graph-api/reference/v2.2/user/likes
 ```
 
 As we can see, ```user_likes``` resource requires an ```id``` to be passed to the url. Lets do it:

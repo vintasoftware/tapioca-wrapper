@@ -14,8 +14,10 @@ RESOURCE_MAPPING = {
     },
     'resource': {
         'resource': 'resource/{number}/',
-        'docs': 'http://www.test.com/resource'
-    }
+        'docs': 'http://www.test.com/resource',
+        'spam': 'eggs',
+        'foo': 'bar'
+    },
 }
 
 
