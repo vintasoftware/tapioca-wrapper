@@ -1,6 +1,8 @@
 # coding: utf-8
 
 import json
+import copy
+
 import requests
 import webbrowser
 
@@ -14,6 +16,19 @@ class TapiocaClient(object):
         self._api_params = api_params
         self._request_kwargs = request_kwargs
         self._resource = resource
+
+    def _get_doc(self):
+        resources = copy.copy(self._resource)
+        docs = ("Automatic generated __doc__ from resource_mapping.\n"
+                "Resource: %s\n"
+                "Docs: %s\n" % (resources.pop('resource', ''),
+                                resources.pop('docs', '')))
+        for key, value in sorted(resources.items()):
+            docs += "%s: %s\n" % (key.title(), value)
+        docs = docs.strip()
+        return docs
+
+    __doc__ = property(_get_doc)
 
     def __call__(self, *args, **kwargs):
         if 'api_params' in kwargs:
