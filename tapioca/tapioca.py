@@ -45,11 +45,13 @@ class TapiocaClient(object):
         ret = self._get_client_from_name(name)
         if ret is None:
             raise AttributeError(name)
+        return ret
 
     def __getitem__(self, key):
         ret = self._get_client_from_name(key)
         if ret is None:
             raise KeyError(key)
+        return ret
 
     def __iter__(self):
         return TapiocaClientExecutor(self._api.__class__(),
