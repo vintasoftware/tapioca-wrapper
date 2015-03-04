@@ -26,8 +26,7 @@ Go to [https://developers.facebook.com/tools/explorer/](https://developers.faceb
 ``` python
 from tapioca_facebook import Facebook
 
-api = Facebook(api_params={
-    'access_token': '{your_genereated_access_token}'})
+api = Facebook(access_token='{your_genereated_access_token}')
 
 ```
 
@@ -60,7 +59,7 @@ Docs: https://developers.facebook.com/docs/graph-api/reference/v2.2/user/likes
 As we can see, ```user_likes``` resource requires an ```id``` to be passed to the url. Lets do it:
 
 ``` python 
-api.user_likes(url_params={'id': 'me'})
+api.user_likes(id='me')
 
 ```
 
@@ -69,7 +68,7 @@ api.user_likes(url_params={'id': 'me'})
 To request current user likes, its easy:
 
 ``` python 
-likes = api.user_likes(url_params={'id': 'me'}).get()
+likes = api.user_likes(id='me').get()
 ```
 
 To print the returned data do:
@@ -101,13 +100,13 @@ Tapioca provides many methods, here are they:
 
 Tapioca uses ```requests``` library to make requests, so http methods will work just the same.
 ``` python 
-likes = api.user_likes(url_params={'id': 'me'}).get()
+likes = api.user_likes(id='me').get()
 ```
 
 #### data()
 Use data to return data contained in the Tapioca object
 ``` python 
-likes = api.user_likes(url_params={'id': 'me'}).get()
+likes = api.user_likes(id='me').get()
 
 # this will print only the array contained in data field of the response
 print(likes.data().data())
@@ -120,7 +119,7 @@ Many APIs use paging concept to provide large amounts of data. This way data is 
 Tapioca is buit to provide easy way to access paged data using iterators:
 
 ``` python
-likes = api.user_likes(url_params={'id': 'me'}).get()
+likes = api.user_likes(id='me').get()
 
 for like in likes:
     print(like.id().data())
@@ -154,7 +153,8 @@ This is all the code you need to build the Facebook Graph API wrapper you just p
 ``` python
 # source here: https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py
 
-from tapioca import (TapiocaClient, TapiocaAdapter)
+from tapioca import (
+    TapiocaAdapter, generate_wrapper_from_adapter)
 from requests_oauthlib import OAuth2
 
 from resource_mapping import RESOURCE_MAPPING
@@ -187,6 +187,6 @@ class FacebookClientAdapter(TapiocaAdapter):
             return {'url': url}
 
 
-Facebook = TapiocaClient(FacebookClientAdapter())
+Facebook = generate_wrapper_from_adapter(FacebookClientAdapter)
 ```
 Everything else is what we call ```resource_mapping``` and its merely documentation. You can take a look  [here](https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/resource_mapping.py).
