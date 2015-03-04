@@ -6,13 +6,13 @@ import unittest
 import responses
 import requests
 
-from tests.tapioca_test import TestTapiocaClient
+from tests.client import TestTapiocaClient
 
 
 class TestTapioca(unittest.TestCase):
 
     def setUp(self):
-        self.wrapper = TestTapiocaClient(api_params={})
+        self.wrapper = TestTapiocaClient()
 
     def test_resource_executor_data_should_be_composed_url(self):
         expected_url = 'https://api.test.com/test/'
@@ -47,7 +47,7 @@ class TestTapioca(unittest.TestCase):
     def test_fill_url_template(self):
         expected_url = 'https://api.test.com/user/123/'
 
-        resource = self.wrapper.user(url_params={'id': '123'})
+        resource = self.wrapper.user(id='123')
 
         self.assertEqual(resource.data(), expected_url)
 

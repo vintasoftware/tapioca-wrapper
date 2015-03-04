@@ -7,6 +7,19 @@ import requests
 import webbrowser
 
 
+def generate_wrapper_from_adapter(adapter_class):
+    return TapiocaInstantiator(adapter_class)
+
+
+class TapiocaInstantiator(object):
+
+    def __init__(self, adapter_class):
+        self.adapter_class = adapter_class
+
+    def __call__(self, *args, **kwargs):
+        return TapiocaClient(self.adapter_class(), api_params=kwargs)
+
+
 class TapiocaClient(object):
 
     def __init__(self, api, data=None, request_kwargs=None, api_params={},
@@ -31,12 +44,8 @@ class TapiocaClient(object):
     __doc__ = property(_get_doc)
 
     def __call__(self, *args, **kwargs):
-        if 'api_params' in kwargs:
-            self._api_params = kwargs['api_params']
-            return TapiocaClient(self._api.__class__(), data=self._data, api_params=self._api_params)
-
-        if 'url_params' in kwargs:
-            url = self._api.fill_resource_template_url(self._data, kwargs['url_params'])
+        if kwargs:
+            url = self._api.fill_resource_template_url(self._data, kwargs)
             return TapiocaClientExecutor(self._api.__class__(), data=url, api_params=self._api_params)
 
         return TapiocaClientExecutor(self._api.__class__(), data=self._data, api_params=self._api_params,

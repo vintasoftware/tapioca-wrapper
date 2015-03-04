@@ -1,6 +1,7 @@
 # coding: utf-8
 
-from tapioca import (TapiocaClient, TapiocaAdapter)
+from tapioca import (
+    TapiocaAdapter, generate_wrapper_from_adapter)
 
 
 RESOURCE_MAPPING = {
@@ -42,4 +43,4 @@ class TestClientAdapter(TapiocaAdapter):
             return {'url': url}
 
 
-TestTapiocaClient = TapiocaClient(TestClientAdapter())
+TestTapiocaClient = generate_wrapper_from_adapter(TestClientAdapter)

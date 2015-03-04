@@ -57,8 +57,7 @@ setup(
     packages=[
         'tapioca',
     ],
-    package_dir={'tapioca':
-                 'tapioca'},
+    package_dir={'tapioca': 'tapioca'},
     include_package_data=True,
     install_requires=requirements,
     license="BSD",

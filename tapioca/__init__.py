@@ -6,4 +6,4 @@ __version__ = '0.1.1'
 
 
 from tapioca import (
-    TapiocaClient, TapiocaAdapter)
+    TapiocaAdapter, generate_wrapper_from_adapter)
