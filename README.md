@@ -96,7 +96,7 @@ Whenever you use brackets, Tapioca will return to you an ```Executor``` object. 
 
 Tapioca provides many methods, here are they:
 
-#### get()/post()
+#### get()/post()/put()/delete()/head()/options()
 
 Tapioca uses ```requests``` library to make requests, so http methods will work just the same.
 ``` python 
