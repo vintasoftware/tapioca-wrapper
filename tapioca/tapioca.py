@@ -197,7 +197,7 @@ class TapiocaAdapter(object):
     def response_to_native(self, response):
         return response.json()
 
-    def get_request_kwargs(self):
+    def get_request_kwargs(self, api_params):
         return {}
 
     def get_iterator_list(self, response_data):
