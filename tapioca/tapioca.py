@@ -90,6 +90,15 @@ class TapiocaClient(object):
 
         return []
 
+    def __str__(self):
+        import pprint
+        pp = pprint.PrettyPrinter(indent=4)
+        return """<{} object
+{}>""".format(self.__class__.__name__, pp.pformat(self._data))
+
+    def _repr_pretty_(self, p, cycle):
+        p.text(self.__str__())
+
 
 class TapiocaClientExecutor(TapiocaClient):
 
