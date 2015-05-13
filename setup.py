@@ -15,7 +15,7 @@ import sys
 try:
     import pypandoc
     readme = pypandoc.convert('README.md', 'rst')
-except (IOError, ImportError):
+except (IOError, ImportError, RuntimeError):
     readme = ''
 
 
