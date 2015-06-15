@@ -130,7 +130,7 @@ class TapiocaClientExecutor(TapiocaClient):
     def response(self):
         return self._response
 
-    def _make_request(self, request_method, raw=False, *args, **kwargs):
+    def _make_request(self, request_method, *args, **kwargs):
         request_kwargs = self._api.get_request_kwargs(self._api_params)
 
         if 'params' in request_kwargs:
