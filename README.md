@@ -9,7 +9,7 @@ APIs wrapped by Tapioca follow a simple interaction pattern that works uniformel
 
 Uniform and explorable wrappers means developers don't need to read full API and wrapper documentation before starting to play with it.
 
-We will use ```tapioca-facebook``` as example to gide us through Tapioca.   
+We will use ```tapioca-facebook``` as example to gide us through Tapioca.
 We start by installing ```tapioca-facebook```:
 ```
 pip install tapioca-facebook
@@ -20,8 +20,8 @@ To better experience Tapioca, we will also use iPython:
 pip install ipython
 ```
 
-Now, lets explore!!  
-Go to [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/), click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you an teporary access token to play with Facebook API. In case it expires, just generate a new one. 
+Now, lets explore!!
+Go to [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/), click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you an teporary access token to play with Facebook API. In case it expires, just generate a new one.
 
 ``` python
 from tapioca_facebook import Facebook
@@ -34,11 +34,11 @@ If you are using iPython, you can now list available endpoints by typing ```api.
 
 ``` python
 In [2]: api.
-api.user_likes                  api.page_blocked                 api.page_locations               
-api.page_statuses                api.user_applications_developer  api.user_friends                 
+api.user_likes                  api.page_blocked                 api.page_locations
+api.page_statuses                api.user_applications_developer  api.user_friends
 api.user_invitable_friends       api.user_photos                  api.user_videos
-api.object                       api.page_conversations           api.page_milestones  
-...            
+api.object                       api.page_conversations           api.page_milestones
+...
 ```
 
 ### Resources
@@ -58,7 +58,7 @@ Docs: https://developers.facebook.com/docs/graph-api/reference/v2.2/user/likes
 
 As we can see, ```user_likes``` resource requires an ```id``` to be passed to the url. Lets do it:
 
-``` python 
+``` python
 api.user_likes(id='me')
 
 ```
@@ -67,7 +67,7 @@ api.user_likes(id='me')
 
 To request current user likes, its easy:
 
-``` python 
+``` python
 likes = api.user_likes(id='me').get()
 ```
 
@@ -99,13 +99,13 @@ Tapioca provides many methods, here are they:
 #### get()/post()/put()/delete()/head()/options()
 
 Tapioca uses ```requests``` library to make requests, so http methods will work just the same.
-``` python 
+``` python
 likes = api.user_likes(id='me').get()
 ```
 
 #### data()
 Use data to return data contained in the Tapioca object
-``` python 
+``` python
 likes = api.user_likes(id='me').get()
 
 # this will print only the array contained in data field of the response
@@ -115,7 +115,7 @@ print(likes.data().data())
 
 #### iterator
 
-Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoing a single long request. 
+Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoing a single long request.
 Tapioca is buit to provide easy way to access paged data using iterators:
 
 ``` python
@@ -130,7 +130,7 @@ This will keep fetching user likes until there are none left.
 
 If you are accessing a resource, you can call ```open_docs``` to open resource documentation in browser:
 
-``` python 
+``` python
 api.user_likes().open_docs()
 ```
 
@@ -141,16 +141,16 @@ Whenever the data contained in Tapioca object is a URL, you can open it in brows
 
 ## Tapioca comes in many flavours
 
-Facebook - [https://github.com/vintasoftware/tapioca-facebook](https://github.com/vintasoftware/tapioca-facebook)   
-Twitter - [https://github.com/vintasoftware/tapioca-twitter](https://github.com/vintasoftware/tapioca-twitter)   
-Mandrill - [https://github.com/vintasoftware/tapioca-mandrill](https://github.com/vintasoftware/tapioca-mandrill)  
-Parse - [https://github.com/vintasoftware/tapioca-parse](https://github.com/vintasoftware/tapioca-parse)   
+Facebook - [https://github.com/vintasoftware/tapioca-facebook](https://github.com/vintasoftware/tapioca-facebook)
+Twitter - [https://github.com/vintasoftware/tapioca-twitter](https://github.com/vintasoftware/tapioca-twitter)
+Mandrill - [https://github.com/vintasoftware/tapioca-mandrill](https://github.com/vintasoftware/tapioca-mandrill)
+Parse - [https://github.com/vintasoftware/tapioca-parse](https://github.com/vintasoftware/tapioca-parse)
 
 Send a pull request to add new ones to the list.
 
 ## Wrapping an API with Tapioca
 
-This is all the code you need to build the Facebook Graph API wrapper you just played with:   
+This is all the code you need to build the Facebook Graph API wrapper you just played with:
 ``` python
 # source here: https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py
 
@@ -191,3 +191,10 @@ class FacebookClientAdapter(TapiocaAdapter):
 Facebook = generate_wrapper_from_adapter(FacebookClientAdapter)
 ```
 Everything else is what we call ```resource_mapping``` and its merely documentation. You can take a look  [here](https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/resource_mapping.py).
+
+## Contributors
+
+André Ericson de.ericson@gmail.com
+
+Filipe Ximenes filipeximenes@gmail.com
+
