@@ -1,6 +1,6 @@
 mock==1.0.1
-pyandoc==0.0.1
-pypandoc==0.9.1
 requests==2.5.1
 responses==0.3.0
 six==1.9.0
+# pyandoc==0.0.1
+# pypandoc==0.9.1

@@ -1,9 +1,11 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
+
+from __future__ import unicode_literals
 
 __author__ = 'Filipe Ximenes'
 __email__ = 'filipeximenes@gmail.com'
 __version__ = '0.2.3'
 
 
-from tapioca import (
+from .tapioca import (
     TapiocaAdapter, generate_wrapper_from_adapter)

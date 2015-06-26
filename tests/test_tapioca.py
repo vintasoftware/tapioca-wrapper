@@ -1,5 +1,6 @@
-#!/usr/bin/env python
 # coding: utf-8
+
+from __future__ import unicode_literals
 
 import unittest
 
@@ -119,7 +120,7 @@ class TestTapioca(unittest.TestCase):
         self.assertEqual(iterations_count, 2)
 
     def test_docs(self):
-        self.assertEquals('\n'.join(self.wrapper.resource.__doc__.split('\n')[1:]),
+        self.assertEqual('\n'.join(self.wrapper.resource.__doc__.split('\n')[1:]),
                           'Resource: ' + self.wrapper.resource._resource['resource'] + '\n'
                           'Docs: ' + self.wrapper.resource._resource['docs'] + '\n'
                           'Foo: ' + self.wrapper.resource._resource['foo'] + '\n'

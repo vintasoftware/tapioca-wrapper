@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+
 import json
 import copy
 
@@ -117,6 +119,9 @@ class TapiocaClientExecutor(TapiocaClient):
 
     def __iter__(self):
         return self
+
+    def __next__(self):
+        return self.next()
 
     def data(self):
         return self._data

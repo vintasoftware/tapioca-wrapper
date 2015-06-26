@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+
 from tapioca import (
     TapiocaAdapter, generate_wrapper_from_adapter)
 
