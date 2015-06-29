@@ -1,25 +1,23 @@
-# http://editorconfig.org
+# editorconfig.org
 
 root = true
 
 [*]
 indent_style = space
 indent_size = 4
+charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
-charset = utf-8
-end_of_line = lf
 
-[*.bat]
+[*.md]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.rst]
 indent_style = tab
-end_of_line = crlf
-
-[LICENSE]
+trim_trailing_whitespace = false
 insert_final_newline = false
 
 [Makefile]
 indent_style = tab
-
-[*.md]
-trim_trailing_whitespace = false
 insert_final_newline = false
