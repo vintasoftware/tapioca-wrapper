@@ -23,6 +23,8 @@ pip install ipython
 Lets explore!!
 Go to [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/), click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you an teporary access token to play with Facebook API. In case it expires, just generate a new one.
 
+## TapiocaClient object
+
 ``` python
 from tapioca_facebook import Facebook
 
@@ -41,7 +43,7 @@ api.object                       api.page_conversations           api.page_miles
 ...
 ```
 
-## Resources
+### Resources
 
 Those are the available endpoints for the facebook API. As we can see there is one called: ```user_likes```, lets take a closer look.
 
@@ -81,7 +83,7 @@ OUT [9]: {
 }
 ```
 
-## Exploring data
+### Exploring data
 
 We can also expore the returned data using the iPython ```tab``` auto-complete
 
@@ -90,7 +92,7 @@ In [9]: likes.
 likes.data    likes.paging
 ```
 
-## Executor object
+## TapiocaClientExecutor object
 
 Whenever you use brackets, Tapioca will return to you an ```Executor``` object. You will use the executor every time you want to perform an action over data you possess. 
 
@@ -106,7 +108,7 @@ likes = api.user_likes(id='me').get()
 ```
 Please read [requests](http://docs.python-requests.org/en/latest/) for more detailed information about tho use HTTP methods. 
 
-#### data()
+### data()
 Use data to return data contained in the Tapioca object
 ``` python
 IN [8]: likes = api.user_likes(id='me').get()
