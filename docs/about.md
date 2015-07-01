@@ -5,4 +5,4 @@ APIs wrapped by Tapioca follow a simple interaction pattern that works uniformel
 
 Supports Python 2.7, 3.2, 3.3 and 3.4.
 
-![Tapioca!!](_static/tapioca.jpg "Tapioca")
+![Tapioca!!](static/tapioca.jpg "Tapioca")

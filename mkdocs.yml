@@ -1,0 +1,8 @@
+site_name: Tapio-Wrapper
+pages:
+- Home: index.md
+- About: about.md
+- Quickstart: quickstart.md
+- Flavour: flavours.md
+- New Flavour: newflavour.md
+theme: readthedocs
