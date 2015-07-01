@@ -3,6 +3,7 @@ pages:
 - Home: index.md
 - About: about.md
 - Quickstart: quickstart.md
-- Flavour: flavours.md
+- Availble Flavours: flavours.md
 - New Flavour: newflavour.md
+- Contributors: contributors.md
 theme: readthedocs
