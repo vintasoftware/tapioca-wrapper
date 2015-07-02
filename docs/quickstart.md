@@ -30,7 +30,7 @@ This is how you initialize your tapioca client:
 ``` python
 from tapioca_facebook import Facebook
 
-api = Facebook(access_token='{your_genereated_access_token'})
+api = Facebook(access_token='{your_genereated_access_token}')
 
 ```
 
@@ -108,7 +108,7 @@ Tapioca uses [requests](http://docs.python-requests.org/en/latest/) library to m
 ``` python
 likes = api.user_likes(id='me').get()
 ```
-Please read [requests](http://docs.python-requests.org/en/latest/) for more detailed information about tho use HTTP methods. 
+Please read [requests](http://docs.python-requests.org/en/latest/) for more detailed information about how to use HTTP methods. 
 
 ### data()
 Use data to return data contained in the Tapioca object
