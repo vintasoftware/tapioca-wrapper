@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+
 from tapioca import (
     TapiocaAdapter, generate_wrapper_from_adapter)
 
@@ -33,7 +35,7 @@ class TestClientAdapter(TapiocaAdapter):
         return response_data['data']
 
     def get_iterator_next_request_kwargs(self,
-            iterator_request_kwargs, response_data):
+            iterator_request_kwargs, response_data, response):
         paging = response_data.get('paging')
         if not paging:
             return
