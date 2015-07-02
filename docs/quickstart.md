@@ -26,10 +26,11 @@ Go to [https://developers.facebook.com/tools/explorer/](https://developers.faceb
 
 ## TapiocaClient object
 
+This is how you initialize your tapioca client:
 ``` python
 from tapioca_facebook import Facebook
 
-api = Facebook(access_token='your_genereated_access_token')
+api = Facebook(access_token='{your_genereated_access_token'})
 
 ```
 
@@ -95,9 +96,9 @@ likes.data    likes.paging
 
 ## TapiocaClientExecutor object
 
-Whenever you use brackets, Tapioca will return to you an ```Executor``` object. You will use the executor every time you want to perform an action over data you possess. 
+Whenever you make a "call" on a ```TapiocaClient``` it will return to you an ```TapiocaClientExecutor``` object. You will use the executor every time you want to perform an action over data you possess. 
 
-An example was when we filled url params for the ```user_likes``` resource (calling it and passign the argument ``id='me'``). Whenever you make a ``call`` from a ``TapiocaClient`` it will return a ``TapiocaClientExecutor`` object. In this new object you will find many methods to help you play with the data available.
+An example was when we filled url params for the ```user_likes``` resource (calling it and passing the argument ``id='me'``). In this new object you will find many methods to help you play with the data available.
 
 Here is the list of the methods available in a ``TapiocaClientExecutor``:
 
