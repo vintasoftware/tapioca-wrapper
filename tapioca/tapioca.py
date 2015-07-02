@@ -128,6 +128,8 @@ class TapiocaClientExecutor(TapiocaClient):
         return self._data
 
     def response(self):
+        if self._response is None:
+            raise Exception("This TapiocaClient instance has no response object")
         return self._response
 
     def _make_request(self, request_method, *args, **kwargs):
@@ -178,6 +180,7 @@ class TapiocaClientExecutor(TapiocaClient):
                 cli = TapiocaClientExecutor(self._api.__class__(), api_params=self._api_params)
                 response = cli.get(**new_request_kwargs)
                 self._data = response._data
+                self._response = response
                 self._iterator_index = 0
             else:
                 raise StopIteration()
