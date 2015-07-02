@@ -28,7 +28,7 @@ class FacebookClientAdapter(TapiocaAdapter):
         return response_data['data']
 
     def get_iterator_next_request_kwargs(self,
-            iterator_request_kwargs, response_data):
+            iterator_request_kwargs, response_data, response):
         paging = response_data.get('paging')
         if not paging:
             return
