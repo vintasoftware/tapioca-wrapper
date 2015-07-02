@@ -11,7 +11,7 @@ All wrappers made with tapioca follow a simple interaction pattern that works un
 
 ## Getting started
 
-We will use ```tapioca-facebook``` as example to gide us through tapioca concepts.
+We will use ```tapioca-facebook``` as example to guide us through tapioca concepts.
 Lets install ```tapioca-facebook```:
 ```
 pip install tapioca-facebook
@@ -20,7 +20,8 @@ To better experience tapioca, we will also use iPython:
 ```
 pip install ipython
 ```
-Lets explore!!
+Lets explore!  
+
 Go to [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/), click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you an teporary access token to play with Facebook API. In case it expires, just generate a new one.
 
 ## TapiocaClient object
