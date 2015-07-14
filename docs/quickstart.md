@@ -110,6 +110,7 @@ likes = api.user_likes(id='me').get()
 ```
 
 **URL params**
+
 To pass querystring parameters in the url, your can use the ```params``` parameter:
 
 ``` python
@@ -120,6 +121,7 @@ likes = api.user_likes(id='me').get(
 This will return only 5 results.
 
 **Body data**
+
 If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, lets post a message to a facebook wall:
 
 ``` python
