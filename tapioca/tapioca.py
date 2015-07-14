@@ -64,7 +64,9 @@ class TapiocaClient(object):
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
             resource = resource_mapping[name]
-            url = self._api.api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
+            api_root = self._api.get_api_root(self._api_params)
+
+            url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
             return TapiocaClient(self._api.__class__(), data=url, api_params=self._api_params,
                                  resource=resource)
 
@@ -207,6 +209,9 @@ class TapiocaClientExecutor(TapiocaClient):
 
 class TapiocaAdapter(object):
 
+    def get_api_root(self, api_params):
+        return self.api_root
+
     def fill_resource_template_url(self, template, params):
         return template.format(**params)
 
@@ -228,4 +233,3 @@ class TapiocaAdapter(object):
     def get_iterator_next_request_kwargs(self, iterator_request_kwargs,
                                          response_data, response):
         raise NotImplementedError()
-
