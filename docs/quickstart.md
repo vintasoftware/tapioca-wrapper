@@ -105,7 +105,7 @@ Here is the list of the methods available in a ``TapiocaClientExecutor``:
 ### get()/post()/put()/delete()/head()/options()
 
 Tapioca uses [requests](http://docs.python-requests.org/en/latest/) library to make requests, so http methods will work just the same. The only diference is that we don't need to pass a url since tapioca will take care of this.
-``` python
+```python
 likes = api.user_likes(id='me').get()
 ```
 #### URL params
@@ -121,7 +121,7 @@ This will return only 5 results.
 If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, lets post a message to a facebook wall:
 
 ```python
- # this will only work if you have a post to wall permission
+# this will only work if you have a post to wall permission
 api.user_feed(id='me').post(
     data={'message': 'I love tapiocas!! S2'})
 ```
