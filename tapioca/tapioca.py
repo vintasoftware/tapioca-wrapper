@@ -52,7 +52,7 @@ class TapiocaClient(object):
             data = self._api.fill_resource_template_url(self._data, kwargs)
 
         return TapiocaClientExecutor(self._api.__class__(), data=data, api_params=self._api_params,
-            resource=self._resource)
+            resource=self._resource, response=self._response)
 
     def _get_client_from_name(self, name):
         if self._data and \
