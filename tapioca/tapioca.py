@@ -47,13 +47,12 @@ class TapiocaClient(object):
     __doc__ = property(_get_doc)
 
     def __call__(self, *args, **kwargs):
+        data = self._data
         if kwargs:
-            url = self._api.fill_resource_template_url(self._data, kwargs)
-            return TapiocaClientExecutor(self._api.__class__(), data=url, api_params=self._api_params)
+            data = self._api.fill_resource_template_url(self._data, kwargs)
 
-        return TapiocaClientExecutor(self._api.__class__(), data=self._data, api_params=self._api_params,
+        return TapiocaClientExecutor(self._api.__class__(), data=data, api_params=self._api_params,
             resource=self._resource)
-
 
     def _get_client_from_name(self, name):
         if self._data and \
