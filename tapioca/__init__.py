@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 __author__ = 'Filipe Ximenes'
 __email__ = 'filipeximenes@gmail.com'
-__version__ = '0.3.6'
+__version__ = '0.3.7'
 
 
 from .tapioca import (
