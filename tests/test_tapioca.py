@@ -21,6 +21,10 @@ class TestTapioca(unittest.TestCase):
 
         self.assertEqual(resource.data(), expected_url)
 
+    def test_when_executor_has_no_response(self):
+        with self.assertRaisesRegexp(Exception, "has no response"):
+            self.wrapper.test().response()
+
     @responses.activate
     def test_get_request(self):
         responses.add(responses.GET, self.wrapper.test().data(),

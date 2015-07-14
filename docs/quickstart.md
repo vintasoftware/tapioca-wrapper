@@ -2,12 +2,12 @@
 
 **Yes, you are in the right place**
 
-There is a good chance you found this page because you clicked a link from some python package called **tapioca-*SOMETHING* **. Well, welcome! You are in the right place, this page will teach you the basics of how to use the package that sent you here. If you didn't arive here from other package, please keep reading, the concepts learned here applies to any tapioca-***package*** available.
+There is a good chance you found this page because you clicked a link from some python package called **tapioca-*SOMETHING* **. Well, welcome! You are in the right place, this page will teach you the basics of how to use the package that sent you here. If you didn't arrive here from other package, please keep reading, the concepts learned here applies to any tapioca-***package*** available.
 
 ## What's tapioca?
 
 **tapioca** is a *API wrapper maker*. It helps Python developers creating packages for APIs (like the [Facebook Graph API](flavours.html#facebook) or the [Twitter REST API](flavours.html#twitter)). You can find a full list of available API packages made with tapioca [here](flavours.md).  
-All wrappers made with tapioca follow a simple interaction pattern that works uniformelly so once you learn how tapioca works you will be able to work with any tapioca package available.
+All wrappers made with tapioca follow a simple interaction pattern that works uniformly so once you learn how tapioca works you will be able to work with any tapioca package available.
 
 ## Getting started
 
@@ -22,7 +22,7 @@ pip install ipython
 ```
 Lets explore!  
 
-Go to [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/), click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you an teporary access token to play with Facebook API. In case it expires, just generate a new one.
+Go to [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/), click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you a temporary access token to play with Facebook API. In case it expires, just generate a new one.
 
 ## TapiocaClient object
 
@@ -143,8 +143,8 @@ OUT [12]: [...]
 
 ### iterator
 
-Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoing a single long request.
-tapioca is buit to provide easy way to access paged data using iterators:
+Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoiding a single long request.
+Tapioca is built to provide an easy way to access paged data using iterators:
 
 ``` python
 likes = api.user_likes(id='me').get()
