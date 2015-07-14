@@ -110,19 +110,21 @@ likes = api.user_likes(id='me').get()
 ```
 #### URL params
 To pass querystring parameters in the url, your can use the ```params``` parameter:
+
 ```python
- likes = api.user_likes(id='me').get(
+likes = api.user_likes(id='me').get(
     params={'limit': 5})
- ```
- This will return only 5 results.
+```
+This will return only 5 results.
 
 #### Body data
- If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, lets post a message to a facebook wall:
- ```python
+If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, lets post a message to a facebook wall:
+
+```python
  # this will only work if you have a post to wall permission
 api.user_feed(id='me').post(
     data={'message': 'I love tapiocas!! S2'})
- ```
+```
 
 Please read [requests](http://docs.python-requests.org/en/latest/) for more detailed information about how to use HTTP methods. 
 
