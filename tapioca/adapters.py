@@ -9,7 +9,7 @@ def generate_wrapper_from_adapter(adapter_class):
     return TapiocaInstantiator(adapter_class)
 
 
-class BaseTapiocaAdapter(object):
+class TapiocaAdapter(object):
 
     def get_api_root(self, api_params):
         return self.api_root
@@ -37,7 +37,7 @@ class BaseTapiocaAdapter(object):
         raise NotImplementedError()
 
 
-class TapiocaFormAdapter(BaseTapiocaAdapter):
+class FormAdapterMixin(object):
 
     def format_data_to_request(self, data):
         return data
@@ -46,7 +46,7 @@ class TapiocaFormAdapter(BaseTapiocaAdapter):
         return {'text': response.text}
 
 
-class TapiocaJSONAdapter(BaseTapiocaAdapter):
+class JSONAdapterMixin(object):
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
         arguments = super(TapiocaJSONAdapter, self).get_request_kwargs(
