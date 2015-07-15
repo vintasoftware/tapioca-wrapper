@@ -64,7 +64,6 @@ As we can see, ```user_likes``` resource requires an ```id``` to be passed to th
 
 ``` python
 api.user_likes(id='me')
-
 ```
 
 ### Fetching data
@@ -110,7 +109,8 @@ Tapioca uses [requests](http://docs.python-requests.org/en/latest/) library to m
 likes = api.user_likes(id='me').get()
 ```
 
-#### URL params
+**URL params**
+
 To pass querystring parameters in the url, your can use the ```params``` parameter:
 
 ``` python
@@ -120,7 +120,8 @@ likes = api.user_likes(id='me').get(
 
 This will return only 5 results.
 
-#### Body data
+**Body data**
+
 If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, lets post a message to a facebook wall:
 
 ``` python

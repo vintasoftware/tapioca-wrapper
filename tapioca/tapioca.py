@@ -47,13 +47,12 @@ class TapiocaClient(object):
     __doc__ = property(_get_doc)
 
     def __call__(self, *args, **kwargs):
+        data = self._data
         if kwargs:
-            url = self._api.fill_resource_template_url(self._data, kwargs)
-            return TapiocaClientExecutor(self._api.__class__(), data=url, api_params=self._api_params)
+            data = self._api.fill_resource_template_url(self._data, kwargs)
 
-        return TapiocaClientExecutor(self._api.__class__(), data=self._data, api_params=self._api_params,
-            resource=self._resource)
-
+        return TapiocaClientExecutor(self._api.__class__(), data=data, api_params=self._api_params,
+            resource=self._resource, response=self._response)
 
     def _get_client_from_name(self, name):
         if self._data and \
@@ -64,7 +63,9 @@ class TapiocaClient(object):
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
             resource = resource_mapping[name]
-            url = self._api.api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
+            api_root = self._api.get_api_root(self._api_params)
+
+            url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
             return TapiocaClient(self._api.__class__(), data=url, api_params=self._api_params,
                                  resource=resource)
 
@@ -149,11 +150,13 @@ class TapiocaClientExecutor(TapiocaClient):
         if not 'url' in request_kwargs:
             request_kwargs['url'] = self._data
 
+        request_kwargs = self._api.pre_request_kwargs_update(request_kwargs, self._api_params)
+
         response = requests.request(request_method, **request_kwargs)
         data = self._api.response_to_native(response)
 
         return TapiocaClient(self._api.__class__(), data=data, response=response,
-                             request_kwargs=request_kwargs, api_params=self._api_params)
+                            request_kwargs=request_kwargs, api_params=self._api_params)
 
     def get(self, *args, **kwargs):
         return self._make_request('GET', *args, **kwargs)
@@ -205,6 +208,9 @@ class TapiocaClientExecutor(TapiocaClient):
 
 class TapiocaAdapter(object):
 
+    def get_api_root(self, api_params):
+        return self.api_root
+
     def fill_resource_template_url(self, template, params):
         return template.format(**params)
 
@@ -217,10 +223,12 @@ class TapiocaAdapter(object):
     def get_request_kwargs(self, api_params):
         return {}
 
+    def pre_request_kwargs_update(self, request_kwargs, api_params):
+        return request_kwargs
+
     def get_iterator_list(self, response_data):
         raise NotImplementedError()
 
     def get_iterator_next_request_kwargs(self, iterator_request_kwargs,
                                          response_data, response):
         raise NotImplementedError()
-
