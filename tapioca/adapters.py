@@ -48,6 +48,14 @@ class TapiocaFormAdapter(BaseTapiocaAdapter):
 
 class TapiocaJSONAdapter(BaseTapiocaAdapter):
 
+    def get_request_kwargs(self, api_params, *args, **kwargs):
+        headers = kwargs.get('headers', {})
+        headers['Content-Type'] = 'application/json'
+
+        kwargs['headers'] = headers
+        return super(TapiocaJSONAdapter, self).get_request_kwargs(
+            api_params, *args, **kwargs)
+
     def format_data_to_request(self, data):
         return json.dumps(data)
 
