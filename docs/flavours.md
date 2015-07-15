@@ -8,6 +8,8 @@
 [https://github.com/vintasoftware/tapioca-mandrill](https://github.com/vintasoftware/tapioca-mandrill)
 ## Parse
 [https://github.com/vintasoftware/tapioca-parse](https://github.com/vintasoftware/tapioca-parse)
+## Bitbucket
+[https://github.com/vintasoftware/tapioca-bitbucket](https://github.com/vintasoftware/tapioca-bitbucket)
 
 ### Your flavour
 Send a pull request to add new ones to the list.
