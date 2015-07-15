@@ -49,7 +49,7 @@ class FormAdapterMixin(object):
 class JSONAdapterMixin(object):
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
-        arguments = super(TapiocaJSONAdapter, self).get_request_kwargs(
+        arguments = super(JSONAdapterMixin, self).get_request_kwargs(
             api_params, *args, **kwargs)
 
         if not 'headers' in arguments:

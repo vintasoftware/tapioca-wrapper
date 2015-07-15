@@ -9,4 +9,5 @@ __version__ = '0.3.7'
 
 from .adapters import (
     generate_wrapper_from_adapter,
-    TapiocaFormAdapter, TapiocaJSONAdapter)
+    TapiocaAdapter,
+    FormAdapterMixin, JSONAdapterMixin)
