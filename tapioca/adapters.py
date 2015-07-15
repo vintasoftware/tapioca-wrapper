@@ -18,12 +18,10 @@ class BaseTapiocaAdapter(object):
         return template.format(**params)
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
-        request_kwargs = kwargs
-
-        request_kwargs.update({
-            'data': self.format_data_to_request(request_kwargs.get('data')),
+        kwargs.update({
+            'data': self.format_data_to_request(kwargs.get('data')),
         })
-        return request_kwargs
+        return kwargs
 
     def format_data_to_request(self, data):
         raise NotImplementedError()
