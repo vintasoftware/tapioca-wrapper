@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from tapioca import (
-    TapiocaAdapter, generate_wrapper_from_adapter)
+    TapiocaJSONAdapter, generate_wrapper_from_adapter)
 
 
 RESOURCE_MAPPING = {
@@ -24,7 +24,7 @@ RESOURCE_MAPPING = {
 }
 
 
-class TestClientAdapter(TapiocaAdapter):
+class TestClientAdapter(TapiocaJSONAdapter):
     api_root = 'https://api.test.com'
     resource_mapping = RESOURCE_MAPPING
 

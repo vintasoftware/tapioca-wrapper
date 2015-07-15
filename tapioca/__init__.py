@@ -7,5 +7,6 @@ __email__ = 'filipeximenes@gmail.com'
 __version__ = '0.3.7'
 
 
-from .tapioca import (
-    TapiocaAdapter, generate_wrapper_from_adapter)
+from .adapters import (
+    generate_wrapper_from_adapter,
+    TapiocaFormAdapter, TapiocaJSONAdapter)

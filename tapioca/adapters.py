@@ -2,6 +2,12 @@
 
 import json
 
+from .tapioca import TapiocaInstantiator
+
+
+def generate_wrapper_from_adapter(adapter_class):
+    return TapiocaInstantiator(adapter_class)
+
 
 class BaseTapiocaAdapter(object):
 

@@ -8,10 +8,6 @@ import requests
 import webbrowser
 
 
-def generate_wrapper_from_adapter(adapter_class):
-    return TapiocaInstantiator(adapter_class)
-
-
 class TapiocaInstantiator(object):
 
     def __init__(self, adapter_class):
