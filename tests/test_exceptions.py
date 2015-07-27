@@ -13,14 +13,13 @@ from tapioca.exceptions import (
 from tests.client import TestTapiocaClient, TestClientAdapter
 
 
-
 class TestExceptions(unittest.TestCase):
 
     def setUp(self):
         self.wrapper = TestTapiocaClient()
 
     # @responses.activate
-    # def test_adapter_raises_response_proccess_exception_on_400s(self):
+    # def test_adapter_raises_response_process_exception_on_400s(self):
     #     responses.add(responses.GET, self.wrapper.test().data(),
     #         body='{"erros": "Bad Request Error"}',
     #         status=400,
@@ -30,7 +29,7 @@ class TestExceptions(unittest.TestCase):
     #         TestClientAdapter().process_response(response)
 
     # @responses.activate
-    # def test_adapter_raises_response_proccess_exception_on_500s(self):
+    # def test_adapter_raises_response_process_exception_on_500s(self):
     #     responses.add(responses.GET, self.wrapper.test().data(),
     #         body='{"erros": "Server Error"}',
     #         status=500,

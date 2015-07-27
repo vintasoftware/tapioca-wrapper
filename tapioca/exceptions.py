@@ -1,8 +1,4 @@
 
-
-
-
-
 class ResponseProcessException(Exception):
 
     def __init__(self, tapioca_exception, data, *args, **kwargs):
