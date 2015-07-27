@@ -130,5 +130,6 @@ class TestTapioca(unittest.TestCase):
                           'Foo: ' + self.wrapper.resource._resource['foo'] + '\n'
                           'Spam: ' + self.wrapper.resource._resource['spam'])
 
+
 if __name__ == '__main__':
     unittest.main()

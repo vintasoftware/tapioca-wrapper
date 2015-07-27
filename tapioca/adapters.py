@@ -3,6 +3,8 @@
 import json
 
 from .tapioca import TapiocaInstantiator
+from .exceptions import (
+    ResponseProcessException, RequestError, ServerError)
 
 
 def generate_wrapper_from_adapter(adapter_class):
@@ -22,6 +24,17 @@ class TapiocaAdapter(object):
             'data': self.format_data_to_request(kwargs.get('data')),
         })
         return kwargs
+
+    def process_response(self, response):
+        if str(response.status_code).startswith('5'):
+            raise ResponseProcessException(ServerError, None)
+
+        data = self.response_to_native(response)
+
+        if str(response.status_code).startswith('4'):
+            raise ResponseProcessException(RequestError, data)
+
+        return data
 
     def format_data_to_request(self, data):
         raise NotImplementedError()

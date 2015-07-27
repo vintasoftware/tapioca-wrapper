@@ -7,6 +7,9 @@ import copy
 import requests
 import webbrowser
 
+from .exceptions import (
+    RequestError, ServerError, ResponseProcessException)
+
 
 class TapiocaInstantiator(object):
 
@@ -135,10 +138,16 @@ class TapiocaClientExecutor(TapiocaClient):
         request_kwargs = self._api.get_request_kwargs(self._api_params, *args, **kwargs)
 
         response = requests.request(request_method, **request_kwargs)
-        data = self._api.response_to_native(response)
+
+        try:
+            data = self._api.process_response(response)
+        except ResponseProcessException as e:
+            client = TapiocaClient(self._api.__class__(), data=e.data, response=response,
+                request_kwargs=request_kwargs, api_params=self._api_params)
+            raise e.tapioca_exception(client=client)
 
         return TapiocaClient(self._api.__class__(), data=data, response=response,
-                            request_kwargs=request_kwargs, api_params=self._api_params)
+            request_kwargs=request_kwargs, api_params=self._api_params)
 
     def get(self, *args, **kwargs):
         return self._make_request('GET', *args, **kwargs)
