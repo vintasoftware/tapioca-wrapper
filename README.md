@@ -1,5 +1,8 @@
 # Tapioca-Wrapper
 
+[![Build Status](https://travis-ci.org/vintasoftware/tapioca-wrapper.svg?branch=master)](https://travis-ci.org/vintasoftware/tapioca-wrapper)
+[![Coverage Status](https://coveralls.io/repos/vintasoftware/tapioca-wrapper/badge.svg?branch=master&service=github)](https://coveralls.io/github/vintasoftware/tapioca-wrapper?branch=master)
+
 Tapioca provides an easy way to make explorable python API wrappers.
 APIs wrapped by Tapioca follow a simple interaction pattern that works uniformelly so developers don't need to learn how to use a new coding interface/style for each service API.
 
