@@ -145,12 +145,10 @@ class TapiocaClientExecutor(TapiocaClient):
         try:
             data = self._api.process_response(response)
         except ResponseProcessException as e:
-            client = TapiocaClient(self._api.__class__(), data=e.data, response=response,
-                request_kwargs=request_kwargs, api_params=self._api_params)
+            client = self._wrap_in_tapioca(e.data, response=response, request_kwargs=request_kwargs)
             raise e.tapioca_exception(client=client)
 
-        return TapiocaClient(self._api.__class__(), data=data, response=response,
-            request_kwargs=request_kwargs, api_params=self._api_params)
+        return self._wrap_in_tapioca(data, response=response, request_kwargs=request_kwargs)
 
     def get(self, *args, **kwargs):
         return self._make_request('GET', *args, **kwargs)
@@ -180,7 +178,7 @@ class TapiocaClientExecutor(TapiocaClient):
 
         while iterator_list:
             for item in iterator_list:
-                yield TapiocaClient(self._api.__class__(), data=item, api_params=self._api_params)
+                yield self._wrap_in_tapioca(item)
 
             next_request_kwargs = executor._get_iterator_next_request_kwargs()
 
