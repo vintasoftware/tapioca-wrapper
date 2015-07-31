@@ -163,6 +163,30 @@ class TapiocaClientExecutor(TapiocaClient):
     def delete(self, *args, **kwargs):
         return self._make_request('DELETE', *args, **kwargs)
 
+    def _get_iterator_list(self):
+        return self._api.get_iterator_list(self._data)
+
+    def _get_iterator_next_request_kwargs(self):
+        return self._api.get_iterator_next_request_kwargs(
+            self._request_kwargs, self._data, self._response)
+
+    def pages(self, **kwargs):
+        executor = self
+        iterator_list = executor._get_iterator_list()
+
+        while iterator_list:
+            for item in iterator_list:
+                yield TapiocaClient(self._api.__class__(), data=item, api_params=self._api_params)
+
+            next_request_kwargs = executor._get_iterator_next_request_kwargs()
+
+            if not next_request_kwargs:
+                break
+
+            response = self.get(**next_request_kwargs)
+            executor = response()
+            iterator_list = executor._get_iterator_list()
+
     def next(self):
         iterator_list = self._api.get_iterator_list(self._data)
         if self._iterator_index >= len(iterator_list):
