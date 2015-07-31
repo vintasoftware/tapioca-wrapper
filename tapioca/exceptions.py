@@ -9,16 +9,24 @@ class ResponseProcessException(Exception):
 
 class TapiocaException(Exception):
 
-    def __init__(self, client=None, *args, **kwargs):
+    def __init__(self, message, client):
+        self.status = None
         self.client = client
         if client:
             self.status = client().response().status_code
-        super(TapiocaException, self).__init__(*args, **kwargs)
+
+        if not message:
+            message = "response status code: {}".format(self.status)
+        super(TapiocaException, self).__init__(message)
 
 
 class ClientError(TapiocaException):
-    pass
+
+    def __init__(self, message='', client=None):
+        super(ClientError, self).__init__(message, client=client)
 
 
 class ServerError(TapiocaException):
-    pass
+
+    def __init__(self, message='', client=None):
+        super(ServerError, self).__init__(message, client=client)
