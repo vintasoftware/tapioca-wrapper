@@ -4,8 +4,10 @@ from __future__ import unicode_literals
 
 __author__ = 'Filipe Ximenes'
 __email__ = 'filipeximenes@gmail.com'
-__version__ = '0.3.7'
+__version__ = '0.4.0'
 
 
-from .tapioca import (
-    TapiocaAdapter, generate_wrapper_from_adapter)
+from .adapters import (
+    generate_wrapper_from_adapter,
+    TapiocaAdapter,
+    FormAdapterMixin, JSONAdapterMixin)

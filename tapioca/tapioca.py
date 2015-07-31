@@ -2,15 +2,10 @@
 
 from __future__ import unicode_literals
 
-import json
 import copy
 
 import requests
 import webbrowser
-
-
-def generate_wrapper_from_adapter(adapter_class):
-    return TapiocaInstantiator(adapter_class)
 
 
 class TapiocaInstantiator(object):
@@ -134,23 +129,10 @@ class TapiocaClientExecutor(TapiocaClient):
         return self._response
 
     def _make_request(self, request_method, *args, **kwargs):
-        request_kwargs = self._api.get_request_kwargs(self._api_params)
+        if not 'url' in kwargs:
+            kwargs['url'] = self._data
 
-        if 'params' in request_kwargs:
-            request_kwargs['params'].update(kwargs.pop('params', {}))
-
-        if 'data' in request_kwargs:
-            request_kwargs['data'].update(kwargs.pop('data', {}))
-
-        request_kwargs.update(kwargs)
-        request_kwargs.update({
-            'data': self._api.prepare_request_params(request_kwargs.get('data')),
-        })
-
-        if not 'url' in request_kwargs:
-            request_kwargs['url'] = self._data
-
-        request_kwargs = self._api.pre_request_kwargs_update(request_kwargs, self._api_params)
+        request_kwargs = self._api.get_request_kwargs(self._api_params, *args, **kwargs)
 
         response = requests.request(request_method, **request_kwargs)
         data = self._api.response_to_native(response)
@@ -203,32 +185,3 @@ class TapiocaClientExecutor(TapiocaClient):
     def open_in_browser(self):
         new = 2 # open in new tab
         webbrowser.open(self._data, new=new)
-
-
-
-class TapiocaAdapter(object):
-
-    def get_api_root(self, api_params):
-        return self.api_root
-
-    def fill_resource_template_url(self, template, params):
-        return template.format(**params)
-
-    def prepare_request_params(self, data):
-        return json.dumps(data)
-
-    def response_to_native(self, response):
-        return response.json()
-
-    def get_request_kwargs(self, api_params):
-        return {}
-
-    def pre_request_kwargs_update(self, request_kwargs, api_params):
-        return request_kwargs
-
-    def get_iterator_list(self, response_data):
-        raise NotImplementedError()
-
-    def get_iterator_next_request_kwargs(self, iterator_request_kwargs,
-                                         response_data, response):
-        raise NotImplementedError()
