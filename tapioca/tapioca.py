@@ -100,6 +100,9 @@ class TapiocaClient(object):
     def _repr_pretty_(self, p, cycle):
         p.text(self.__str__())
 
+    def __len__(self):
+        return len(self._data)
+
 
 class TapiocaClientExecutor(TapiocaClient):
 
