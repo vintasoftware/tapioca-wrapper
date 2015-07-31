@@ -108,7 +108,6 @@ class TapiocaClientExecutor(TapiocaClient):
 
     def __init__(self, api, *args, **kwargs):
         super(TapiocaClientExecutor, self).__init__(api, *args, **kwargs)
-        self._iterator_index = 0
 
     def __call__(self, *args, **kwargs):
         raise Exception("Cannot call a TapiocaClientExecutor object")
