@@ -4,7 +4,7 @@ import json
 
 from .tapioca import TapiocaInstantiator
 from .exceptions import (
-    ResponseProcessException, RequestError, ServerError)
+    ResponseProcessException, ClientError, ServerError)
 
 
 def generate_wrapper_from_adapter(adapter_class):
@@ -32,7 +32,7 @@ class TapiocaAdapter(object):
         data = self.response_to_native(response)
 
         if str(response.status_code).startswith('4'):
-            raise ResponseProcessException(RequestError, data)
+            raise ResponseProcessException(ClientError, data)
 
         return data
 

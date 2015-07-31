@@ -16,7 +16,7 @@ class TapiocaException(Exception):
         super(TapiocaException, self).__init__(*args, **kwargs)
 
 
-class RequestError(TapiocaException):
+class ClientError(TapiocaException):
     pass
 
 

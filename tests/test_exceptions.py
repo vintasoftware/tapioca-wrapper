@@ -8,7 +8,7 @@ import responses
 import requests
 
 from tapioca.exceptions import (
-    RequestError, ServerError, ResponseProcessException)
+    ClientError, ServerError, ResponseProcessException)
 
 from tests.client import TestTapiocaClient, TestClientAdapter
 
@@ -50,7 +50,7 @@ class TestExceptions(unittest.TestCase):
             status=400,
             content_type='application/json')
 
-        with self.assertRaises(RequestError):
+        with self.assertRaises(ClientError):
             self.wrapper.test().get()
 
     @responses.activate

@@ -7,8 +7,7 @@ import copy
 import requests
 import webbrowser
 
-from .exceptions import (
-    RequestError, ServerError, ResponseProcessException)
+from .exceptions import ResponseProcessException
 
 
 class TapiocaInstantiator(object):
