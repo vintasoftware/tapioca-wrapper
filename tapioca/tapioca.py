@@ -107,24 +107,30 @@ class TapiocaClientExecutor(TapiocaClient):
         super(TapiocaClientExecutor, self).__init__(api, *args, **kwargs)
         self._iterator_index = 0
 
+    # def __call__(self, *args, **kwargs):
+    #     return self._wrap_in_tapioca(self._data.__call__(*args, **kwargs))
+
+    # def __getitem__(self, key):
+    #     return self._wrap_in_tapioca(self._data.__getitem__(key))
+
+    # def __iter__(self):
+    #     self._iterator = iter(self.data())
+    #     return self
+
+    # def __next__(self):
+    #     return self.next()
+
+    # def next(self):
+    #     return self._wrap_in_tapioca(self._iterator.next())
+
     def __call__(self, *args, **kwargs):
-        return self._wrap_in_tapioca(self._data.__call__(*args, **kwargs))
+        raise Exception("Cannot call an TapiocaClientExecutor object")
+
+    def __iter__(self):
+        raise Exception("Cannot iterate over an TapiocaClientExecutor object")
 
     def __getattr__(self, name):
         return self._wrap_in_tapioca(getattr(self._data, name))
-
-    def __getitem__(self, key):
-        return self._wrap_in_tapioca(self._data.__getitem__(key))
-
-    def __iter__(self):
-        self._iterator = iter(self.data())
-        return self
-
-    def __next__(self):
-        return self.next()
-
-    def next(self):
-        return self._wrap_in_tapioca(self._iterator.next())
 
     def data(self):
         return self._data
