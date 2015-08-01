@@ -101,7 +101,7 @@ class TestTapioca(unittest.TestCase):
         self.assertEqual(response().data(), {'data': {'key': 'value'}})
 
     @responses.activate
-    def test_simple_iterator(self):
+    def test_simple_pages_iterator(self):
         next_url = 'http://api.teste.com/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data(),
@@ -117,7 +117,7 @@ class TestTapioca(unittest.TestCase):
         response = self.wrapper.test().get()
 
         iterations_count = 0
-        for item in response:
+        for item in response().pages():
             self.assertIn(item.key().data(), 'value')
             iterations_count += 1
 
