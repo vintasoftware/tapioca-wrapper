@@ -38,6 +38,19 @@ class TestTapiocaExecutor(unittest.TestCase):
 
         self.assertEqual(resource.data(), expected_url)
 
+    def test_docs(self):
+        self.assertEqual('\n'.join(self.wrapper.resource.__doc__.split('\n')[1:]),
+                          'Resource: ' + self.wrapper.resource._resource['resource'] + '\n'
+                          'Docs: ' + self.wrapper.resource._resource['docs'] + '\n'
+                          'Foo: ' + self.wrapper.resource._resource['foo'] + '\n'
+                          'Spam: ' + self.wrapper.resource._resource['spam'])
+
+
+class TestTapiocaExecutorRequests(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = TesterClient()
+
     def test_when_executor_has_no_response(self):
         with self.assertRaisesRegexp(Exception, "has no response"):
             self.wrapper.test().response()
@@ -132,13 +145,6 @@ class TestTapiocaExecutor(unittest.TestCase):
             iterations_count += 1
 
         self.assertEqual(iterations_count, 2)
-
-    def test_docs(self):
-        self.assertEqual('\n'.join(self.wrapper.resource.__doc__.split('\n')[1:]),
-                          'Resource: ' + self.wrapper.resource._resource['resource'] + '\n'
-                          'Docs: ' + self.wrapper.resource._resource['docs'] + '\n'
-                          'Foo: ' + self.wrapper.resource._resource['foo'] + '\n'
-                          'Spam: ' + self.wrapper.resource._resource['spam'])
 
 
 if __name__ == '__main__':
