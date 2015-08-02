@@ -10,6 +10,23 @@ import requests
 from tests.client import TesterClient
 
 
+class TestTapiocaClient(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = TesterClient()
+
+    def test_fill_url_template(self):
+        expected_url = 'https://api.test.com/user/123/'
+
+        resource = self.wrapper.user(id='123')
+
+        self.assertEqual(resource.data(), expected_url)
+
+    def test_calling_len_on_tapioca_list(self):
+        client = self.wrapper._wrap_in_tapioca([1,2,3])
+        self.assertEqual(len(client), 3)
+
+
 class TestTapiocaExecutor(unittest.TestCase):
 
     def setUp(self):
@@ -48,13 +65,6 @@ class TestTapiocaExecutor(unittest.TestCase):
         response_data = response.data()
 
         self.assertEqual(response_data.data(), {'key': 'value'})
-
-    def test_fill_url_template(self):
-        expected_url = 'https://api.test.com/user/123/'
-
-        resource = self.wrapper.user(id='123')
-
-        self.assertEqual(resource.data(), expected_url)
 
     @responses.activate
     def test_post_request(self):
