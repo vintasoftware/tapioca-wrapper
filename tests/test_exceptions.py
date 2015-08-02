@@ -10,13 +10,13 @@ import requests
 from tapioca.exceptions import (
     ClientError, ServerError, ResponseProcessException)
 
-from tests.client import TestTapiocaClient, TestClientAdapter
+from tests.client import TesterClient, TesterClientAdapter
 
 
 class TestExceptions(unittest.TestCase):
 
     def setUp(self):
-        self.wrapper = TestTapiocaClient()
+        self.wrapper = TesterClient()
 
     @responses.activate
     def test_adapter_raises_response_process_exception_on_400s(self):
@@ -28,7 +28,7 @@ class TestExceptions(unittest.TestCase):
         response = requests.get(self.wrapper.test().data())
 
         with self.assertRaises(ResponseProcessException):
-            TestClientAdapter().process_response(response)
+            TesterClientAdapter().process_response(response)
 
     @responses.activate
     def test_adapter_raises_response_process_exception_on_500s(self):
@@ -40,7 +40,7 @@ class TestExceptions(unittest.TestCase):
         response = requests.get(self.wrapper.test().data())
 
         with self.assertRaises(ResponseProcessException):
-            TestClientAdapter().process_response(response)
+            TesterClientAdapter().process_response(response)
 
 
     @responses.activate

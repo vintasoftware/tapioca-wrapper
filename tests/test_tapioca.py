@@ -7,13 +7,13 @@ import unittest
 import responses
 import requests
 
-from tests.client import TestTapiocaClient
+from tests.client import TesterClient
 
 
-class TestTapioca(unittest.TestCase):
+class TestTapiocaExecutor(unittest.TestCase):
 
     def setUp(self):
-        self.wrapper = TestTapiocaClient()
+        self.wrapper = TesterClient()
 
     def test_resource_executor_data_should_be_composed_url(self):
         expected_url = 'https://api.test.com/test/'

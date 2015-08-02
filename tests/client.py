@@ -24,7 +24,7 @@ RESOURCE_MAPPING = {
 }
 
 
-class TestClientAdapter(JSONAdapterMixin, TapiocaAdapter):
+class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
     api_root = 'https://api.test.com'
     resource_mapping = RESOURCE_MAPPING
 
@@ -42,4 +42,4 @@ class TestClientAdapter(JSONAdapterMixin, TapiocaAdapter):
             return {'url': url}
 
 
-TestTapiocaClient = generate_wrapper_from_adapter(TestClientAdapter)
+TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)
