@@ -7,6 +7,8 @@ import unittest
 import responses
 import requests
 
+from tapioca.tapioca import TapiocaClient
+
 from tests.client import TesterClient
 
 
@@ -23,8 +25,20 @@ class TestTapiocaClient(unittest.TestCase):
         self.assertEqual(resource.data(), expected_url)
 
     def test_calling_len_on_tapioca_list(self):
-        client = self.wrapper._wrap_in_tapioca([1,2,3])
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
         self.assertEqual(len(client), 3)
+
+    def test_iterated_client_items_should_be_tapioca_instances(self):
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
+
+        for item in client:
+            self.assertTrue(isinstance(item, TapiocaClient))
+
+    def test_iterated_client_items_should_contain_list_items(self):
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
+
+        for i, item in enumerate(client):
+            self.assertEqual(item().data(), i)
 
 
 class TestTapiocaExecutor(unittest.TestCase):

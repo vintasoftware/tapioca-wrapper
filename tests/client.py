@@ -2,8 +2,9 @@
 
 from __future__ import unicode_literals
 
-from tapioca import (
-    TapiocaAdapter, JSONAdapterMixin, generate_wrapper_from_adapter)
+from tapioca.adapters import (
+    TapiocaAdapter, JSONAdapterMixin,
+    generate_wrapper_from_adapter)
 
 
 RESOURCE_MAPPING = {
