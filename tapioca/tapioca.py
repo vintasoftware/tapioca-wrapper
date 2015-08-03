@@ -83,7 +83,7 @@ class TapiocaClient(object):
             data=self._data, request_kwargs=self._request_kwargs, api_params=self._api_params)
 
     def __dir__(self):
-        if self._api and self._data == None:
+        if self._api and self._data is None:
             return [key for key in self._api.resource_mapping.keys()]
 
         if isinstance(self._data, dict):
@@ -114,7 +114,7 @@ class TapiocaClientExecutor(TapiocaClient):
         return object.__getattr__(name)
 
     def __getitem__(self, key):
-        return object.__getitem__(name)
+        return object.__getitem__(key)
 
     def __iter__(self):
         return self
@@ -131,7 +131,7 @@ class TapiocaClientExecutor(TapiocaClient):
         return self._response
 
     def _make_request(self, request_method, *args, **kwargs):
-        if not 'url' in kwargs:
+        if 'url' not in kwargs:
             kwargs['url'] = self._data
 
         request_kwargs = self._api.get_request_kwargs(self._api_params, *args, **kwargs)
@@ -187,9 +187,9 @@ class TapiocaClientExecutor(TapiocaClient):
         if not self._resource:
             raise KeyError()
 
-        new = 2 # open in new tab
+        new = 2  # open in new tab
         webbrowser.open(self._resource['docs'], new=new)
 
     def open_in_browser(self):
-        new = 2 # open in new tab
+        new = 2  # open in new tab
         webbrowser.open(self._data, new=new)
