@@ -59,6 +59,13 @@ class TestTapiocaExecutor(unittest.TestCase):
                           'Foo: ' + self.wrapper.resource._resource['foo'] + '\n'
                           'Spam: ' + self.wrapper.resource._resource['spam'])
 
+    def test_is_possible_to_access_wrapped_data_attributes(self):
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
+
+        r = client().reverse()
+        print r
+        self.assertEqual(r().data(), [2,1,0])
+
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
 
