@@ -61,10 +61,12 @@ class TestTapiocaExecutor(unittest.TestCase):
 
     def test_is_possible_to_access_wrapped_data_attributes(self):
         client = self.wrapper._wrap_in_tapioca([0,1,2])
+        client().reverse()
+        self.assertEqual(client().data(), [2,1,0])
 
-        r = client().reverse()
-        print r
-        self.assertEqual(r().data(), [2,1,0])
+    def test_get_dictionary_items_through_executor(self):
+        client = self.wrapper._wrap_in_tapioca({'test': 'test value'})
+        print client().items()
 
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
