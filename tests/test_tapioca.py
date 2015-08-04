@@ -72,6 +72,17 @@ class TestTapiocaExecutor(unittest.TestCase):
         client().reverse()
         self.assertEqual(client().data(), [2,1,0])
 
+    def test_cannot__getittem__(self):
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
+        with self.assertRaises(Exception):
+            client()[0]
+
+    def test_cannot_iterate(self):
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
+        with self.assertRaises(Exception):
+            for item in client():
+                pass
+
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
 
