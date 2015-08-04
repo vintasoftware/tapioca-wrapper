@@ -12,7 +12,7 @@ class TapiocaException(Exception):
     def __init__(self, message, client):
         self.status = None
         self.client = client
-        if client:
+        if client is not None:
             self.status = client().response().status_code
 
         if not message:
