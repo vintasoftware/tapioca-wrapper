@@ -56,14 +56,14 @@ class TapiocaClient(object):
         if kwargs:
             data = self._api.fill_resource_template_url(self._data, kwargs)
 
-        return TapiocaClientExecutor(self._api.__class__(), data=data, api_params=self._api_params,
+        return self._wrap_in_tapioca_executor(data,
             resource=self._resource, response=self._response)
 
     def _get_client_from_name(self, name):
         if self._data and \
             ((isinstance(self._data, list) and isinstance(name, int)) or \
                 (hasattr(self._data, '__iter__') and name in self._data)):
-            return TapiocaClient(self._api.__class__(), data=self._data[name], api_params=self._api_params)
+            return self._wrap_in_tapioca(data=self._data[name])
 
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
@@ -71,8 +71,7 @@ class TapiocaClient(object):
             api_root = self._api.get_api_root(self._api_params)
 
             url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
-            return TapiocaClient(self._api.__class__(), data=url, api_params=self._api_params,
-                                 resource=resource)
+            return self._wrap_in_tapioca(url, resource=resource)
 
     def __getattr__(self, name):
         ret = self._get_client_from_name(name)
