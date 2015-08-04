@@ -86,12 +86,24 @@ OUT [9]: {
 
 ### Exploring data
 
-We can also expore the returned data using the iPython ```tab``` auto-complete
+We can also expore the returned data using the iPython ``tab`` auto-complete
 
 ``` python
 In [9]: likes.
 likes.data    likes.paging
 ```
+
+### Iterating over data
+
+You can iterate over returned data:
+
+``` python
+likes = api.user_likes(id='me').get()
+
+for like in likes.data:
+    print(like.id().data())
+```
+Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
 ## TapiocaClientExecutor object
 
