@@ -167,8 +167,8 @@ Tapioca is built to provide an easy way to access paged data using ``pages()`` m
 ``` python
 likes = api.user_likes(id='me').get()
 
-for like in likes.pages():
-    print(like.id().data())
+for like in likes().pages():
+    print(like.name().data())
 ```
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
