@@ -59,11 +59,6 @@ class TestTapiocaExecutor(unittest.TestCase):
                           'Foo: ' + self.wrapper.resource._resource['foo'] + '\n'
                           'Spam: ' + self.wrapper.resource._resource['spam'])
 
-    def test_is_possible_to_access_wrapped_data_attributes(self):
-        client = self.wrapper._wrap_in_tapioca([0,1,2])
-        client().reverse()
-        self.assertEqual(client().data(), [2,1,0])
-
     def test_access_data_attributres_through_executor(self):
         client = self.wrapper._wrap_in_tapioca({'test': 'value'})
 
@@ -71,6 +66,11 @@ class TestTapiocaExecutor(unittest.TestCase):
 
         self.assertTrue(isinstance(items, TapiocaClient))
         self.assertEqual(items().data(), [('test', 'value')])
+
+    def test_is_possible_to_reverse_a_list_through_executor(self):
+        client = self.wrapper._wrap_in_tapioca([0,1,2])
+        client().reverse()
+        self.assertEqual(client().data(), [2,1,0])
 
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
