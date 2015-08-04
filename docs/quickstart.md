@@ -172,6 +172,17 @@ for like in likes.pages():
 ```
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
+### Accessing wrapped data attributes
+
+It's possible to access wrapped data atributes on executor. For example it's possible to reverse a wrapped list:
+
+```python
+likes = api.user_likes(id='me').get()
+
+likes_list = likes.data
+likes_list().reverse() # items in the list are now in reverse order
+```
+
 ### open_docs()
 
 If you are accessing a resource, you can call ```open_docs``` to open resource documentation in browser:
