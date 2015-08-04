@@ -34,6 +34,10 @@ class TapiocaClient(object):
         return TapiocaClient(self._api.__class__(),
             data=data, api_params=self._api_params, *args, **kwargs)
 
+    def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
+        return TapiocaClientExecutor(self._api.__class__(),
+            data=data, api_params=self._api_params, *args, **kwargs)
+
     def _get_doc(self):
         resources = copy.copy(self._resource)
         docs = ("Automatic generated __doc__ from resource_mapping.\n"
@@ -116,8 +120,7 @@ class TapiocaClientExecutor(TapiocaClient):
         raise Exception("Cannot iterate over a TapiocaClientExecutor object")
 
     def __getattr__(self, name):
-        return TapiocaClientExecutor(self._api.__class__(),
-            data=getattr(self._data, name), api_params=self._api_params)
+        return self._wrap_in_tapioca_executor(getattr(self._data, name))
 
     def __call__(self, *args, **kwargs):
         return self._wrap_in_tapioca(self._data.__call__(*args, **kwargs))

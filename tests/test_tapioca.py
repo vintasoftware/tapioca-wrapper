@@ -64,9 +64,13 @@ class TestTapiocaExecutor(unittest.TestCase):
         client().reverse()
         self.assertEqual(client().data(), [2,1,0])
 
-    def test_get_dictionary_items_through_executor(self):
-        client = self.wrapper._wrap_in_tapioca({'test': 'test value'})
-        print client().items()
+    def test_access_data_attributres_through_executor(self):
+        client = self.wrapper._wrap_in_tapioca({'test': 'value'})
+
+        items = client().items()
+
+        self.assertTrue(isinstance(items, TapiocaClient))
+        self.assertEqual(items().data(), [('test', 'value')])
 
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
