@@ -5,3 +5,4 @@
 [Available Flavours](flavours.md)  
 [New Flavour](newflavour.md)  
 [Contributors](contributors.md)  
+[Changelog](changelog.md)  
