@@ -30,6 +30,14 @@ class TapiocaClient(object):
         self._request_kwargs = request_kwargs
         self._resource = resource
 
+    def _wrap_in_tapioca(self, data, *args, **kwargs):
+        return TapiocaClient(self._api.__class__(),
+            data=data, api_params=self._api_params, *args, **kwargs)
+
+    def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
+        return TapiocaClientExecutor(self._api.__class__(),
+            data=data, api_params=self._api_params, *args, **kwargs)
+
     def _get_doc(self):
         resources = copy.copy(self._resource)
         docs = ("Automatic generated __doc__ from resource_mapping.\n"
@@ -78,10 +86,6 @@ class TapiocaClient(object):
             raise KeyError(key)
         return ret
 
-    def __iter__(self):
-        return TapiocaClientExecutor(self._api.__class__(),
-            data=self._data, request_kwargs=self._request_kwargs, api_params=self._api_params)
-
     def __dir__(self):
         if self._api and self._data is None:
             return [key for key in self._api.resource_mapping.keys()]
@@ -100,34 +104,33 @@ class TapiocaClient(object):
     def _repr_pretty_(self, p, cycle):
         p.text(self.__str__())
 
+    def __len__(self):
+        return len(self._data)
+
 
 class TapiocaClientExecutor(TapiocaClient):
 
     def __init__(self, api, *args, **kwargs):
         super(TapiocaClientExecutor, self).__init__(api, *args, **kwargs)
-        self._iterator_index = 0
-
-    def __call__(self, *args, **kwargs):
-        return object.__call__(*args, **kwargs)
-
-    def __getattr__(self, name):
-        return object.__getattr__(name)
 
     def __getitem__(self, key):
-        return object.__getitem__(key)
+        raise Exception("This operation cannot be done on a TapiocaClientExecutor object")
 
     def __iter__(self):
-        return self
+        raise Exception("Cannot iterate over a TapiocaClientExecutor object")
 
-    def __next__(self):
-        return self.next()
+    def __getattr__(self, name):
+        return self._wrap_in_tapioca_executor(getattr(self._data, name))
+
+    def __call__(self, *args, **kwargs):
+        return self._wrap_in_tapioca(self._data.__call__(*args, **kwargs))
 
     def data(self):
         return self._data
 
     def response(self):
         if self._response is None:
-            raise Exception("This TapiocaClient instance has no response object")
+            raise Exception("This instance has no response object")
         return self._response
 
     def _make_request(self, request_method, *args, **kwargs):
@@ -141,12 +144,10 @@ class TapiocaClientExecutor(TapiocaClient):
         try:
             data = self._api.process_response(response)
         except ResponseProcessException as e:
-            client = TapiocaClient(self._api.__class__(), data=e.data, response=response,
-                request_kwargs=request_kwargs, api_params=self._api_params)
+            client = self._wrap_in_tapioca(e.data, response=response, request_kwargs=request_kwargs)
             raise e.tapioca_exception(client=client)
 
-        return TapiocaClient(self._api.__class__(), data=data, response=response,
-            request_kwargs=request_kwargs, api_params=self._api_params)
+        return self._wrap_in_tapioca(data, response=response, request_kwargs=request_kwargs)
 
     def get(self, *args, **kwargs):
         return self._make_request('GET', *args, **kwargs)
@@ -163,25 +164,29 @@ class TapiocaClientExecutor(TapiocaClient):
     def delete(self, *args, **kwargs):
         return self._make_request('DELETE', *args, **kwargs)
 
-    def next(self):
-        iterator_list = self._api.get_iterator_list(self._data)
-        if self._iterator_index >= len(iterator_list):
-            new_request_kwargs = self._api.get_iterator_next_request_kwargs(
-                self._request_kwargs, self._data, self._response)
+    def _get_iterator_list(self):
+        return self._api.get_iterator_list(self._data)
 
-            if new_request_kwargs:
-                cli = TapiocaClientExecutor(self._api.__class__(), api_params=self._api_params)
-                response = cli.get(**new_request_kwargs)
-                self._data = response._data
-                self._response = response
-                self._iterator_index = 0
-            else:
-                raise StopIteration()
+    def _get_iterator_next_request_kwargs(self):
+        return self._api.get_iterator_next_request_kwargs(
+            self._request_kwargs, self._data, self._response)
 
-        item = iterator_list[self._iterator_index]
-        self._iterator_index += 1
+    def pages(self, **kwargs):
+        executor = self
+        iterator_list = executor._get_iterator_list()
 
-        return TapiocaClient(self._api.__class__(), data=item, api_params=self._api_params)
+        while iterator_list:
+            for item in iterator_list:
+                yield self._wrap_in_tapioca(item)
+
+            next_request_kwargs = executor._get_iterator_next_request_kwargs()
+
+            if not next_request_kwargs:
+                break
+
+            response = self.get(**next_request_kwargs)
+            executor = response()
+            iterator_list = executor._get_iterator_list()
 
     def open_docs(self):
         if not self._resource:
