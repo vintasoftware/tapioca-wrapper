@@ -65,7 +65,7 @@ class JSONAdapterMixin(object):
         arguments = super(JSONAdapterMixin, self).get_request_kwargs(
             api_params, *args, **kwargs)
 
-        if not 'headers' in arguments:
+        if 'headers' not in arguments:
             arguments['headers'] = {}
         arguments['headers']['Content-Type'] = 'application/json'
         return arguments
