@@ -147,18 +147,18 @@ IN [11]: likes.data().data()
 OUT [12]: [...]
 ```
 
-### iterator
+### pages()
 
 Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoiding a single long request.
-Tapioca is built to provide an easy way to access paged data using iterators:
+Tapioca is built to provide an easy way to access paged data using ``pages()`` method:
 
 ``` python
 likes = api.user_likes(id='me').get()
 
-for like in likes:
+for like in likes.pages():
     print(like.id().data())
 ```
-This will keep fetching user likes until there are none left.
+This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
 ### open_docs()
 
