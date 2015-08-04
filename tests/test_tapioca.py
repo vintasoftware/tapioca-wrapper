@@ -169,6 +169,30 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
 
         self.assertEqual(iterations_count, 2)
 
+    @responses.activate
+    def test_response_executor_object_has_a_response(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data(),
+            body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+            status=200,
+            content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+            body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
+            status=200,
+            content_type='application/json')
+
+        response = self.wrapper.test().get()
+        executor = response()
+
+        executor.response()
+
+        executor._response = None
+
+        with self.assertRaises(Exception):
+            executor.response()
+
 
 if __name__ == '__main__':
     unittest.main()
