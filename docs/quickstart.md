@@ -180,7 +180,9 @@ It's possible to access wrapped data atributes on executor. For example it's pos
 likes = api.user_likes(id='me').get()
 
 likes_list = likes.data
-likes_list().reverse() # items in the list are now in reverse order
+likes_list().reverse() 
+# items in the likes_list are now in reverse order
+# but still wrapped in a tapioca object
 ```
 
 ### open_docs()
