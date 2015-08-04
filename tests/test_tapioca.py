@@ -65,7 +65,10 @@ class TestTapiocaExecutor(unittest.TestCase):
         items = client().items()
 
         self.assertTrue(isinstance(items, TapiocaClient))
-        self.assertEqual(items().data(), [('test', 'value')])
+
+        data = dict(items().data())
+
+        self.assertEqual(data, {'test': 'value'})
 
     def test_is_possible_to_reverse_a_list_through_executor(self):
         client = self.wrapper._wrap_in_tapioca([0,1,2])
