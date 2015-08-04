@@ -3,7 +3,8 @@
 ## 0.5.0
 - Automatic pagination now requires explicity ``pages()`` call
 - Support for ``len()``
-- Atributes of wrapped ``data`` can now be accessed via executor
+- Atributes of wrapped data can now be accessed via executor
+- It's now possible to iterate over wrapped lists
 
 ##0.4.1
 - changed parameters for Adapter's ``get_request_kwargs``. Also, subclasses are expected to call ``super``.
