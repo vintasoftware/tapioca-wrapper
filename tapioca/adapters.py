@@ -71,7 +71,8 @@ class JSONAdapterMixin(object):
         return arguments
 
     def format_data_to_request(self, data):
-        return json.dumps(data)
+        if data:
+            return json.dumps(data)
 
     def response_to_native(self, response):
         return response.json()
