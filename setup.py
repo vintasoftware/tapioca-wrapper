@@ -65,7 +65,7 @@ setup(
     license="MIT",
     zip_safe=False,
     keywords='tapioca,wrapper,api',
-    classifiers=classifiers=[
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
