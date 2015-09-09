@@ -188,6 +188,61 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         self.assertEqual(iterations_count, 2)
 
     @responses.activate
+    def test_simple_pages_with_max_items_iterator(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data(),
+            body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+            status=200,
+            content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+            body='{"data": [{"key": "value"}, {"key": "value"}, {"key": "value"}], "paging": {"next": ""}}',
+            status=200,
+            content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        iterations_count = 0
+        for item in response().pages(max_items=3, max_pages=2):
+            self.assertIn(item.key().data(), 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 3)
+
+    @responses.activate
+    def test_simple_pages_with_max_pages_iterator(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data(),
+            body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+            status=200,
+            content_type='application/json')
+        responses.add(responses.GET, next_url,
+            body='{"data": [{"key": "value"}, {"key": "value"}, {"key": "value"}], "paging": {"next": "%s"}}'% next_url,
+            status=200,
+            content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+            body='{"data": [{"key": "value"}, {"key": "value"}, {"key": "value"}], "paging": {"next": "%s"}}'% next_url,
+            status=200,
+            content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+            body='{"data": [{"key": "value"}, {"key": "value"}, {"key": "value"}], "paging": {"next": ""}}',
+            status=200,
+            content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        iterations_count = 0
+        for item in response().pages(max_pages=3):
+            self.assertIn(item.key().data(), 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 7)
+
+    @responses.activate
     def test_response_executor_object_has_a_response(self):
         next_url = 'http://api.teste.com/next_batch'
 
