@@ -170,13 +170,28 @@ class TapiocaClientExecutor(TapiocaClient):
         return self._api.get_iterator_next_request_kwargs(
             self._request_kwargs, self._data, self._response)
 
-    def pages(self, **kwargs):
+    def _reached_max_limits(self, page_count, item_count,  max_pages, max_items):
+        reached_page_limit = max_pages != None and max_pages <= page_count
+        reached_item_limit = max_items != None and max_items <= item_count
+        return reached_page_limit or reached_item_limit
+
+    def pages(self, max_pages=None, max_items=None, **kwargs):
         executor = self
         iterator_list = executor._get_iterator_list()
+        page_count = 0
+        item_count = 0
 
         while iterator_list:
+            if self._reached_max_limits(page_count, item_count,  max_pages, max_items):
+                break
             for item in iterator_list:
+                if self._reached_max_limits(page_count, item_count,  max_pages, max_items):
+                    break
                 yield self._wrap_in_tapioca(item)
+                item_count += 1
+                
+
+            page_count += 1
 
             next_request_kwargs = executor._get_iterator_next_request_kwargs()
 
