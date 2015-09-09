@@ -170,7 +170,17 @@ likes = api.user_likes(id='me').get()
 for like in likes().pages():
     print(like.name().data())
 ```
+
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
+
+This method also accepts ``max_pages`` and ``max_items`` parameters. If both parameters are used, the for loop will stop after ``max_pages`` are fetched or ``max_items`` are yielded, witch ever comes first:
+
+```
+for item in resp().pages(max_pages=2, max_items=40):
+    print(item)
+# in this example, the for loop will stop after two pages are fetched or 40 items are yielded, 
+# witch ever comes first.
+```
 
 ### Accessing wrapped data attributes
 
