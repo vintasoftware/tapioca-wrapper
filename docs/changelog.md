@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.3
+- Adding ``max_pages`` and ``max_items`` to ``pages`` method
+
+## 0.5.1
+- Verifying if there's data before json dumping it on ``JSONAdapterMixin``
+
 ## 0.5.0
 - Automatic pagination now requires explicity ``pages()`` call
 - Support for ``len()``
