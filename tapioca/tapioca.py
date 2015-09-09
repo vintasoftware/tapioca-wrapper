@@ -170,24 +170,25 @@ class TapiocaClientExecutor(TapiocaClient):
         return self._api.get_iterator_next_request_kwargs(
             self._request_kwargs, self._data, self._response)
 
-    def _has_next(self, actual, kwargs):
-        has_more_page = "max_pages" not in kwargs or kwargs["max_pages"] > actual["page"]
-        has_more_items = "max_items" not in kwargs or kwargs["max_items"] > actual["items"]
+    def _has_next(self, current_page, current_item,  max_pages, max_items):
+        has_more_page = max_pages == None or max_pages > current_page
+        has_more_items = max_items == None or max_items > current_item
         return  has_more_page and has_more_items
 
-    def pages(self, **kwargs):
+    def pages(self, max_pages=None, max_items=None, **kwargs):
         executor = self
         iterator_list = executor._get_iterator_list()
-        actual = {"page": 0, "items": 0}
+        current_page = 0
+        current_item = 0
 
-        while iterator_list and self._has_next(actual, kwargs):
+        while iterator_list and self._has_next(current_page, current_item,  max_pages, max_items):
             for item in iterator_list:
                 yield self._wrap_in_tapioca(item)
-                actual["items"] += 1
-                if not self._has_next(actual, kwargs):
+                current_item += 1
+                if not self._has_next(current_page, current_item,  max_pages, max_items):
                     break
-                    
-            actual["page"] += 1
+
+            current_page += 1
             next_request_kwargs = executor._get_iterator_next_request_kwargs()
 
             if not next_request_kwargs:
