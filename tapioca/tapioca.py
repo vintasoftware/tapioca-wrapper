@@ -189,7 +189,6 @@ class TapiocaClientExecutor(TapiocaClient):
                     break
                 yield self._wrap_in_tapioca(item)
                 item_count += 1
-                
 
             page_count += 1
 
