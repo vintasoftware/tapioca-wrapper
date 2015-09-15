@@ -22,11 +22,11 @@ class TapiocaInstantiator(object):
 class TapiocaClient(object):
 
     def __init__(self, api, data=None, response=None, request_kwargs=None,
-                 api_params={}, resource=None, *args, **kwargs):
+                 api_params=None, resource=None, *args, **kwargs):
         self._api = api
         self._data = data
         self._response = response
-        self._api_params = api_params
+        self._api_params = api_params or {}
         self._request_kwargs = request_kwargs
         self._resource = resource
 
