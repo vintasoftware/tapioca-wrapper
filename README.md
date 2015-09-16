@@ -26,6 +26,10 @@ You can find the full list of available tapioca clients [here](http://tapioca-wr
 
 [http://tapioca-wrapper.readthedocs.org/en/latest/contributors/](http://tapioca-wrapper.readthedocs.org/en/latest/contributors/)
 
+## Changelog
+
+[http://tapioca-wrapper.readthedocs.org/en/latest/changelog/](http://tapioca-wrapper.readthedocs.org/en/latest/changelog/)
+
 ## Help
 
 If you have any questions or need help, please send an email to: contact@vinta.com.br
