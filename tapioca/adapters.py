@@ -23,7 +23,6 @@ class TapiocaAdapter(object):
         kwargs.update({
             'data': self.format_data_to_request(kwargs.get('data')),
         })
-        self._request_method = kwargs.pop('request_method')
         return kwargs
 
     def process_response(self, response):

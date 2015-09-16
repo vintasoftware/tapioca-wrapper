@@ -138,7 +138,7 @@ class TapiocaClientExecutor(TapiocaClient):
             kwargs['url'] = self._data
 
         request_kwargs = self._api.get_request_kwargs(
-            self._api_params, request_method=request_method, *args, **kwargs)
+            self._api_params, request_method, *args, **kwargs)
 
         response = requests.request(request_method, **request_kwargs)
 
