@@ -97,7 +97,8 @@ class TapiocaClient(object):
     def __str__(self):
         import pprint
         pp = pprint.PrettyPrinter(indent=4)
-        return "<{} object {}>".format(
+        return ("<{} object\n"
+                "{}>").format(
             self.__class__.__name__, pp.pformat(self._data))
 
     def _repr_pretty_(self, p, cycle):
