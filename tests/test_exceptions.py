@@ -21,9 +21,9 @@ class TestExceptions(unittest.TestCase):
     @responses.activate
     def test_adapter_raises_response_process_exception_on_400s(self):
         responses.add(responses.GET, self.wrapper.test().data(),
-            body='{"erros": "Server Error"}',
-            status=400,
-            content_type='application/json')
+                      body='{"erros": "Server Error"}',
+                      status=400,
+                      content_type='application/json')
 
         response = requests.get(self.wrapper.test().data())
 
@@ -33,22 +33,21 @@ class TestExceptions(unittest.TestCase):
     @responses.activate
     def test_adapter_raises_response_process_exception_on_500s(self):
         responses.add(responses.GET, self.wrapper.test().data(),
-            body='{"erros": "Server Error"}',
-            status=500,
-            content_type='application/json')
+                      body='{"erros": "Server Error"}',
+                      status=500,
+                      content_type='application/json')
 
         response = requests.get(self.wrapper.test().data())
 
         with self.assertRaises(ResponseProcessException):
             TesterClientAdapter().process_response(response)
 
-
     @responses.activate
     def test_raises_request_error(self):
         responses.add(responses.GET, self.wrapper.test().data(),
-            body='{"data": {"key": "value"}}',
-            status=400,
-            content_type='application/json')
+                      body='{"data": {"key": "value"}}',
+                      status=400,
+                      content_type='application/json')
 
         with self.assertRaises(ClientError):
             self.wrapper.test().get()
@@ -56,9 +55,8 @@ class TestExceptions(unittest.TestCase):
     @responses.activate
     def test_raises_server_error(self):
         responses.add(responses.GET, self.wrapper.test().data(),
-            status=500,
-            content_type='application/json')
+                      status=500,
+                      content_type='application/json')
 
         with self.assertRaises(ServerError):
             self.wrapper.test().get()
-

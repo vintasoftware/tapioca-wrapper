@@ -31,12 +31,13 @@ class TapiocaClient(object):
         self._resource = resource
 
     def _wrap_in_tapioca(self, data, *args, **kwargs):
-        return TapiocaClient(self._api.__class__(),
-            data=data, api_params=self._api_params, *args, **kwargs)
+        return TapiocaClient(self._api.__class__(), data=data,
+                             api_params=self._api_params, *args, **kwargs)
 
     def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
-        return TapiocaClientExecutor(self._api.__class__(),
-            data=data, api_params=self._api_params, *args, **kwargs)
+        return TapiocaClientExecutor(self._api.__class__(), data=data,
+                                     api_params=self._api_params, *args,
+                                     **kwargs)
 
     def _get_doc(self):
         resources = copy.copy(self._resource)
@@ -56,12 +57,12 @@ class TapiocaClient(object):
         if kwargs:
             data = self._api.fill_resource_template_url(self._data, kwargs)
 
-        return self._wrap_in_tapioca_executor(data,
-            resource=self._resource, response=self._response)
+        return self._wrap_in_tapioca_executor(data, resource=self._resource,
+                                              response=self._response)
 
     def _get_client_from_name(self, name):
         if self._data and \
-            ((isinstance(self._data, list) and isinstance(name, int)) or \
+            ((isinstance(self._data, list) and isinstance(name, int)) or
                 (hasattr(self._data, '__iter__') and name in self._data)):
             return self._wrap_in_tapioca(data=self._data[name])
 
@@ -177,8 +178,8 @@ class TapiocaClientExecutor(TapiocaClient):
 
     def _reached_max_limits(self, page_count, item_count, max_pages,
                             max_items):
-        reached_page_limit = max_pages != None and max_pages <= page_count
-        reached_item_limit = max_items != None and max_items <= item_count
+        reached_page_limit = max_pages is not None and max_pages <= page_count
+        reached_item_limit = max_items is not None and max_items <= item_count
         return reached_page_limit or reached_item_limit
 
     def pages(self, max_pages=None, max_items=None, **kwargs):
