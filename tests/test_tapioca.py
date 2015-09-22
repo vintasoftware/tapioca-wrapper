@@ -39,6 +39,19 @@ class TestTapiocaClient(unittest.TestCase):
         for i, item in enumerate(client):
             self.assertEqual(item().data(), i)
 
+    @responses.activate
+    def test_in_operator(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": 1, "other": 2}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        self.assertIn('data', response)
+        self.assertIn('other', response)
+        self.assertNotIn('wat', response)
+
 
 class TestTapiocaExecutor(unittest.TestCase):
 
