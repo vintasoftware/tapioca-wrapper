@@ -32,8 +32,8 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
     def get_iterator_list(self, response_data):
         return response_data['data']
 
-    def get_iterator_next_request_kwargs(self,
-            iterator_request_kwargs, response_data, response):
+    def get_iterator_next_request_kwargs(self, iterator_request_kwargs,
+                                         response_data, response):
         paging = response_data.get('paging')
         if not paging:
             return
