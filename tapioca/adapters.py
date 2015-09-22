@@ -75,4 +75,5 @@ class JSONAdapterMixin(object):
             return json.dumps(data)
 
     def response_to_native(self, response):
-        return response.json()
+        if response.content.strip():
+            return response.json()
