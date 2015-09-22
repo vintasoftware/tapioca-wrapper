@@ -62,8 +62,8 @@ class TapiocaClient(object):
 
     def _get_client_from_name(self, name):
         if self._data and \
-            ((isinstance(self._data, list) and isinstance(name, int)) or
-                (hasattr(self._data, '__iter__') and name in self._data)):
+            (isinstance(self._data, list) and isinstance(name, int) or
+                hasattr(self._data, '__iter__') and name in self._data):
             return self._wrap_in_tapioca(data=self._data[name])
 
         resource_mapping = self._api.resource_mapping
