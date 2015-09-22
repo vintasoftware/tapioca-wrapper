@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+- Giving access to request_method in ``get_request_kwargs``
+- Verifying response content before trying to convert it to json on ``JSONAdapterMixin``
+- Support for ``in`` operator
+- pep8 improvments
+
 ## 0.5.3
 - Adding ``max_pages`` and ``max_items`` to ``pages`` method
 
