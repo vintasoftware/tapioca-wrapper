@@ -10,6 +10,10 @@
 [https://github.com/vintasoftware/tapioca-parse](https://github.com/vintasoftware/tapioca-parse)
 ## Bitbucket
 [https://github.com/vintasoftware/tapioca-bitbucket](https://github.com/vintasoftware/tapioca-bitbucket)
+## Disqus
+[https://github.com/marctc/tapioca-disqus](https://github.com/marctc/tapioca-disqus)
+## Harvast
+[https://github.com/vintasoftware/tapioca-harvest](https://github.com/vintasoftware/tapioca-harvest)
 
 ### Your flavour
 Send a pull request to add new ones to the list.
