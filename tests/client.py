@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from tapioca.adapters import (
     TapiocaAdapter, JSONAdapterMixin,
     generate_wrapper_from_adapter)
+from tapioca.serializers import SimpleSerializer
 
 
 RESOURCE_MAPPING = {
@@ -44,3 +45,10 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
 
 
 TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)
+
+
+class SerializerClientAdapter(TesterClientAdapter):
+    serializer_class = SimpleSerializer
+
+
+SerializerClient = generate_wrapper_from_adapter(SerializerClientAdapter)

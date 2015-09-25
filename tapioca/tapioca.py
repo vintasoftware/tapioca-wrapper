@@ -15,8 +15,10 @@ class TapiocaInstantiator(object):
     def __init__(self, adapter_class):
         self.adapter_class = adapter_class
 
-    def __call__(self, *args, **kwargs):
-        return TapiocaClient(self.adapter_class(), api_params=kwargs)
+    def __call__(self, serializer_class=None, **kwargs):
+        return TapiocaClient(
+            self.adapter_class(serializer_class=serializer_class),
+            api_params=kwargs)
 
 
 class TapiocaClient(object):
@@ -125,6 +127,8 @@ class TapiocaClientExecutor(TapiocaClient):
         raise Exception("Cannot iterate over a TapiocaClientExecutor object")
 
     def __getattr__(self, name):
+        if name.startswith('to_'):
+            return self._api._get_to_native_method(name, self._data)
         return self._wrap_in_tapioca_executor(getattr(self._data, name))
 
     def __call__(self, *args, **kwargs):

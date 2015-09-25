@@ -22,6 +22,7 @@ except (IOError, ImportError, RuntimeError):
 package = 'tapioca'
 requirements = [
     'requests',
+    'arrow==0.6.0',
     'six',
 ]
 test_requirements = [
