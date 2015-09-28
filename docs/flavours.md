@@ -14,6 +14,8 @@
 [https://github.com/marctc/tapioca-disqus](https://github.com/marctc/tapioca-disqus)
 ## Harvast
 [https://github.com/vintasoftware/tapioca-harvest](https://github.com/vintasoftware/tapioca-harvest)
+## CrunchBase
+[https://github.com/vu3jej/tapioca-crunchbase](https://github.com/vu3jej/tapioca-crunchbase)
 
 ### Your flavour
 Send a pull request to add new ones to the list.
