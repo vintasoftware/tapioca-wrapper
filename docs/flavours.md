@@ -12,7 +12,7 @@
 [https://github.com/vintasoftware/tapioca-bitbucket](https://github.com/vintasoftware/tapioca-bitbucket)
 ## Disqus
 [https://github.com/marctc/tapioca-disqus](https://github.com/marctc/tapioca-disqus)
-## Harvast
+## Harvest
 [https://github.com/vintasoftware/tapioca-harvest](https://github.com/vintasoftware/tapioca-harvest)
 
 ### Your flavour
