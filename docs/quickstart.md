@@ -6,7 +6,7 @@ There is a good chance you found this page because you clicked a link from some 
 
 ## What's tapioca?
 
-**tapioca** is a *API wrapper maker*. It helps Python developers creating packages for APIs (like the [Facebook Graph API](flavours.html#facebook) or the [Twitter REST API](flavours.html#twitter)). You can find a full list of available API packages made with tapioca [here](flavours.md).  
+**tapioca** is a *API wrapper maker*. It helps Python developers creating packages for APIs (like the [Facebook Graph API](../flavours/#facebook) or the [Twitter REST API](../flavours/#twitter)). You can find a full list of available API packages made with tapioca [here](flavours.md).  
 All wrappers made with tapioca follow a simple interaction pattern that works uniformly so once you learn how tapioca works you will be able to work with any tapioca package available.
 
 ## Getting started
