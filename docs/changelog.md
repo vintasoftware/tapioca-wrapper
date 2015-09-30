@@ -13,9 +13,9 @@
 - Verifying if there's data before json dumping it on ``JSONAdapterMixin``
 
 ## 0.5.0
-- Automatic pagination now requires explicity ``pages()`` call
+- Automatic pagination now requires an explicit ``pages()`` call
 - Support for ``len()``
-- Atributes of wrapped data can now be accessed via executor
+- Attributes of wrapped data can now be accessed via executor
 - It's now possible to iterate over wrapped lists
 
 ##0.4.1
