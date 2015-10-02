@@ -18,6 +18,8 @@
 [https://github.com/vu3jej/tapioca-crunchbase](https://github.com/vu3jej/tapioca-crunchbase)
 ## Otter
 [https://github.com/vu3jej/tapioca-otter](https://github.com/vu3jej/tapioca-otter)
+## GitHub
+[https://github.com/gileno/tapioca-github](https://github.com/gileno/tapioca-github)
 
 ### Your flavour
 Send a pull request to add new ones to the list.
