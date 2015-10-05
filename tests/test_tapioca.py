@@ -52,6 +52,28 @@ class TestTapiocaClient(unittest.TestCase):
         self.assertIn('other', response)
         self.assertNotIn('wat', response)
 
+    @responses.activate
+    def test_trasnform_camelCase_in_snake_case(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": [{"key_snake": "value", "camelCase": "data in camel case"}], "paging": {"next": "%s"}}' % next_url,
+                      status=200,
+                      content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+                      body='{"data": [{"key_snake": "value", "camelCase": "data in camel case"}], "paging": {"next": ""}}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+
+        for item in response().pages():  
+            self.assertEqual(item.key_snake().data(), 'value')
+            self.assertEqual(item.camel_case().data(), 'data in camel case')
+
+
 
 class TestTapiocaExecutor(unittest.TestCase):
 
@@ -300,6 +322,27 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
             iterations_count += 1
 
         self.assertEqual(iterations_count, 0)
+
+    @responses.activate
+    def test_simple_pages_max_item_zero_iterator(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+                      status=200,
+                      content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+                      body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        iterations_count = 0
+        for item in response().pages(max_items=0):
+            self.assertIn(item.key().data(), 'value')
+            iterations_count += 1
 
     @responses.activate
     def test_response_executor_object_has_a_response(self):

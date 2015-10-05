@@ -59,12 +59,24 @@ class TapiocaClient(object):
 
         return self._wrap_in_tapioca_executor(data, resource=self._resource,
                                               response=self._response)
+    '''
+    Convert a string in snake_case in CamelCase.
+    http://stackoverflow.com/questions/19053707/convert-snake-case-snake-case-to-lower-camel-case-lowercamelcase-in-python
+    '''
+    def _to_camel_case(self, name):
+        if isinstance(name, int):
+            return name
+        components = name.split('_')
+        return components[0] + "".join(x.title() for x in components[1:])
 
     def _get_client_from_name(self, name):
+        name_camel_case = self._to_camel_case(name)
         if self._data and \
             (isinstance(self._data, list) and isinstance(name, int) or
                 hasattr(self._data, '__iter__') and name in self._data):
             return self._wrap_in_tapioca(data=self._data[name])
+        elif self._data and hasattr(self._data, '__iter__') and name_camel_case in self._data:
+            return self._wrap_in_tapioca(data=self._data[name_camel_case])
 
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
