@@ -60,7 +60,7 @@ class TapiocaClient(object):
         return self._wrap_in_tapioca_executor(data, resource=self._resource,
                                               response=self._response)
     '''
-    Convert a string in snake_case in CamelCase.
+    Convert a snake_case string in CamelCase.
     http://stackoverflow.com/questions/19053707/convert-snake-case-snake-case-to-lower-camel-case-lowercamelcase-in-python
     '''
     def _to_camel_case(self, name):
