@@ -69,14 +69,28 @@ class TapiocaClient(object):
         components = name.split('_')
         return components[0] + "".join(x.title() for x in components[1:])
 
+    def _get_client_from_name_or_fallback(self, name):
+        client = self._get_client_from_name(name)
+        if client != None:
+            return client
+
+        camel_case_name = self._to_camel_case(name)
+        client = self._get_client_from_name(camel_case_name)
+        if client != None:
+            return client
+
+        normal_camel_case_name = camel_case_name[0].upper() + camel_case_name[1:]
+        client = self._get_client_from_name(normal_camel_case_name)
+        if client != None:
+            return client
+
+
+
     def _get_client_from_name(self, name):
-        name_camel_case = self._to_camel_case(name)
         if self._data and \
             (isinstance(self._data, list) and isinstance(name, int) or
                 hasattr(self._data, '__iter__') and name in self._data):
             return self._wrap_in_tapioca(data=self._data[name])
-        elif self._data and hasattr(self._data, '__iter__') and name_camel_case in self._data:
-            return self._wrap_in_tapioca(data=self._data[name_camel_case])
 
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
@@ -87,13 +101,13 @@ class TapiocaClient(object):
             return self._wrap_in_tapioca(url, resource=resource)
 
     def __getattr__(self, name):
-        ret = self._get_client_from_name(name)
+        ret = self._get_client_from_name_or_fallback(name)
         if ret is None:
             raise AttributeError(name)
         return ret
 
     def __getitem__(self, key):
-        ret = self._get_client_from_name(key)
+        ret = self._get_client_from_name_or_fallback(key)
         if ret is None:
             raise KeyError(key)
         return ret
