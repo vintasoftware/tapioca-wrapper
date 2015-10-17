@@ -57,22 +57,17 @@ class TestTapiocaClient(unittest.TestCase):
         next_url = 'http://api.teste.com/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data(),
-                      body='{"data": [{"key_snake": "value", "camelCase": "data in camel case", "NormalCamelCase": "data in camel case"}], "paging": {"next": "%s"}}' % next_url,
+                      body='{"data" :{"key_snake": "value", "camelCase": "data in camel case", "NormalCamelCase": "data in camel case"}, "paging": {"next": "%s"}}' % next_url,
                       status=200,
                       content_type='application/json')
 
-        responses.add(responses.GET, next_url,
-                      body='{"data": [{"key_snake": "value", "camelCase": "data in camel case", "NormalCamelCase": "data in camel case"}], "paging": {"next": ""}}',
-                      status=200,
-                      content_type='application/json')
 
         response = self.wrapper.test().get()
+        item = response().data()['data'] 
 
-
-        for item in response().pages():  
-            self.assertEqual(item.key_snake().data(), 'value')
-            self.assertEqual(item.camel_case().data(), 'data in camel case')
-            self.assertEqual(item.normal_camel_case().data(), 'data in camel case')
+        self.assertEqual(item['key_snake'], 'value')
+        self.assertEqual(item["camel_case"], 'data in camel case')
+        self.assertEqual(item['normal_camel_case'], 'data in camel case')
 
 
 
