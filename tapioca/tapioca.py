@@ -71,7 +71,7 @@ class TapiocaClient(object):
 
     def _get_client_from_name_or_fallback(self, name):
         client = self._get_client_from_name(name)
-        if client is not None: 
+        if client is not None:
             return client
 
         camel_case_name = self._to_camel_case(name)
@@ -79,14 +79,14 @@ class TapiocaClient(object):
         if client is not None:
             return client
 
-        normal_camel_case_name = camel_case_name[0].upper() + camel_case_name[1:]
+        normal_camel_case_name = camel_case_name[0].upper()
+        normal_camel_case_name += camel_case_name[1:]
+
         client = self._get_client_from_name(normal_camel_case_name)
         if client is not None:
             return client
 
         return None
-
-
 
     def _get_client_from_name(self, name):
 

@@ -63,11 +63,10 @@ class TestTapiocaClient(unittest.TestCase):
 
 
         response = self.wrapper.test().get()
-        item = response().data()['data'] 
 
-        self.assertEqual(item['key_snake'], 'value')
-        self.assertEqual(item["camel_case"], 'data in camel case')
-        self.assertEqual(item['normal_camel_case'], 'data in camel case')
+        self.assertEqual(response.data.key_snake().data(), 'value')
+        self.assertEqual(response.data.camel_case().data(), 'data in camel case')
+        self.assertEqual(response.data.normal_camel_case().data(), 'data in camel case')
 
 
 
