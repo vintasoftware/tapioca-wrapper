@@ -84,6 +84,8 @@ OUT [9]: {
 }
 ```
 
+Some APIs don't follow the snake_case pattern used in python, but Tapioca deals with it for you. If you have a key ```userFriends```, you can access it either by ```likes().data().userFriends().data()``` or ```likes().data().user_friends().data()```. It also works with NormalCamelCase.
+
 ### Exploring data
 
 We can also explore the returned data using the iPython ``tab`` auto-complete
