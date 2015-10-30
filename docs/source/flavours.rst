@@ -1,7 +1,16 @@
+========
+Flavours
+========
+
 # Available Flavours
 
+
+.. _flavour-facebook:
 ## Facebook
 [https://github.com/vintasoftware/tapioca-facebook](https://github.com/vintasoftware/tapioca-facebook)
+
+
+.. _flavour-twitter:
 ## Twitter
 [https://github.com/vintasoftware/tapioca-twitter](https://github.com/vintasoftware/tapioca-twitter)
 ## Mandrill
