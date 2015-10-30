@@ -2,33 +2,53 @@
 Flavours
 ========
 
-# Available Flavours
+Available Flavours
+==================
 
 
 .. _flavour-facebook:
-## Facebook
-[https://github.com/vintasoftware/tapioca-facebook](https://github.com/vintasoftware/tapioca-facebook)
+Facebook
+--------
+`<https://github.com/vintasoftware/tapioca-facebook>`_
 
 
 .. _flavour-twitter:
-## Twitter
-[https://github.com/vintasoftware/tapioca-twitter](https://github.com/vintasoftware/tapioca-twitter)
-## Mandrill
-[https://github.com/vintasoftware/tapioca-mandrill](https://github.com/vintasoftware/tapioca-mandrill)
-## Parse
-[https://github.com/vintasoftware/tapioca-parse](https://github.com/vintasoftware/tapioca-parse)
-## Bitbucket
-[https://github.com/vintasoftware/tapioca-bitbucket](https://github.com/vintasoftware/tapioca-bitbucket)
-## Disqus
-[https://github.com/marctc/tapioca-disqus](https://github.com/marctc/tapioca-disqus)
-## Harvest
-[https://github.com/vintasoftware/tapioca-harvest](https://github.com/vintasoftware/tapioca-harvest)
-## CrunchBase
-[https://github.com/vu3jej/tapioca-crunchbase](https://github.com/vu3jej/tapioca-crunchbase)
-## Otter
-[https://github.com/vu3jej/tapioca-otter](https://github.com/vu3jej/tapioca-otter)
-## GitHub
-[https://github.com/gileno/tapioca-github](https://github.com/gileno/tapioca-github)
+Twitter
+-------
+`<https://github.com/vintasoftware/tapioca-twitter>`_
 
-### Your flavour
+Mandrill
+--------
+`<https://github.com/vintasoftware/tapioca-mandrill>`_
+
+Parse
+-----
+`<https://github.com/vintasoftware/tapioca-parse>`_
+
+Bitbucket
+---------
+`<https://github.com/vintasoftware/tapioca-bitbucket>`_
+
+Disqus
+------
+`<https://github.com/marctc/tapioca-disqus>`_
+
+Harvest
+-------
+`<https://github.com/vintasoftware/tapioca-harvest>`_
+
+CrunchBase
+----------
+`<https://github.com/vu3jej/tapioca-crunchbase>`_
+
+Otter
+-----
+`<https://github.com/vu3jej/tapioca-otter>`_
+
+GitHub
+------
+`<https://github.com/gileno/tapioca-github>`_
+
+Your flavour
+============
 Send a pull request to add new ones to the list.

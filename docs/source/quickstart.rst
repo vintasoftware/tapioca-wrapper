@@ -100,8 +100,8 @@ To print the returned data do:
 
 	In [9]: likes().data()
 	OUT [9]: {
-	    'data': [...],
-	    'paging': {...}
+		'data': [...],
+		'paging': {...}
 	}
 
 
@@ -126,7 +126,7 @@ You can iterate over returned data:
 	likes = api.user_likes(id='me').get()
 
 	for like in likes.data:
-	    print(like.id().data())
+		print(like.id().data())
 
 Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
@@ -156,7 +156,7 @@ To pass querystring parameters in the url, your can use the ```params``` paramet
 .. code-block:: python
 
 	likes = api.user_likes(id='me').get(
-	    params={'limit': 5})
+		params={'limit': 5})
 
 This will return only 5 results.
 
@@ -168,7 +168,7 @@ If you need to pass data in the body of your request, you can use the ```data```
 
 	# this will only work if you have a post to wall permission
 	api.user_feed(id='me').post(
-	    data={'message': 'I love tapiocas!! S2'})
+		data={'message': 'I love tapiocas!! S2'})
 
 Please read `requests <http://docs.python-requests.org/en/latest/>`_ for more detailed information about how to use HTTP methods. 
 
@@ -181,8 +181,8 @@ Use data to return data contained in the Tapioca object
 	IN [8]: likes = api.user_likes(id='me').get()
 	IN [9]: likes().data()
 	OUT [10]: {
-	    'data': [...],
-	    'paging': {...}
+		'data': [...],
+		'paging': {...}
 	}
 	# this will print only the array contained 
 	# in the 'data' field of the response
@@ -200,7 +200,7 @@ Tapioca is built to provide an easy way to access paged data using ``pages()`` m
 	likes = api.user_likes(id='me').get()
 
 	for like in likes().pages():
-	    print(like.name().data())
+		print(like.name().data())
 
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
@@ -209,7 +209,7 @@ This method also accepts ``max_pages`` and ``max_items`` parameters. If both par
 .. code-block:: python
 
 	for item in resp().pages(max_pages=2, max_items=40):
-	    print(item)
+		print(item)
 	# in this example, the for loop will stop after two pages are fetched or 40 items are yielded, 
 	# witch ever comes first.
 
