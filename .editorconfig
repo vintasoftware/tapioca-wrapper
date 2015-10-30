@@ -15,6 +15,12 @@ insert_final_newline = false
 
 [*.rst]
 indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.rst]
+indent_style = tab
 trim_trailing_whitespace = false
 insert_final_newline = false
 
