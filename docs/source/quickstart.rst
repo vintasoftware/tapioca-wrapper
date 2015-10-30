@@ -7,7 +7,7 @@ Using a tapioca package
 
 **Yes, you are in the right place**
 
-There is a good chance you found this page because you clicked a link from some python package called **tapioca-*SOMETHING* **. Well, welcome! You are in the right place, this page will teach you the basics of how to use the package that sent you here. If you didn't arrive here from other package, please keep reading, the concepts learned here applies to any tapioca-***package*** available.
+There is a good chance you found this page because you clicked a link from some python package called **tapioca-SOMETHING**. Well, welcome! You are in the right place, this page will teach you the basics of how to use the package that sent you here. If you didn't arrive here from other package, please keep reading, the concepts learned here applies to any tapioca-**package** available.
 
 What's tapioca?
 ===============
