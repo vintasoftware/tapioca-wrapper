@@ -2,7 +2,7 @@
 
 This is all the code you need to build the Facebook Graph API wrapper you just played with:
 
-**This is a tapioca 0.3.x code, some interfaces changed on new verisions.**
+**This is a tapioca 0.3.x code, some interfaces changed on new versions.**
 ``` python
 # source here: https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py
 

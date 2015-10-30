@@ -6,7 +6,7 @@ There is a good chance you found this page because you clicked a link from some 
 
 ## What's tapioca?
 
-**tapioca** is a *API wrapper maker*. It helps Python developers creating packages for APIs (like the [Facebook Graph API](flavours.html#facebook) or the [Twitter REST API](flavours.html#twitter)). You can find a full list of available API packages made with tapioca [here](flavours.md).  
+**tapioca** is a *API wrapper maker*. It helps Python developers creating packages for APIs (like the [Facebook Graph API](../flavours/#facebook) or the [Twitter REST API](../flavours/#twitter)). You can find a full list of available API packages made with tapioca [here](flavours.md).  
 All wrappers made with tapioca follow a simple interaction pattern that works uniformly so once you learn how tapioca works you will be able to work with any tapioca package available.
 
 ## Getting started
@@ -86,7 +86,7 @@ OUT [9]: {
 
 ### Exploring data
 
-We can also expore the returned data using the iPython ``tab`` auto-complete
+We can also explore the returned data using the iPython ``tab`` auto-complete
 
 ``` python
 In [9]: likes.
@@ -115,7 +115,7 @@ Here is the list of the methods available in a ``TapiocaClientExecutor``:
 
 ### get()/post()/put()/delete()/head()/options()
 
-Tapioca uses [requests](http://docs.python-requests.org/en/latest/) library to make requests, so http methods will work just the same. The only diference is that we don't need to pass a url since tapioca will take care of this.
+Tapioca uses [requests](http://docs.python-requests.org/en/latest/) library to make requests, so http methods will work just the same. The only difference is that we don't need to pass a url since tapioca will take care of this.
 
 ``` python
 likes = api.user_likes(id='me').get()
@@ -184,7 +184,7 @@ for item in resp().pages(max_pages=2, max_items=40):
 
 ### Accessing wrapped data attributes
 
-It's possible to access wrapped data atributes on executor. For example it's possible to reverse a wrapped list:
+It's possible to access wrapped data attributes on executor. For example it's possible to reverse a wrapped list:
 
 ```python
 likes = api.user_likes(id='me').get()

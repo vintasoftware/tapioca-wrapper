@@ -12,8 +12,14 @@
 [https://github.com/vintasoftware/tapioca-bitbucket](https://github.com/vintasoftware/tapioca-bitbucket)
 ## Disqus
 [https://github.com/marctc/tapioca-disqus](https://github.com/marctc/tapioca-disqus)
-## Harvast
+## Harvest
 [https://github.com/vintasoftware/tapioca-harvest](https://github.com/vintasoftware/tapioca-harvest)
+## CrunchBase
+[https://github.com/vu3jej/tapioca-crunchbase](https://github.com/vu3jej/tapioca-crunchbase)
+## Otter
+[https://github.com/vu3jej/tapioca-otter](https://github.com/vu3jej/tapioca-otter)
+## GitHub
+[https://github.com/gileno/tapioca-github](https://github.com/gileno/tapioca-github)
 
 ### Your flavour
 Send a pull request to add new ones to the list.
