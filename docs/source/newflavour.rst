@@ -107,4 +107,44 @@ Here is an example on how to implement Basic Auth:
 
 			return params
 
+.. method:: process_response(self, response)
 
+This is responsible for converting data returned in a response to a dictionary (which should be returned). It should also be used to raise exceptions when an error message or error response status is returned. [TODO: document exceptions and reference here]
+
+.. method:: format_data_to_request(self, data)
+
+This converts data passed to the body of the request into text. For example, if you need to send json, you should ``json.dumps(data)`` and return the response. **see mixins**
+
+.. method:: response_to_native(self, response)
+
+This method receives the response of a request and should return a dictionay with the data contained in the response. **see mixins**
+
+.. method:: get_iterator_next_request_kwargs(self, iterator_request_kwargs, response_data, response)
+
+Override this method if the service you are using supports pagination. It should return a dictionary that will be used to fetch the next batch of data. Eg.:
+
+.. code-block:: python
+	
+	def get_iterator_next_request_kwargs(self,
+            iterator_request_kwargs, response_data, response):
+        paging = response_data.get('paging')
+        if not paging:
+            return
+        url = paging.get('next')
+
+        if url:
+        	iterator_request_kwargs['url'] = url
+            return iterator_request_kwargs
+
+In this example, we are updating the url from the last call made. ``iterator_request_kwargs`` contains the paramenters from the last call made, ``response_data`` contains the response data after it was parsed by ``process_response`` method and ``response`` is the full response object with all its attributes like headers and status code. 
+
+.. method:: get_iterator_list(self, response_data)
+
+Many APIs enclose the returned list of objects in one on the returned attributes. Use this methos to extract and return only the list from the response. Eg.:
+
+.. code-block:: python
+
+	def get_iterator_list(self, response_data):
+        return response_data['data']
+
+In this example, the object list is enclosed in the ``data`` attribute
