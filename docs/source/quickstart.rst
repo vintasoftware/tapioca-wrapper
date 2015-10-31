@@ -52,7 +52,7 @@ If you are using iPython, you can now list available endpoints by typing ``api.`
 
 .. code-block:: python
 
-	In [2]: api.
+	>>> api.
 	api.user_likes                  api.page_blocked                 api.page_locations
 	api.page_statuses                api.user_applications_developer  api.user_friends
 	api.user_invitable_friends       api.user_photos                  api.user_videos
@@ -178,16 +178,16 @@ Accessing raw data
 Use data to return data contained in the Tapioca object
 .. code-block:: python
 
-	IN [8]: likes = api.user_likes(id='me').get()
-	IN [9]: likes().data()
-	OUT [10]: {
+	>>> likes = api.user_likes(id='me').get()
+	>>> likes().data()
+	{
 		'data': [...],
 		'paging': {...}
 	}
-	# this will print only the array contained 
-	# in the 'data' field of the response
-	IN [11]: likes.data().data()
-	OUT [12]: [...]
+	>>> this will print only the array contained 
+	>>> # in the 'data' field of the response
+	>>> likes.data().data()
+	>>> [...]
 
 Dynamically fetching pages
 -------------------------
