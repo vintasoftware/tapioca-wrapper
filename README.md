@@ -20,15 +20,15 @@ Documentation is available at:
 
 ## Flavours
 
-You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/en/latest/flavours/)
+You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/#flavours/)
 
 ## Contributors
 
-[http://tapioca-wrapper.readthedocs.org/en/latest/contributors/](http://tapioca-wrapper.readthedocs.org/en/latest/contributors/)
+[http://tapioca-wrapper.readthedocs.org/#contributors/](http://tapioca-wrapper.readthedocs.org/#contributors/)
 
 ## Changelog
 
-[http://tapioca-wrapper.readthedocs.org/en/latest/changelog/](http://tapioca-wrapper.readthedocs.org/en/latest/changelog/)
+[http://tapioca-wrapper.readthedocs.org/#changelog/](http://tapioca-wrapper.readthedocs.org/#changelog/)
 
 ## Help
 
