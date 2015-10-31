@@ -84,7 +84,7 @@ class TestSerlializer(unittest.TestCase):
 
         response = self.wrapper.test().get()
 
-        e_dir =  dir(response())
+        e_dir = dir(response())
 
         self.assertIn('to_datetime', e_dir)
         self.assertIn('to_decimal', e_dir)

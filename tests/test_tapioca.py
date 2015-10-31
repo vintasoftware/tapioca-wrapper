@@ -116,6 +116,19 @@ class TestTapiocaExecutor(unittest.TestCase):
             for item in client():
                 pass
 
+    def test_dir_call_returns_executor_methods(self):
+        client = self.wrapper._wrap_in_tapioca([0, 1, 2])
+
+        e_dir = dir(client())
+
+        self.assertIn('data', e_dir)
+        self.assertIn('response', e_dir)
+        self.assertIn('get', e_dir)
+        self.assertIn('post', e_dir)
+        self.assertIn('pages', e_dir)
+        self.assertIn('open_docs', e_dir)
+        self.assertIn('open_in_browser', e_dir)
+
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
 
