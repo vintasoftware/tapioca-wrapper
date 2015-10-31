@@ -16,7 +16,7 @@ APIs wrapped by Tapioca follow a simple interaction pattern that works uniformel
 
 Documentation is available at:
 
-[http://tapioca-wrapper.readthedocs.org/en/latest/](http://tapioca-wrapper.readthedocs.org/en/latest/)
+[http://tapioca-wrapper.readthedocs.org/](http://tapioca-wrapper.readthedocs.org/)
 
 ## Flavours
 
