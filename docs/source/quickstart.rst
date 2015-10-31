@@ -139,10 +139,10 @@ An example was when we filled url params for the ``user_like`` resource (calling
 
 Here is the list of the methods available in a ``TapiocaClientExecutor``:
 
-get()/post()/put()/delete()/head()/options()
---------------------------------------------
+Making requests
+---------------
 
-Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ library to make requests, so http methods will work just the same. The only difference is that we don't need to pass a url since tapioca will take care of this.
+Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ library to make requests, so http methods will work just the same (get()/post()/put()/delete()/head()/options()). The only difference is that we don't need to pass a url since tapioca will take care of this.
 
 .. code-block:: python
 
@@ -172,8 +172,8 @@ If you need to pass data in the body of your request, you can use the ```data```
 
 Please read `requests <http://docs.python-requests.org/en/latest/>`_ for more detailed information about how to use HTTP methods. 
 
-data()
-------
+Accessing raw data
+------------------
 
 Use data to return data contained in the Tapioca object
 .. code-block:: python
@@ -189,8 +189,8 @@ Use data to return data contained in the Tapioca object
 	IN [11]: likes.data().data()
 	OUT [12]: [...]
 
-pages()
--------
+Dynamically fetching pages
+-------------------------
 
 Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoiding a single long request.
 Tapioca is built to provide an easy way to access paged data using ``pages()`` method:
@@ -227,8 +227,8 @@ It's possible to access wrapped data attributes on executor. For example it's po
 	# items in the likes_list are now in reverse order
 	# but still wrapped in a tapioca object
 
-open_docs()
------------
+Opening documentation in the browser
+------------------------------------
 
 If you are accessing a resource, you can call ``open_docs`` to open resource documentation in browser:
 
@@ -236,7 +236,7 @@ If you are accessing a resource, you can call ``open_docs`` to open resource doc
 
 	api.user_likes().open_docs()
 
-open_in_browser()
------------------
+Opening any link in the browser
+-------------------------------
 
-Whenever the data contained in Tapioca object is a URL, you can open it in browser by using the ``open_in_browser`` method.
+Whenever the data contained in Tapioca object is a URL, you can open it in browser by using the ``open_in_browser()`` method.
