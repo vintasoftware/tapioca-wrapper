@@ -27,7 +27,7 @@ In case you are having any difficulties, seek help on `Gitter <https://gitter.im
 The Adapter
 -----------
 
-Tapioca features are mainly implemente in the ``TapiocaClient`` and ``TapiocaClientExecutor`` classes. Those are generic, common to all wrappers and cannot be customized to specific services. All the code specific to the API wrapper you are creating goes in your adapter class which should iherit from ``TapiocaAdapter`` and implement specific behaviours to the service you are working with. 
+Tapioca features are mainly implemente in the ``TapiocaClient`` and ``TapiocaClientExecutor`` classes. Those are generic, common to all wrappers and cannot be customized to specific services. All the code specific to the API wrapper you are creating goes in your adapter class which should inherit from ``TapiocaAdapter`` and implement specific behaviours to the service you are working with. 
 
 Take a look in the generated code from the cookiecutter or in the `tapioca-facebook adapter <https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/tapioca_facebook.py>`_ to get a little familiar with it before you contiue. Note that in the end of the file you will need to perform the transformation of your adapter into a client:
 
@@ -46,9 +46,19 @@ Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ to perform
 
 .. class:: TapiocaAdapter
 
+Attributes
+----------
+
 .. attribute:: api_root
 
 This should contain the base url that will be concatenated with the resource mapping itens and generate the final request url. You can either set this attribute or use the ``get_api_root`` method.
+
+.. attribute:: serializer_class
+
+For more information about ``serializer_class`` attribute read the :doc:`serializers documentation <serializers>`.
+
+Methods
+-------
 
 .. method:: get_api_root(self, api_params)
 
@@ -60,10 +70,6 @@ Can be used instead of the ``api_root`` attribute. You might also use it the dec
 		if api_params.get('development'):
 			return 'http://api.the-dev-url.com/'
 		return 'http://api.the-production-url.com/'
-
-.. attribute:: serializer_class
-
-For more information about ``serializer_class`` attribute read the :doc:`serializers documentation <serializers>`.
 
 .. method:: get_request_kwargs(self, api_params, *args, **kwargs)
 
@@ -91,3 +97,5 @@ Here is an example on how to implement Basic Auth:
 				api_params.get('user'), api_params.get('password'))
 
 			return params
+
+
