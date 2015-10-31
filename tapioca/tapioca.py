@@ -59,8 +59,37 @@ class TapiocaClient(object):
 
         return self._wrap_in_tapioca_executor(data, resource=self._resource,
                                               response=self._response)
+    '''
+    Convert a snake_case string in CamelCase.
+    http://stackoverflow.com/questions/19053707/convert-snake-case-snake-case-to-lower-camel-case-lowercamelcase-in-python
+    '''
+    def _to_camel_case(self, name):
+        if isinstance(name, int):
+            return name
+        components = name.split('_')
+        return components[0] + "".join(x.title() for x in components[1:])
+
+    def _get_client_from_name_or_fallback(self, name):
+        client = self._get_client_from_name(name)
+        if client is not None:
+            return client
+
+        camel_case_name = self._to_camel_case(name)
+        client = self._get_client_from_name(camel_case_name)
+        if client is not None:
+            return client
+
+        normal_camel_case_name = camel_case_name[0].upper()
+        normal_camel_case_name += camel_case_name[1:]
+
+        client = self._get_client_from_name(normal_camel_case_name)
+        if client is not None:
+            return client
+
+        return None
 
     def _get_client_from_name(self, name):
+
         if self._data and \
             (isinstance(self._data, list) and isinstance(name, int) or
                 hasattr(self._data, '__iter__') and name in self._data):
@@ -74,14 +103,16 @@ class TapiocaClient(object):
             url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
             return self._wrap_in_tapioca(url, resource=resource)
 
+        return None
+
     def __getattr__(self, name):
-        ret = self._get_client_from_name(name)
+        ret = self._get_client_from_name_or_fallback(name)
         if ret is None:
             raise AttributeError(name)
         return ret
 
     def __getitem__(self, key):
-        ret = self._get_client_from_name(key)
+        ret = self._get_client_from_name_or_fallback(key)
         if ret is None:
             raise KeyError(key)
         return ret
