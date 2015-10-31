@@ -362,7 +362,3 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
 
         with self.assertRaises(Exception):
             executor.response()
-
-
-if __name__ == '__main__':
-    unittest.main()
