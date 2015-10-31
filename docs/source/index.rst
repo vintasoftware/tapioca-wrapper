@@ -5,13 +5,12 @@ Welcome to tapioca-wrapper documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+	:maxdepth: 2
 
-   about
-   quickstart
-   serializers
-   flavours
-   newflavour
-   contributors
-   changelog
-   
+	about
+	quickstart
+	serializers
+	flavours
+	newflavour
+	contributors
+	changelog

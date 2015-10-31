@@ -39,11 +39,11 @@ SimpleSerializer
 
 ``SimpleSerialzer`` is a very basic and generic serializer. It is included by default in adapters unless explicitly removed. These are the deserialization methods it provides:
 
-.. function:: to_datetime()
+.. method:: to_datetime()
 
 Uses `Arrow <http://crsmithdev.com/arrow/>`_ to parse the data to a Python ``datetime``.
 
-.. function:: to_decimal()
+.. method:: to_decimal()
 
 Converts data to ``Decimal``
 
