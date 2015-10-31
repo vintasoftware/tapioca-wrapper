@@ -25,7 +25,7 @@ After this process it's possible that you have a ready to go wrapper. But in mos
 In case you are having any difficulties, seek help on `Gitter <https://gitter.im/vintasoftware/tapioca-wrapper>`_ or send an email to contact@vinta.com.br .
 
 The Adapter
------------
+===========
 
 Tapioca features are mainly implemente in the ``TapiocaClient`` and ``TapiocaClientExecutor`` classes. Those are generic, common to all wrappers and cannot be customized to specific services. All the code specific to the API wrapper you are creating goes in your adapter class which should inherit from ``TapiocaAdapter`` and implement specific behaviours to the service you are working with. 
 
@@ -37,11 +37,20 @@ Take a look in the generated code from the cookiecutter or in the `tapioca-faceb
 
 
 The Resouce Mapping
--------------------
+===================
 
 The resource mapping is a very simple dictionary which will tell your tapioca client what are the available endpoints and how to call them. There's an exemplo in your cookiecutter generated project. You can also take a look into `tapioca-facebook's resouce mapping <https://github.com/vintasoftware/tapioca-facebook/blob/master/tapioca_facebook/resource_mapping.py>`_.
 
 Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ to perform HTTP requests. This is important to know because you will be using the method ``get_request_kwargs`` to set authentication details and return a dictionary that will be passed directly to ther request method. 
+
+
+Data formating Mixins
+=====================
+
+You might want to use one of the following mixins to help you with data format handling in you wrapper: 
+
+- ``FormAdapterMixin`` 
+- ``JSONAdapterMixin``
 
 
 .. class:: TapiocaAdapter
