@@ -9,6 +9,7 @@ Contents:
 
    about
    quickstart
+   serializers
    flavours
    newflavour
    contributors

@@ -2,6 +2,11 @@
 Changelog
 =========
 
+1.0
+===
+- Fixed return for ``dir`` call on executor, so it's not lot easier to explore it.
+
+
 0.6.0
 =====
 - Giving access to request_method in ``get_request_kwargs``
