@@ -15,12 +15,12 @@ To deserialize data, you need to transform you client into a executor and then c
 .. code-block:: python
 
 	>>> reponse = cli().get()
-	>>> print(response.date())
+	>>> print(response.created_at())
 	<TapiocaClientExecutor object
 	2015-10-25T22:34:51+00:00>
-	>>> print(.to_datetime())
+	>>> print(respose.created_at().to_datetime())
 	2015-10-25 22:34:51+00:00
-	>>> print(type(respose.date().to_datetime()))
+	>>> print(type(respose.created_at().to_datetime()))
 	datetime.datetime
 
 Clients might have the default ``SimpleSerializer``, some custom serializer designed by the wrapper creator, or even no serializer. Either way you can swap it for one of your own. For this, you only need to pass the desired serializer class during the client initialization.
@@ -41,7 +41,7 @@ SimpleSerializer
 
 .. function:: to_datetime()
 
-Uses `Arrow <http://crsmithdev.com/arrow/>`_ and tries to parse the data contained in the executor to a Python ``datetime``.
+Uses `Arrow <http://crsmithdev.com/arrow/>`_ to parse the data to a Python ``datetime``.
 
 .. function:: to_decimal()
 
