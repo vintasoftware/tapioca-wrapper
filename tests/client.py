@@ -27,6 +27,7 @@ RESOURCE_MAPPING = {
 
 
 class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
+    serializer_class = None
     api_root = 'https://api.test.com'
     resource_mapping = RESOURCE_MAPPING
 

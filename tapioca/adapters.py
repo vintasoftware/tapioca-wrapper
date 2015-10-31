@@ -5,6 +5,7 @@ import json
 from .tapioca import TapiocaInstantiator
 from .exceptions import (
     ResponseProcessException, ClientError, ServerError)
+from .serializers import SimpleSerializer
 
 
 def generate_wrapper_from_adapter(adapter_class):
@@ -12,7 +13,7 @@ def generate_wrapper_from_adapter(adapter_class):
 
 
 class TapiocaAdapter(object):
-    serializer_class = None
+    serializer_class = SimpleSerializer
 
     def __init__(self, serializer_class=None, *args, **kwargs):
         if serializer_class:
@@ -23,8 +24,10 @@ class TapiocaAdapter(object):
     def _get_to_native_method(self, method_name, value):
         if not self.serializer:
             raise NotImplementedError("This client does not have a serializer")
+
         def to_native_wrapper():
             return self._value_to_native(method_name, value)
+
         return to_native_wrapper
 
     def _value_to_native(self, method_name, value):
