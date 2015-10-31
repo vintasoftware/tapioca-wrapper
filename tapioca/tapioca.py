@@ -258,3 +258,9 @@ class TapiocaClientExecutor(TapiocaClient):
     def open_in_browser(self):
         new = 2  # open in new tab
         webbrowser.open(self._data, new=new)
+
+    def __dir__(self):
+        methods = [m for m in TapiocaClientExecutor.__dict__.keys() if not m.startswith('_')]
+        methods += [m for m in dir(self._api.serializer) if m.startswith('to_')]
+
+        return methods

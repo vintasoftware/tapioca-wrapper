@@ -74,3 +74,17 @@ class TestSerlializer(unittest.TestCase):
         response = wrapper.test().get()
         with self.assertRaises(NotImplementedError):
             response.any_data().to_datetime()
+
+    @responses.activate
+    def test_executor_dir_returns_serializer_methods(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        e_dir =  dir(response())
+
+        self.assertIn('to_datetime', e_dir)
+        self.assertIn('to_decimal', e_dir)
