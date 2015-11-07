@@ -20,7 +20,9 @@ Documentation is available at:
 
 ## Flavours
 
-You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/en/stable/flavours/)
+You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/en/stable/flavours/).
+
+To create new flavours, refer to [New Flavours](http://tapioca-wrapper.readthedocs.org/en/stable/newflavour/) in the documentation. There is also a [cookiecutter template](https://github.com/vintasoftware/cookiecutter-tapioca) to help bootstraping new API clients.
 
 ## Contributors
 
