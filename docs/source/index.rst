@@ -10,6 +10,7 @@ Contents:
 	about
 	quickstart
 	serializers
+	exceptions
 	flavours
 	newflavour
 	contributors
