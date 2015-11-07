@@ -136,8 +136,12 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         self.wrapper = TesterClient()
 
     def test_when_executor_has_no_response(self):
-        with self.assertRaisesRegexp(Exception, "has no response"):
+        with self.assertRaises(Exception) as context:
             self.wrapper.test().response()
+
+        exception = context.exception
+
+        self.assertIn("has no response", str(exception))
 
     @responses.activate
     def test_get_request(self):
