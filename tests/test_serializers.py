@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+import arrow
 import unittest
 import responses
 from decimal import Decimal
@@ -24,6 +25,26 @@ class TestSerlializer(unittest.TestCase):
     def test_serializer_client_adapter_has_serializer(self):
         serializer = self.wrapper._api.serializer
         self.assertTrue(isinstance(serializer, BaseSerializer))
+
+    @responses.activate
+    def test_executor_dir_returns_serializer_methods(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        e_dir = dir(response())
+
+        self.assertIn('to_datetime', e_dir)
+        self.assertIn('to_decimal', e_dir)
+
+
+class TestDeserialization(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = SerializerClient()
 
     @responses.activate
     def test_convert_to_decimal(self):
@@ -75,16 +96,87 @@ class TestSerlializer(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             response.any_data().to_datetime()
 
-    @responses.activate
-    def test_executor_dir_returns_serializer_methods(self):
-        responses.add(responses.GET, self.wrapper.test().data(),
-                      body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
-                      status=200,
-                      content_type='application/json')
 
-        response = self.wrapper.test().get()
+class TestSerialization(unittest.TestCase):
 
-        e_dir = dir(response())
+    def setUp(self):
+        self.serializer = SimpleSerializer()
 
-        self.assertIn('to_datetime', e_dir)
-        self.assertIn('to_decimal', e_dir)
+    def test_serialize_int(self):
+        data = 1
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_serialize_str(self):
+        data = 'the str'
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_serialize_float(self):
+        data = 1.23
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_serialization_of_simple_dict(self):
+        data = {
+            'key1': 'value1',
+            'key2': 'value2',
+            'key3': 'value3',
+        }
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_serialization_of_simple_list(self):
+        data = [1, 2, 3, 4, 5]
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_serialization_of_nested_list_in_dict(self):
+        data = {
+            'key1': [1, 2, 3, 4, 5],
+            'key2': [1],
+            'key3': [1, 2, 5],
+        }
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_multi_level_serializations(self):
+        data = [
+            {'key1': [1, 2, 3, 4, 5]},
+            {'key2': [1]},
+            {'key3': [1, 2, 5]},
+        ]
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
+    def test_decimal_serialization(self):
+        data = {
+            'key': [Decimal('1.0'), Decimal('1.1'), Decimal('1.2')]
+        }
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, {'key': ['1.0', '1.1', '1.2']})
+
+    def test_datetime_serialization(self):
+        string_date = '2014-11-13T14:53:18.694072+00:00'
+
+        data = [arrow.get(string_date).datetime]
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, [string_date])
