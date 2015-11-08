@@ -165,16 +165,19 @@ class TapiocaClientExecutor(TapiocaClient):
     def __call__(self, *args, **kwargs):
         return self._wrap_in_tapioca(self._data.__call__(*args, **kwargs))
 
+    @property
     def data(self):
         return self._data
 
+    @property
     def response(self):
         if self._response is None:
             raise Exception("This instance has no response object")
         return self._response
 
+    @property
     def status_code(self):
-        return self.response().status_code
+        return self.response.status_code
 
     def _make_request(self, request_method, *args, **kwargs):
         if 'url' not in kwargs:
