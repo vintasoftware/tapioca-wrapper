@@ -3,18 +3,35 @@ Serializers
 ===========
 
 
-Currently, serializers are only capable of deserilizing data but in future releases they will also be capable of serializing.
+Serializers classes are capable of performing serialization and deserialization of data.
+
+**Serialization**: is the transformation of data in a native format (in our case Python data types) into a serialized format (eg.: text). For example, this could be transforming a native python ``Datetime`` instance containing a date into a string.
 
 **Deserialization**: is the transformation of a data which is in a serialized format (eg.: text) into a native format. For example, this could be transforming a string containing a date into a native python ``Datetime`` instance.
 
 
 Usage
 =====
+
+Serialization
+-------------
+
+Data serialization is done in the background when tapioca is executing the request. It will traverse any data structure passed to the ``data`` param of the request and convert Python data types into serialized types.
+
+.. code-block:: python
+
+	>>> reponse = cli.the_resource().post(data={'date': datetime.today()})
+
+in this example, ``datetime.today()`` will be converted into a string formated date just before the request is executed.
+
+Deserialization
+---------------
+
 To deserialize data, you need to transform you client into a executor and then call a deserialization method from it. Eg.:
 
 .. code-block:: python
 
-	>>> reponse = cli().get()
+	>>> reponse = cli.the_resource().get()
 	>>> print(response.created_at())
 	<TapiocaClientExecutor object
 	2015-10-25T22:34:51+00:00>
@@ -23,7 +40,11 @@ To deserialize data, you need to transform you client into a executor and then c
 	>>> print(type(respose.created_at().to_datetime()))
 	datetime.datetime
 
-Clients might have the default ``SimpleSerializer``, some custom serializer designed by the wrapper creator, or even no serializer. Either way you can swap it for one of your own. For this, you only need to pass the desired serializer class during the client initialization.
+
+Swapping default serializer
+---------------------------
+
+Clients might have the default ``SimpleSerializer``, some custom serializer designed by the wrapper creator, or even no serializer. Either way you can swap it for one of your own, even if you were not the developer of the library. For this, you only need to pass the desired serializer class during the client initialization.
 
 .. code-block:: python
 	
@@ -34,8 +55,10 @@ Clients might have the default ``SimpleSerializer``, some custom serializer desi
 		serializer_class=MyCustomSerializer)
 
 
-SimpleSerializer
-================
+Built-ins
+=========
+
+.. class:: SimpleSerializer
 
 ``SimpleSerialzer`` is a very basic and generic serializer. It is included by default in adapters unless explicitly removed. These are the deserialization methods it provides:
 
@@ -51,7 +74,22 @@ Converts data to ``Decimal``
 Writing a custom serializer
 ===========================
 
-To write a custom serializer, you just need to extend the ``BaseSerializer`` class and add the methods you want.
+To write a custom serializer, you just need to extend the ``BaseSerializer`` class and add the methods you want. But you can also extend from ``SimpleSerializer`` to inherit its functionalities.
+
+Serializing
+-----------
+To allow serialization of any desired data type, add a method to your serializer named with in the following pattern: ``serialize_ + name_of_your_data_type_in_lower_case``. Eg.:
+
+.. code-block:: python
+
+	class MyCustomDataType(object):
+		message = ''
+
+	class MyCustomSerializer(SimpleSerializer):
+
+		def serialize_mycustomdatatype(self, data):
+			return data.message
+
 
 Deserializing
 -------------
