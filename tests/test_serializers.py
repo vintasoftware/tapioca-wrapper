@@ -123,6 +123,13 @@ class TestSerialization(unittest.TestCase):
 
         self.assertEqual(serialized, data)
 
+    def test_serialize_none(self):
+        data = None
+
+        serialized = self.serializer.serialize(data)
+
+        self.assertEqual(serialized, data)
+
     def test_serialization_of_simple_dict(self):
         data = {
             'key1': 'value1',

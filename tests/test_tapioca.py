@@ -3,12 +3,15 @@
 from __future__ import unicode_literals
 
 import unittest
-
 import responses
+import arrow
+import json
+from decimal import Decimal
 
 from tapioca.tapioca import TapiocaClient
+from tapioca.serializers import SimpleSerializer
 
-from tests.client import TesterClient
+from tests.client import TesterClient, SerializerClient
 
 
 class TestTapiocaClient(unittest.TestCase):
@@ -393,3 +396,27 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         for item in response().pages(max_items=0):
             self.assertIn(item.key().data(), 'value')
             iterations_count += 1
+
+    @responses.activate
+    def test_data_serialization(self):
+        wrapper = SerializerClient()
+
+        responses.add(responses.POST, self.wrapper.test().data(),
+                      body='{}', status=200, content_type='application/json')
+
+        string_date = '2014-11-13T14:53:18.694072+00:00'
+        string_decimal = '1.45'
+
+        data = {
+            'date': arrow.get(string_date).datetime,
+            'decimal': Decimal(string_decimal),
+        }
+
+        wrapper.test().post(data=data)
+
+        request_body = responses.calls[0].request.body
+
+        self.assertEqual(
+            json.loads(request_body),
+            {'date': string_date, 'decimal': string_decimal})
+
