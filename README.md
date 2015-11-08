@@ -14,23 +14,21 @@ APIs wrapped by Tapioca follow a simple interaction pattern that works uniformel
 
 ## Documentation
 
-Documentation is available at:
-
-[http://tapioca-wrapper.readthedocs.org/](http://tapioca-wrapper.readthedocs.org/)
+Documentation hosted by [readthedocs](http://tapioca-wrapper.readthedocs.org/)
 
 ## Flavours
 
-You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/en/stable/flavours/).
+You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/en/stable/flavours.html).
 
-To create new flavours, refer to [New Flavours](http://tapioca-wrapper.readthedocs.org/en/stable/newflavour/) in the documentation. There is also a [cookiecutter template](https://github.com/vintasoftware/cookiecutter-tapioca) to help bootstraping new API clients.
+To create new flavours, refer to [New Flavours](http://tapioca-wrapper.readthedocs.org/en/stable/newflavour.html) in the documentation. There is also a [cookiecutter template](https://github.com/vintasoftware/cookiecutter-tapioca) to help bootstraping new API clients.
 
 ## Contributors
 
-[http://tapioca-wrapper.readthedocs.org/en/stable/contributors/](http://tapioca-wrapper.readthedocs.org/en/stable/contributors/)
+[http://tapioca-wrapper.readthedocs.org/en/stable/contributors/](http://tapioca-wrapper.readthedocs.org/en/stable/contributors.html)
 
 ## Changelog
 
-[http://tapioca-wrapper.readthedocs.org/en/stable/changelog/](http://tapioca-wrapper.readthedocs.org/en/stable/changelog/)
+[http://tapioca-wrapper.readthedocs.org/en/stable/changelog/](http://tapioca-wrapper.readthedocs.org/en/stable/changelog.html)
 
 ## Help
 
