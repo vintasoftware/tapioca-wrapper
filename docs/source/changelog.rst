@@ -4,8 +4,14 @@ Changelog
 
 1.0
 ===
-- Fixed return for ``dir`` call on executor, so it's not lot easier to explore it.
-
+- Data serialization and deserialization
+- Access CamelCase attributes using snake_case
+- Dependencies are now tied to specific versions of libraries
+- ``data`` and ``response`` are now attributes instead of methods in the executor
+- Added ``status_code`` method to tapioca executor
+- Renamed ``status`` exception attribute to ``status_code``
+- Fixed return for ``dir`` call on executor, so it's not lot easier to explore it
+- Multiple improvments to documentation
 
 0.6.0
 =====
