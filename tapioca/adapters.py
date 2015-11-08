@@ -44,8 +44,10 @@ class TapiocaAdapter(object):
         return template.format(**params)
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
+        serialized = self.serialize_data(kwargs.get('data'))
+
         kwargs.update({
-            'data': self.format_data_to_request(kwargs.get('data')),
+            'data': self.format_data_to_request(serialized),
         })
         return kwargs
 
@@ -57,6 +59,12 @@ class TapiocaAdapter(object):
 
         if str(response.status_code).startswith('4'):
             raise ResponseProcessException(ClientError, data)
+
+        return data
+
+    def serialize_data(self, data):
+        if self.serializer:
+            return self.serializer.serialize(data)
 
         return data
 
