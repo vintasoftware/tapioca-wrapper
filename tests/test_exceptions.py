@@ -8,9 +8,59 @@ import responses
 import requests
 
 from tapioca.exceptions import (
-    ClientError, ServerError, ResponseProcessException)
+    ClientError, ServerError, ResponseProcessException,
+    TapiocaException)
+from tapioca.tapioca import TapiocaClient
 
 from tests.client import TesterClient, TesterClientAdapter
+
+
+class TestTapiocaException(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = TesterClient()
+
+    @responses.activate
+    def test_exception_contain_tapioca_client(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": {"key": "value"}}',
+                      status=400,
+                      content_type='application/json')
+
+        try:
+            self.wrapper.test().get()
+        except TapiocaException as e:
+            exception = e
+
+        self.assertIs(exception.client.__class__, TapiocaClient)
+
+    @responses.activate
+    def test_exception_contain_status_code(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": {"key": "value"}}',
+                      status=400,
+                      content_type='application/json')
+
+        try:
+            self.wrapper.test().get()
+        except TapiocaException as e:
+            exception = e
+
+        self.assertIs(exception.status_code, 400)
+
+    @responses.activate
+    def test_exception_message(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": {"key": "value"}}',
+                      status=400,
+                      content_type='application/json')
+
+        try:
+            self.wrapper.test().get()
+        except TapiocaException as e:
+            exception = e
+
+        self.assertEqual(str(exception), 'response status code: 400')
 
 
 class TestExceptions(unittest.TestCase):
