@@ -129,6 +129,44 @@ class TestTapiocaExecutor(unittest.TestCase):
         self.assertIn('open_docs', e_dir)
         self.assertIn('open_in_browser', e_dir)
 
+    @responses.activate
+    def test_response_executor_object_has_a_response(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+                      status=200,
+                      content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+                      body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+        executor = response()
+
+        executor.response()
+
+        executor._response = None
+
+    def test_raises_error_if_executor_does_not_have_a_response_object(self):
+        client = self.wrapper
+
+        with self.assertRaises(Exception):
+            client().response()
+
+    @responses.activate
+    def test_response_executor_has_a_status_code(self):
+        responses.add(responses.GET, self.wrapper.test().data(),
+                      body='{"data": {"key": "value"}}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        self.assertEqual(response().status_code(), 200)
+
 
 class TestTapiocaExecutorRequests(unittest.TestCase):
 
@@ -355,27 +393,3 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         for item in response().pages(max_items=0):
             self.assertIn(item.key().data(), 'value')
             iterations_count += 1
-
-    @responses.activate
-    def test_response_executor_object_has_a_response(self):
-        next_url = 'http://api.teste.com/next_batch'
-
-        responses.add(responses.GET, self.wrapper.test().data(),
-                      body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
-                      status=200,
-                      content_type='application/json')
-
-        responses.add(responses.GET, next_url,
-                      body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
-                      status=200,
-                      content_type='application/json')
-
-        response = self.wrapper.test().get()
-        executor = response()
-
-        executor.response()
-
-        executor._response = None
-
-        with self.assertRaises(Exception):
-            executor.response()
