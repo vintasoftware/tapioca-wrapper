@@ -28,7 +28,7 @@ class TestSerlializer(unittest.TestCase):
 
     @responses.activate
     def test_executor_dir_returns_serializer_methods(self):
-        responses.add(responses.GET, self.wrapper.test().data(),
+        responses.add(responses.GET, self.wrapper.test().data,
                       body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
                       status=200,
                       content_type='application/json')
@@ -48,7 +48,7 @@ class TestDeserialization(unittest.TestCase):
 
     @responses.activate
     def test_convert_to_decimal(self):
-        responses.add(responses.GET, self.wrapper.test().data(),
+        responses.add(responses.GET, self.wrapper.test().data,
                       body='{"decimal_value": "10.51"}',
                       status=200,
                       content_type='application/json')
@@ -59,7 +59,7 @@ class TestDeserialization(unittest.TestCase):
 
     @responses.activate
     def test_convert_to_datetime(self):
-        responses.add(responses.GET, self.wrapper.test().data(),
+        responses.add(responses.GET, self.wrapper.test().data,
                       body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
                       status=200,
                       content_type='application/json')
@@ -75,7 +75,7 @@ class TestDeserialization(unittest.TestCase):
 
     @responses.activate
     def test_call_non_existent_conversion(self):
-        responses.add(responses.GET, self.wrapper.test().data(),
+        responses.add(responses.GET, self.wrapper.test().data,
                       body='{"any_data": "%#ˆ$&"}',
                       status=200,
                       content_type='application/json')
@@ -87,7 +87,7 @@ class TestDeserialization(unittest.TestCase):
     @responses.activate
     def test_call_conversion_with_no_serializer(self):
         wrapper = TesterClient()
-        responses.add(responses.GET, wrapper.test().data(),
+        responses.add(responses.GET, wrapper.test().data,
                       body='{"any_data": "%#ˆ$&"}',
                       status=200,
                       content_type='application/json')

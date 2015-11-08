@@ -13,7 +13,7 @@ class TapiocaException(Exception):
         self.status_code = None
         self.client = client
         if client is not None:
-            self.status_code = client().response().status_code
+            self.status_code = client().status_code
 
         if not message:
             message = "response status code: {}".format(self.status_code)
