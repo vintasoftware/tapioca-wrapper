@@ -31,7 +31,7 @@ You can also access a tapioca client that contains response data from the except
 	try:
 		cli.fetch_something().get()
 	except TapiocaException, e:
-		print(e.client.error_message().data())
+		print(e.client.error_message().data)
 
 .. class:: ClientError
 

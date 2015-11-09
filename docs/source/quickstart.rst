@@ -98,7 +98,7 @@ To print the returned data do:
 
 .. code-block:: python
 
-	In [9]: likes().data()
+	In [9]: likes().data
 	OUT [9]: {
 		'data': [...],
 		'paging': {...}
@@ -126,7 +126,7 @@ You can iterate over returned data:
 	likes = api.user_likes(id='me').get()
 
 	for like in likes.data:
-		print(like.id().data())
+		print(like.id().data)
 
 Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
@@ -175,18 +175,19 @@ Please read `requests <http://docs.python-requests.org/en/latest/>`_ for more de
 Accessing raw data
 ------------------
 
-Use data to return data contained in the Tapioca object
+Use ``data`` to return data contained in the Tapioca object.
+
 .. code-block:: python
 
 	>>> likes = api.user_likes(id='me').get()
-	>>> likes().data()
+	>>> likes().data
 	{
 		'data': [...],
 		'paging': {...}
 	}
 	>>> this will print only the array contained 
 	>>> # in the 'data' field of the response
-	>>> likes.data().data()
+	>>> likes.data().data
 	>>> [...]
 
 Dynamically fetching pages
@@ -200,7 +201,7 @@ Tapioca is built to provide an easy way to access paged data using ``pages()`` m
 	likes = api.user_likes(id='me').get()
 
 	for like in likes().pages():
-		print(like.name().data())
+		print(like.name().data
 
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
