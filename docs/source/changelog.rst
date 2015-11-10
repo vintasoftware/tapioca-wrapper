@@ -10,7 +10,7 @@ Changelog
 - ``data`` and ``response`` are now attributes instead of methods in the executor
 - Added ``status_code`` attribute to tapioca executor
 - Renamed ``status`` exception attribute to ``status_code``
-- Fixed return for ``dir`` call on executor, so it's not lot easier to explore it
+- Fixed return for ``dir`` call on executor, so it's lot easier to explore it
 - Multiple improvments to documentation
 
 0.6.0
