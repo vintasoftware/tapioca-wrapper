@@ -2,8 +2,8 @@
 
 import unittest
 
-from tapioca.xml_helpers import flat_dict_to_etree_elt_dict
-from tapioca.xml_helpers import etree_elt_dict_to_xml
+from tapioca.xml_helpers import (
+    etree_elt_dict_to_xml, flat_dict_to_etree_elt_dict, xml_string_to_etree_elt_dict)
 
 
 # Use sets of 3 to test the translation methods
@@ -14,21 +14,21 @@ ETREE_DICT_1 = {'tag': 'root1',
                        'attrib': {'attr1': 'my attr value 1',
                                   'attr2': 'my attr value 2'},
                        'text': 'root text',
-                       'tail': '',
-                       'sub_elts': ''}
+                       'tail': None,
+                       'sub_elts': None}
 XML_STR_1 = b'<root1 attr1="my attr value 1" attr2="my attr value 2">root text</root1>'
 
 FLAT_2 = {'root2|attr1="my attr value 1"': {
           'subroot1|subattr1="sub attr value 1"': 'subtext 1'}}
 ETREE_DICT_2 = {'tag': 'root2',
                 'attrib': {'attr1': 'my attr value 1'},
-                'text': '',
-                'tail': '',
+                'text': None,
+                'tail': None,
                 'sub_elts': [{'tag': 'subroot1',
                               'attrib': {'subattr1': 'sub attr value 1'},
                               'text': 'subtext 1',
-                              'tail': '',
-                              'sub_elts': ''}]
+                              'tail': None,
+                              'sub_elts': None}]
                 }
 XML_STR_2 = (b'<root2 attr1="my attr value 1"><subroot1 subattr1="sub attr value 1">'
              b'subtext 1</subroot1></root2>')
@@ -39,17 +39,17 @@ FLAT_3 = {'root2|attr1="my attr value 1"': {
           }}
 ETREE_DICT_3 = {'tag': 'root2',
                 'attrib': {'attr1': 'my attr value 1'},
-                'text': '',
-                'tail': '',
+                'text': None,
+                'tail': None,
                 'sub_elts': [{'tag': 'subroot1',
                               'attrib': {'subattr1': 'sub attr value 1'},
-                              'text': '',
-                              'tail': '',
+                              'text': None,
+                              'tail': None,
                               'sub_elts': [{'tag': 'subroot2',
                                             'attrib': {'subattr2': 'sub attr value 2'},
                                             'text': 'subtext 2',
-                                            'tail': '',
-                                            'sub_elts': ''}]
+                                            'tail': None,
+                                            'sub_elts': None}]
                               }]
                 }
 XML_STR_3 = (b'<root2 attr1="my attr value 1">'
@@ -63,38 +63,38 @@ FLAT_MULT = {'root1|attr1="my attr value 1"|attr2="my attr value 2"': 'root text
              }
 ETREE_DICT_MULT = [{'tag': 'root2',
                     'attrib': {'attr1': 'my attr value 1'},
-                    'text': '',
-                    'tail': '',
+                    'text': None,
+                    'tail': None,
                     'sub_elts': [{'tag': 'subroot1',
                                   'attrib': {'subattr1': 'sub attr value 1'},
                                   'text': 'subtext 1',
-                                  'tail': '',
-                                  'sub_elts': ''}]
+                                  'tail': None,
+                                  'sub_elts': None}]
                     },
                    {'tag': 'root1',
                     'attrib': {'attr1': 'my attr value 1',
                                'attr2': 'my attr value 2'},
                     'text': 'root text',
-                    'tail': '',
-                    'sub_elts': ''}]
+                    'tail': None,
+                    'sub_elts': None}]
 
 FLAT_MULT_SUB = {'root|attr1="val 1"': {'subroot1|attr1="sub val 1"': 'sub text 1',
                                         'subroot2|attr2="sub val 2"': 'sub text 2'}}
 
 ETREE_DICT_MULT_SUB = {'tag': 'root',
                        'attrib': {'attr1': 'val 1'},
-                       'text': '',
-                       'tail': '',
+                       'text': None,
+                       'tail': None,
                        'sub_elts': [{'tag': 'subroot1',
                                      'attrib': {'attr1': 'sub val 1'},
                                      'text': 'sub text 1',
-                                     'tail': '',
-                                     'sub_elts': ''},
+                                     'tail': None,
+                                     'sub_elts': None},
                                     {'tag': 'subroot2',
                                      'attrib': {'attr2': 'sub val 2'},
                                      'text': 'sub text 2',
-                                     'tail': '',
-                                     'sub_elts': ''}]
+                                     'tail': None,
+                                     'sub_elts': None}]
                        }
 XML_STR_MULT_SUB = (b'<root attr1="val 1">'
                     b'<subroot1 attr1="sub val 1">sub text 1</subroot1>'
@@ -204,11 +204,19 @@ class TestEtreeEltDictToXml(unittest.TestCase):
         self.assertEqual(out, expected_out)  # potential sequencing issue
 
 
-class TestEtreeNodeToEltDict(unittest.TestCase):
+class TestXmlStringToEtreeEltDict(unittest.TestCase):
 
-    def test_etree_node_to_etree_elt_dict(self):
-        pass
+    def test_xml_string_to_etree_elt_dict(self):
+        xml = XML_STR_MULT_SUB
+        expected_out = ETREE_DICT_MULT_SUB
 
+        out = xml_string_to_etree_elt_dict(xml)
+
+        for key in out.keys():
+            if key != 'sub_elts':
+                self.assertEqual(out[key], expected_out[key])
+        for d in out['sub_elts']:
+            self.assertIn(d, expected_out['sub_elts'])
 
 if __name__ == '__main__':
     unittest.main()

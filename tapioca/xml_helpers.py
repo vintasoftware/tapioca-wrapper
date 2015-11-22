@@ -32,17 +32,19 @@ def flat_dict_to_etree_elt_dict(dict_to_convert, _depth=0):
 
         # no support for text and subelements for any single node.
         if isinstance(v, Mapping):
-            etree_elt_dict['text'] = ''
+            etree_elt_dict['text'] = None
             etree_elt_dict['sub_elts'] = flat_dict_to_etree_elt_dict(dict_to_convert=v,
                                                                      _depth=_depth + 1)
         elif isinstance(v, str):
             etree_elt_dict['text'] = v
-            etree_elt_dict['sub_elts'] = ''
+            etree_elt_dict['sub_elts'] = None
         else:
             raise Exception('Child element not of type Mapping or String')
 
-        etree_elt_dict['tail'] = ''
+        etree_elt_dict['tail'] = None
         node_list.append(etree_elt_dict)
+    if not node_list:
+        node_list = None
     return node_list if _depth else node_list[0]
 
 
@@ -84,11 +86,11 @@ def etree_node_to_etree_elt_dict(etree_node):
     etree_elt_dict['text'] = etree_node.text
     etree_elt_dict['tail'] = etree_node.tail
 
-    sub_elts = []
-    for child_node in etree_node:
-        sub_elts.append(etree_node_to_etree_elt_dict(child_node))
-    etree_elt_dict['sub_elts'] = sub_elts
-
+    sub_elts = [etree_node_to_etree_elt_dict(n) for n in etree_node]
+    if sub_elts:
+        etree_elt_dict['sub_elts'] = sub_elts
+    else:
+        etree_elt_dict['sub_elts'] = None
     return etree_elt_dict
 
 

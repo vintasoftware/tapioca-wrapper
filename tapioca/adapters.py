@@ -113,10 +113,10 @@ class JSONAdapterMixin(object):
             return response.json()
 
 
-class XmlAdapterMixin(object):
+class XMLAdapterMixin(object):
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
-        arguments = super(XmlAdapterMixin, self).get_request_kwargs(
+        arguments = super(XMLAdapterMixin, self).get_request_kwargs(
             api_params, *args, **kwargs)
 
         if 'headers' not in arguments:
@@ -136,7 +136,7 @@ class XmlAdapterMixin(object):
             return {'text': response.text}
 
 
-class FlatXmlAdapterMixin(XmlAdapterMixin):
+class FlatXMLAdapterMixin(XMLAdapterMixin):
 
     def format_data_to_request(self, data):
         if data:
