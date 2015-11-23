@@ -18,7 +18,7 @@ ETREE_DICT_1 = {'tag': 'root1',
                        'text': 'root text',
                        'tail': None,
                        'sub_elts': None}
-XML_STR_1 = b'<root1 attr1="my attr value 1" attr2="my attr value 2">root text</root1>'
+XML_STR_1 = '<root1 attr1="my attr value 1" attr2="my attr value 2">root text</root1>'
 
 FLAT_2 = {'root2|attr1="my attr value 1"': {
           'subroot1|subattr1="sub attr value 1"': 'subtext 1'}}
@@ -32,8 +32,8 @@ ETREE_DICT_2 = {'tag': 'root2',
                               'tail': None,
                               'sub_elts': None}]
                 }
-XML_STR_2 = (b'<root2 attr1="my attr value 1"><subroot1 subattr1="sub attr value 1">'
-             b'subtext 1</subroot1></root2>')
+XML_STR_2 = ('<root2 attr1="my attr value 1"><subroot1 subattr1="sub attr value 1">'
+             'subtext 1</subroot1></root2>')
 
 FLAT_3 = {'root2|attr1="my attr value 1"': {
           'subroot1|subattr1="sub attr value 1"': {
@@ -54,11 +54,11 @@ ETREE_DICT_3 = {'tag': 'root2',
                                             'sub_elts': None}]
                               }]
                 }
-XML_STR_3 = (b'<root2 attr1="my attr value 1">'
-             b'<subroot1 subattr1="sub attr value 1">'
-             b'<subroot2 subattr2="sub attr value 2">'
-             b'subtext 2'
-             b'</subroot2></subroot1></root2>')
+XML_STR_3 = ('<root2 attr1="my attr value 1">'
+             '<subroot1 subattr1="sub attr value 1">'
+             '<subroot2 subattr2="sub attr value 2">'
+             'subtext 2'
+             '</subroot2></subroot1></root2>')
 FLAT_MULT = {'root1|attr1="my attr value 1"|attr2="my attr value 2"': 'root text',
              'root2|attr1="my attr value 1"':
                  {'subroot1|subattr1="sub attr value 1"': 'subtext 1'}
@@ -98,10 +98,10 @@ ETREE_DICT_MULT_SUB = {'tag': 'root',
                                      'tail': None,
                                      'sub_elts': None}]
                        }
-XML_STR_MULT_SUB = (b'<root attr1="val 1">'
-                    b'<subroot1 attr1="sub val 1">sub text 1</subroot1>'
-                    b'<subroot2 attr2="sub val 2">sub text 2</subroot2>'
-                    b'</root>')
+XML_STR_MULT_SUB = ('<root attr1="val 1">'
+                    '<subroot1 attr1="sub val 1">sub text 1</subroot1>'
+                    '<subroot2 attr2="sub val 2">sub text 2</subroot2>'
+                    '</root>')
 
 
 class TestFlatToEtree(unittest.TestCase):
@@ -170,7 +170,7 @@ class TestEtreeEltDictToXML(unittest.TestCase):
 
     def test_one_level(self):
         d = ETREE_DICT_1
-        expected_out = XML_STR_1
+        expected_out = XML_STR_1.encode('utf-8')
 
         out = etree_elt_dict_to_xml(d)
 
@@ -178,7 +178,7 @@ class TestEtreeEltDictToXML(unittest.TestCase):
 
     def test_two_levels(self):
         d = ETREE_DICT_2
-        expected_out = XML_STR_2
+        expected_out = XML_STR_2.encode('utf-8')
 
         out = etree_elt_dict_to_xml(d)
 
@@ -186,7 +186,7 @@ class TestEtreeEltDictToXML(unittest.TestCase):
 
     def test_three_levels(self):
         d = ETREE_DICT_3
-        expected_out = XML_STR_3
+        expected_out = XML_STR_3.encode('utf-8')
 
         out = etree_elt_dict_to_xml(d)
 
@@ -199,7 +199,7 @@ class TestEtreeEltDictToXML(unittest.TestCase):
 
     def test_multiple_sub_nodes(self):
         d = ETREE_DICT_MULT_SUB
-        expected_out = XML_STR_MULT_SUB
+        expected_out = XML_STR_MULT_SUB.encode('utf-8')
 
         out = etree_elt_dict_to_xml(d)
 
@@ -210,7 +210,7 @@ class TestXMLInputBranches(unittest.TestCase):
 
     def test_branch_etree_element(self):
         elt = ElementTree.fromstring(XML_STR_MULT_SUB)
-        expected_out = XML_STR_MULT_SUB
+        expected_out = XML_STR_MULT_SUB.encode('utf-8')
 
         out = input_branches_to_xml_bytestring(elt)
 
@@ -218,7 +218,7 @@ class TestXMLInputBranches(unittest.TestCase):
 
     def test_branch_xml_string(self):
         xml = XML_STR_MULT_SUB
-        expected_out = XML_STR_MULT_SUB
+        expected_out = XML_STR_MULT_SUB.encode('utf-8')
 
         out = input_branches_to_xml_bytestring(xml)
 
@@ -226,7 +226,7 @@ class TestXMLInputBranches(unittest.TestCase):
 
     def test_branch_etree_elt_dict(self):
         d = ETREE_DICT_MULT_SUB
-        expected_out = XML_STR_MULT_SUB
+        expected_out = XML_STR_MULT_SUB.encode('utf-8')
 
         out = input_branches_to_xml_bytestring(d)
 
@@ -234,7 +234,7 @@ class TestXMLInputBranches(unittest.TestCase):
 
     def test_branch_flat_dict(self):
         d = FLAT_MULT_SUB
-        expected_out = XML_STR_MULT_SUB
+        expected_out = XML_STR_MULT_SUB.encode('utf-8')
 
         out = input_branches_to_xml_bytestring(d)
 

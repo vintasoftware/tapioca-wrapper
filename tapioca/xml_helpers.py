@@ -74,9 +74,7 @@ def etree_elt_dict_to_xml(etree_elt_dict):
     '''
     if not isinstance(etree_elt_dict, Mapping):
         raise Exception('Structure must be a Mapping object')
-    return bytes(
-        ElementTree.tostring(_etree_elt_list_to_xml([etree_elt_dict])[0])
-    )
+    return ElementTree.tostring(_etree_elt_list_to_xml([etree_elt_dict])[0], encoding='utf-8')
 
 
 def _etree_node_to_etree_elt_dict(etree_node):
@@ -102,13 +100,13 @@ def xml_string_to_etree_elt_dict(xml_string):
 
 def input_branches_to_xml_bytestring(data):
     if type(data) == ElementTree.Element:
-        return bytes(ElementTree.tostring(data))
+        return ElementTree.tostring(data, encoding='utf-8')
     elif type(data) in (str, bytes):
-        return bytes(data)
+        return data.encode('utf-8')
     elif type(data) == dict:
         if 'tag' in data.keys():
-            return bytes(etree_elt_dict_to_xml(data))
+            return etree_elt_dict_to_xml(data)
         else:
-            return bytes(etree_elt_dict_to_xml(flat_dict_to_etree_elt_dict(data)))
+            return etree_elt_dict_to_xml(flat_dict_to_etree_elt_dict(data))
     else:
         raise Exception('Format not recognized')
