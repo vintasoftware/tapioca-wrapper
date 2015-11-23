@@ -79,14 +79,15 @@ def etree_elt_dict_to_xml(etree_elt_dict):
     )
 
 
-def etree_node_to_etree_elt_dict(etree_node):
+def _etree_node_to_etree_elt_dict(etree_node):
+    # for output
     etree_elt_dict = {}
     etree_elt_dict['tag'] = etree_node.tag
     etree_elt_dict['attrib'] = etree_node.attrib
     etree_elt_dict['text'] = etree_node.text
     etree_elt_dict['tail'] = etree_node.tail
 
-    sub_elts = [etree_node_to_etree_elt_dict(n) for n in etree_node]
+    sub_elts = [_etree_node_to_etree_elt_dict(n) for n in etree_node]
     if sub_elts:
         etree_elt_dict['sub_elts'] = sub_elts
     else:
@@ -95,4 +96,19 @@ def etree_node_to_etree_elt_dict(etree_node):
 
 
 def xml_string_to_etree_elt_dict(xml_string):
-    return etree_node_to_etree_elt_dict(ElementTree.fromstring(xml_string))
+    # for output
+    return _etree_node_to_etree_elt_dict(ElementTree.fromstring(xml_string))
+
+
+def input_branches_to_xml_bytestring(data):
+    if type(data) == ElementTree.Element:
+        return bytes(ElementTree.tostring(data))
+    elif type(data) in (str, bytes):
+        return bytes(data)
+    elif type(data) == dict:
+        if 'tag' in data.keys():
+            return bytes(etree_elt_dict_to_xml(data))
+        else:
+            return bytes(etree_elt_dict_to_xml(flat_dict_to_etree_elt_dict(data)))
+    else:
+        raise Exception('Format not recognized')

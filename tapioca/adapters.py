@@ -7,7 +7,7 @@ from .exceptions import (
     ResponseProcessException, ClientError, ServerError)
 from .serializers import SimpleSerializer
 from .xml_helpers import (
-    etree_elt_dict_to_xml,  flat_dict_to_etree_elt_dict, xml_string_to_etree_elt_dict)
+    input_branches_to_xml_bytestring, xml_string_to_etree_elt_dict)
 
 
 def generate_wrapper_from_adapter(adapter_class):
@@ -127,17 +127,11 @@ class XMLAdapterMixin(object):
 
     def format_data_to_request(self, data):
         if data:
-            return etree_elt_dict_to_xml(data)
+            return input_branches_to_xml_bytestring(data)
 
     def response_to_native(self, response):
         if response.content.strip():
             if 'xml' in response.headers['content-type']:
-                return xml_string_to_etree_elt_dict(response.content)
+                return {'xml': response.content,
+                        'dict': xml_string_to_etree_elt_dict(response.content)}
             return {'text': response.text}
-
-
-class FlatXMLAdapterMixin(XMLAdapterMixin):
-
-    def format_data_to_request(self, data):
-        if data:
-            return etree_elt_dict_to_xml(flat_dict_to_etree_elt_dict(data))

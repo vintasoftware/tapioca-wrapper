@@ -1,9 +1,11 @@
 # coding: utf-8
 
 import unittest
-
+from collections import OrderedDict
+from xml.etree import ElementTree
 from tapioca.xml_helpers import (
-    etree_elt_dict_to_xml, flat_dict_to_etree_elt_dict, xml_string_to_etree_elt_dict)
+    etree_elt_dict_to_xml, flat_dict_to_etree_elt_dict, xml_string_to_etree_elt_dict,
+    input_branches_to_xml_bytestring)
 
 
 # Use sets of 3 to test the translation methods
@@ -78,8 +80,8 @@ ETREE_DICT_MULT = [{'tag': 'root2',
                     'tail': None,
                     'sub_elts': None}]
 
-FLAT_MULT_SUB = {'root|attr1="val 1"': {'subroot1|attr1="sub val 1"': 'sub text 1',
-                                        'subroot2|attr2="sub val 2"': 'sub text 2'}}
+FLAT_MULT_SUB = {'root|attr1="val 1"': OrderedDict([('subroot1|attr1="sub val 1"', 'sub text 1'),
+                                                    ('subroot2|attr2="sub val 2"', 'sub text 2')])}
 
 ETREE_DICT_MULT_SUB = {'tag': 'root',
                        'attrib': {'attr1': 'val 1'},
@@ -155,11 +157,11 @@ class TestFlatToEtree(unittest.TestCase):
         for key in out.keys():
             if key != 'sub_elts':
                 self.assertEqual(out[key], expected_out[key])
-        for d in out['sub_elts']:
-            self.assertIn(d, expected_out['sub_elts'])
+        self.assertEqual(out['sub_elts'][0], expected_out['sub_elts'][0])
+        self.assertEqual(out['sub_elts'][1], expected_out['sub_elts'][1])
 
 
-class TestEtreeEltDictToXml(unittest.TestCase):
+class TestEtreeEltDictToXML(unittest.TestCase):
 
     def test_raises_exception_when_input_is_wrong(self):
         d = ['abc']
@@ -201,10 +203,50 @@ class TestEtreeEltDictToXml(unittest.TestCase):
 
         out = etree_elt_dict_to_xml(d)
 
-        self.assertEqual(out, expected_out)  # potential sequencing issue
+        self.assertEqual(out, expected_out)
 
 
-class TestXmlStringToEtreeEltDict(unittest.TestCase):
+class TestXMLInputBranches(unittest.TestCase):
+
+    def test_branch_etree_element(self):
+        elt = ElementTree.fromstring(XML_STR_MULT_SUB)
+        expected_out = XML_STR_MULT_SUB
+
+        out = input_branches_to_xml_bytestring(elt)
+
+        self.assertEqual(out, expected_out)
+
+    def test_branch_xml_string(self):
+        xml = XML_STR_MULT_SUB
+        expected_out = XML_STR_MULT_SUB
+
+        out = input_branches_to_xml_bytestring(xml)
+
+        self.assertEqual(out, expected_out)
+
+    def test_branch_etree_elt_dict(self):
+        d = ETREE_DICT_MULT_SUB
+        expected_out = XML_STR_MULT_SUB
+
+        out = input_branches_to_xml_bytestring(d)
+
+        self.assertEqual(out, expected_out)
+
+    def test_branch_flat_dict(self):
+        d = FLAT_MULT_SUB
+        expected_out = XML_STR_MULT_SUB
+
+        out = input_branches_to_xml_bytestring(d)
+
+        self.assertEqual(out, expected_out)
+
+    def test_raises_exception_if_wrong_input(self):
+        d = ['abc']
+
+        self.assertRaises(Exception, input_branches_to_xml_bytestring, d)
+
+
+class TestXMLStringToEtreeEltDict(unittest.TestCase):
 
     def test_xml_string_to_etree_elt_dict(self):
         xml = XML_STR_MULT_SUB
@@ -215,8 +257,8 @@ class TestXmlStringToEtreeEltDict(unittest.TestCase):
         for key in out.keys():
             if key != 'sub_elts':
                 self.assertEqual(out[key], expected_out[key])
-        for d in out['sub_elts']:
-            self.assertIn(d, expected_out['sub_elts'])
+        self.assertEqual(out['sub_elts'][0], expected_out['sub_elts'][0])
+        self.assertEqual(out['sub_elts'][1], expected_out['sub_elts'][1])
 
 if __name__ == '__main__':
     unittest.main()
