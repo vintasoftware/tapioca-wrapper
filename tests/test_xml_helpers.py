@@ -224,6 +224,14 @@ class TestXMLInputBranches(unittest.TestCase):
 
         self.assertEqual(out, expected_out)
 
+    def test_branch_xml_bytes(self):
+        xml = XML_STR_MULT_SUB.encode('utf-8')
+        expected_out = XML_STR_MULT_SUB.encode('utf-8')
+
+        out = input_branches_to_xml_bytestring(xml)
+
+        self.assertEqual(out, expected_out)
+
     def test_branch_etree_elt_dict(self):
         d = ETREE_DICT_MULT_SUB
         expected_out = XML_STR_MULT_SUB.encode('utf-8')

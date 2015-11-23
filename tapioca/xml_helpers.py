@@ -101,8 +101,10 @@ def xml_string_to_etree_elt_dict(xml_string):
 def input_branches_to_xml_bytestring(data):
     if type(data) == ElementTree.Element:
         return ElementTree.tostring(data, encoding='utf-8')
-    elif type(data) in (str, bytes):
+    elif type(data) == str:
         return data.encode('utf-8')
+    elif type(data) == bytes:
+        return data
     elif type(data) == dict:
         if 'tag' in data.keys():
             return etree_elt_dict_to_xml(data)
