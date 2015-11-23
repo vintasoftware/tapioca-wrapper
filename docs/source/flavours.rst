@@ -49,6 +49,10 @@ GitHub
 ------
 `<https://github.com/gileno/tapioca-github>`_
 
+Meetup
+------
+`<https://github.com/lightstrike/tapioca-meetup>`_
+
 Your flavour
 ============
 Send a pull request to add new ones to the list.
