@@ -24,6 +24,7 @@ requirements = [
     'requests>=2.6,<2.8',
     'arrow>=0.6.0,<0.7',
     'six>=1',
+    'xmltodict>=0.9.2'
 ]
 test_requirements = [
     'responses>=0.5',

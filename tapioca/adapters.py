@@ -1,6 +1,8 @@
 # coding: utf-8
 
 import json
+import xmltodict
+from collections import Mapping
 
 from .tapioca import TapiocaInstantiator
 from .exceptions import (
@@ -115,3 +117,36 @@ class JSONAdapterMixin(object):
     def response_to_native(self, response):
         if response.content.strip():
             return response.json()
+
+
+class XMLAdapterMixin(object):
+
+    def _input_branches_to_xml_bytestring(self, data):
+        if isinstance(data, Mapping):
+            # removes the xml header and newline that xmltodict.unparse() adds
+            return xmltodict.unparse(data).split('\n')[1:][0].encode('utf-8')
+        try:
+            return data.encode('utf-8')
+        except Exception as e:
+            raise type(e)('Format not recognized, please enter an XML as string or a dictionary'
+                          'in xmltodict spec: \n%s' % e.message)
+
+    def get_request_kwargs(self, api_params, *args, **kwargs):
+        arguments = super(XMLAdapterMixin, self).get_request_kwargs(
+            api_params, *args, **kwargs)
+
+        if 'headers' not in arguments:
+            # allows user to override for formats like 'application/atom+xml'
+            arguments['headers'] = {}
+            arguments['headers']['Content-Type'] = 'application/xml'
+        return arguments
+
+    def format_data_to_request(self, data):
+        if data:
+            return self._input_branches_to_xml_bytestring(data)
+
+    def response_to_native(self, response):
+        if response.content.strip():
+            if 'xml' in response.headers['content-type']:
+                return xmltodict.parse(response.content)
+            return {'text': response.text}
