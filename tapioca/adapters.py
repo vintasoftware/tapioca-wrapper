@@ -2,13 +2,15 @@
 
 import json
 
-from .tapioca import TapiocaInstantiator
+from .tapioca import (TapiocaInstantiator, TapiocaTokenRequestInstantiator)
 from .exceptions import (
     ResponseProcessException, ClientError, ServerError)
 from .serializers import SimpleSerializer
 
 
 def generate_wrapper_from_adapter(adapter_class):
+    if issubclass(adapter_class, OauthRequesterMixin):
+        return TapiocaTokenRequestInstantiator(adapter_class)
     return TapiocaInstantiator(adapter_class)
 
 
@@ -115,3 +117,14 @@ class JSONAdapterMixin(object):
     def response_to_native(self, response):
         if response.content.strip():
             return response.json()
+
+
+class OauthRequesterMixin(object):
+
+    @classmethod
+    def request_token(self):
+        raise NotImplementedError()
+
+    @classmethod
+    def prompt_request_token(self):
+        raise NotImplementedError()

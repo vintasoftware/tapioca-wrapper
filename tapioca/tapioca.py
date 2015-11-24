@@ -24,6 +24,15 @@ class TapiocaInstantiator(object):
             api_params=kwargs)
 
 
+class TapiocaTokenRequestInstantiator(TapiocaInstantiator):
+
+    def request_token(self, *args, **kwargs):
+        return self.adapter_class.request_token(*args, **kwargs)
+
+    def prompt_request_token(self, *args, **kwargs):
+        return self.adapter_class.prompt_request_token(*args, **kwargs)
+
+
 class TapiocaClient(object):
 
     def __init__(self, api, data=None, response=None, request_kwargs=None,
