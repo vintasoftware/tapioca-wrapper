@@ -9,7 +9,7 @@ from .serializers import SimpleSerializer
 
 
 def generate_wrapper_from_adapter(adapter_class):
-    if issubclass(adapter_class, OauthRequesterMixin):
+    if issubclass(adapter_class, TokenRequesterMixin):
         return TapiocaTokenRequestInstantiator(adapter_class)
     return TapiocaInstantiator(adapter_class)
 
@@ -119,7 +119,7 @@ class JSONAdapterMixin(object):
             return response.json()
 
 
-class OauthRequesterMixin(object):
+class TokenRequesterMixin(object):
 
     @classmethod
     def request_token(self):
