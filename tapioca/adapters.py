@@ -121,10 +121,13 @@ class JSONAdapterMixin(object):
 
 class XMLAdapterMixin(object):
 
+    def __init__(self, serializer_class=None, *args, **kwargs):
+        super(XMLAdapterMixin, self).__init__(serializer_class, *args, **kwargs)
+
     def _input_branches_to_xml_bytestring(self, data):
         if isinstance(data, Mapping):
-            # removes the xml header and newline that xmltodict.unparse() adds
-            return xmltodict.unparse(data).split('\n')[1:][0].encode('utf-8')
+            return xmltodict.unparse(
+                data, **self._xmltodict_unparse_kwargs).encode('utf-8')
         try:
             return data.encode('utf-8')
         except Exception as e:
@@ -132,6 +135,15 @@ class XMLAdapterMixin(object):
                           'in xmltodict spec: \n%s' % e.message)
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
+        # stores kwargs prefixed with 'xmltodict_unparse__' for use by xmltodict.unparse
+        self._xmltodict_unparse_kwargs = {k[len('xmltodict_unparse__'):]: kwargs.pop(k)
+                                          for k in kwargs.copy().keys()
+                                          if k.startswith('xmltodict_unparse__')}
+        # stores kwargs prefixed with 'xmltodict_parse__' for use by xmltodict.parse
+        self._xmltodict_parse_kwargs = {k[len('xmltodict_parse__'):]: kwargs.pop(k)
+                                        for k in kwargs.copy().keys()
+                                        if k.startswith('xmltodict_parse__')}
+
         arguments = super(XMLAdapterMixin, self).get_request_kwargs(
             api_params, *args, **kwargs)
 
@@ -148,5 +160,5 @@ class XMLAdapterMixin(object):
     def response_to_native(self, response):
         if response.content.strip():
             if 'xml' in response.headers['content-type']:
-                return xmltodict.parse(response.content)
+                return xmltodict.parse(response.content, **self._xmltodict_parse_kwargs)
             return {'text': response.text}
