@@ -148,9 +148,8 @@ class XMLAdapterMixin(object):
             api_params, *args, **kwargs)
 
         if 'headers' not in arguments:
-            # allows user to override for formats like 'application/atom+xml'
             arguments['headers'] = {}
-            arguments['headers']['Content-Type'] = 'application/xml'
+        arguments['headers']['Content-Type'] = 'application/xml'
         return arguments
 
     def format_data_to_request(self, data):
