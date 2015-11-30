@@ -53,6 +53,10 @@ Meetup
 ------
 `<https://github.com/lightstrike/tapioca-meetup>`_
 
+Toggl
+-----
+`<https://github.com/hackebrot/tapioca-toggl>`_
+
 Your flavour
 ============
 Send a pull request to add new ones to the list.
