@@ -91,7 +91,6 @@ class TapiocaAdapter(object):
         else:
             raise NotImplementedError()
 
-
 class FormAdapterMixin(object):
 
     def format_data_to_request(self, data):
