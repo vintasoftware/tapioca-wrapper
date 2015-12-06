@@ -179,7 +179,7 @@ class TapiocaClientExecutor(TapiocaClient):
     def status_code(self):
         return self.response.status_code
 
-    def _make_request(self, request_method, *args, **kwargs):
+    def _make_request(self, request_method, refresh_auth, *args, **kwargs):
         if 'url' not in kwargs:
             kwargs['url'] = self._data
 
@@ -192,26 +192,31 @@ class TapiocaClientExecutor(TapiocaClient):
             data = self._api.process_response(response)
         except ResponseProcessException as e:
             client = self._wrap_in_tapioca(e.data, response=response,
-                                           request_kwargs=request_kwargs)
-            raise e.tapioca_exception(client=client)
+                                            request_kwargs=request_kwargs)
+            tapioca_exception = e.tapioca_exception(client=client)
+            if refresh_auth and self._api._is_token_expired(tapioca_exception):
+                self._api.refresh_token()
+                return self._make_request(request_method, refresh_auth, args, kwargs)
+            else:
+                raise tapioca_exception
 
         return self._wrap_in_tapioca(data, response=response,
                                      request_kwargs=request_kwargs)
 
-    def get(self, *args, **kwargs):
-        return self._make_request('GET', *args, **kwargs)
+    def get(self, refresh_auth=False, *args, **kwargs):
+        return self._make_request('GET', refresh_auth, *args, **kwargs)
 
-    def post(self, *args, **kwargs):
-        return self._make_request('POST', *args, **kwargs)
+    def post(self, refresh_auth=False, *args, **kwargs):
+        return self._make_request('POST', refresh_auth, *args, **kwargs)
 
-    def put(self, *args, **kwargs):
-        return self._make_request('PUT', *args, **kwargs)
+    def put(self, refresh_auth=False, *args, **kwargs):
+        return self._make_request('PUT', refresh_auth, *args, **kwargs)
 
-    def patch(self, *args, **kwargs):
-        return self._make_request('PATCH', *args, **kwargs)
+    def patch(self, refresh_auth=False, *args, **kwargs):
+        return self._make_request('PATCH', refresh_auth,*args, **kwargs)
 
-    def delete(self, *args, **kwargs):
-        return self._make_request('DELETE', *args, **kwargs)
+    def delete(self, refresh_auth=False, *args, **kwargs):
+        return self._make_request('DELETE', refresh_auth, *args, **kwargs)
 
     def _get_iterator_list(self):
         return self._api.get_iterator_list(self._data)
