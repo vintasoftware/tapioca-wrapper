@@ -44,6 +44,8 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
         if url:
             return {'url': url}
 
+    def refresh_token(self):
+        pass
 
 TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)
 
