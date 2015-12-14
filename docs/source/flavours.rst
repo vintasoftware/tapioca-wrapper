@@ -57,6 +57,10 @@ Toggl
 -----
 `<https://github.com/hackebrot/tapioca-toggl>`_
 
+BookingSync
+-----
+`<https://github.com/PaoloC68/tapioca-bookingsync>`_
+
 Your flavour
 ============
 Send a pull request to add new ones to the list.
