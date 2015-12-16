@@ -15,8 +15,7 @@ def generate_wrapper_from_adapter(adapter_class):
 class TapiocaAdapter(object):
     serializer_class = SimpleSerializer
 
-    def __init__(self, serializer_class=None, token_class=None, *args, **kwargs):
-        self._token_class = token_class
+    def __init__(self, serializer_class=None, *args, **kwargs):
         if serializer_class:
             self.serializer = serializer_class()
         else:
@@ -82,14 +81,11 @@ class TapiocaAdapter(object):
                                          response_data, response):
         raise NotImplementedError()
 
-    def _is_token_expired(self, error):
-        return error.status_code == 401
+    def is_token_expired(self, error):
+	raise NotImplementedError()
 
     def refresh_token(self):
-        if self._token_class is not None:
-            self._token_class.refresh_token()
-        else:
-            raise NotImplementedError()
+        raise NotImplementedError()
 
 class FormAdapterMixin(object):
 
@@ -99,6 +95,9 @@ class FormAdapterMixin(object):
     def response_to_native(self, response):
         return {'text': response.text}
 
+class TokenHTTPRefresherMixin(object):
+    def is_authentication_expired(self, error):
+	return error.status_code == 401
 
 class JSONAdapterMixin(object):
 
