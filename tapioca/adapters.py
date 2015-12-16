@@ -81,10 +81,10 @@ class TapiocaAdapter(object):
                                          response_data, response):
         raise NotImplementedError()
 
-    def is_token_expired(self, error):
-	raise NotImplementedError()
+    def is_authentication_expired(self, error):
+        raise NotImplementedError()
 
-    def refresh_token(self):
+    def refresh_authentication(self):
         raise NotImplementedError()
 
 class FormAdapterMixin(object):
@@ -97,7 +97,7 @@ class FormAdapterMixin(object):
 
 class TokenHTTPRefresherMixin(object):
     def is_authentication_expired(self, error):
-	return error.status_code == 401
+        return error.status_code == 401
 
 class JSONAdapterMixin(object):
 
