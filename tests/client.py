@@ -4,8 +4,7 @@ from __future__ import unicode_literals
 
 from tapioca.adapters import (
     TapiocaAdapter, JSONAdapterMixin,
-    generate_wrapper_from_adapter, 
-    TokenHTTPRefresherMixin)
+    generate_wrapper_from_adapter) 
 from tapioca.serializers import SimpleSerializer
 
 
@@ -27,8 +26,7 @@ RESOURCE_MAPPING = {
 }
 
 
-class TesterClientAdapter(JSONAdapterMixin, TokenHTTPRefresherMixin, 
-      TapiocaAdapter):
+class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
     
     serializer_class = None
     api_root = 'https://api.test.com'
@@ -46,6 +44,9 @@ class TesterClientAdapter(JSONAdapterMixin, TokenHTTPRefresherMixin,
 
         if url:
             return {'url': url}
+
+    def is_authentication_expired(self, error):
+        return error.status_code == 401
 
     def refresh_authentication(self):
         pass

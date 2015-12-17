@@ -95,10 +95,6 @@ class FormAdapterMixin(object):
     def response_to_native(self, response):
         return {'text': response.text}
 
-class TokenHTTPRefresherMixin(object):
-    def is_authentication_expired(self, error):
-        return error.status_code == 401
-
 class JSONAdapterMixin(object):
 
     def get_request_kwargs(self, api_params, *args, **kwargs):
