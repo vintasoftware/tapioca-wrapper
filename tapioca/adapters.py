@@ -100,7 +100,9 @@ class JSONAdapterMixin(object):
     def get_request_kwargs(self, api_params, *args, **kwargs):
         arguments = super(JSONAdapterMixin, self).get_request_kwargs(
             api_params, *args, **kwargs)
-
+        if 'refresh_auth' in arguments:
+            del arguments['refresh_auth']
+        
         if 'headers' not in arguments:
             arguments['headers'] = {}
         arguments['headers']['Content-Type'] = 'application/json'
