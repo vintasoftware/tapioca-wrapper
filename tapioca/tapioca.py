@@ -192,8 +192,13 @@ class TapiocaClientExecutor(TapiocaClient):
             data = self._api.process_response(response)
         except ResponseProcessException as e:
             client = self._wrap_in_tapioca(e.data, response=response,
-                                           request_kwargs=request_kwargs)
-            raise e.tapioca_exception(client=client)
+                                            request_kwargs=request_kwargs)
+            tapioca_exception = e.tapioca_exception(client=client)
+            if 'refresh_auth' in kwargs and kwargs['refresh_auth'] and self._api.is_authentication_expired(tapioca_exception):
+                self._api.refresh_authentication()
+                return self._make_request(request_method, args, kwargs)
+            else:
+                raise tapioca_exception
 
         return self._wrap_in_tapioca(data, response=response,
                                      request_kwargs=request_kwargs)

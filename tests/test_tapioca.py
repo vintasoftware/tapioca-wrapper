@@ -10,6 +10,7 @@ from decimal import Decimal
 
 from tapioca.tapioca import TapiocaClient
 from tapioca.serializers import SimpleSerializer
+from tapioca.exceptions import ClientError
 
 from tests.client import TesterClient, SerializerClient
 
@@ -218,6 +219,34 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         response = self.wrapper.test().post()
 
         self.assertEqual(response().data, {'data': {'key': 'value'}})
+
+    @responses.activate
+    def test_token_expired_and_not_refresh_flag(self):
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body='{"error": "Token expired"}',
+                      status=401,
+                      content_type='application/json')
+        with self.assertRaises(ClientError) as context:
+            response = self.wrapper.test().post()
+
+    @responses.activate
+    def test_token_expired_and_refresh_flag(self):
+        self.first_call = True
+        responses.add_callback(
+          responses.POST, self.wrapper.test().data,
+          callback=self.request_callback,
+          content_type='application/json',
+        )
+        
+        response = self.wrapper.test().post(refresh_auth=True)
+
+    def request_callback(self, request):
+      if self.first_call:
+        self.first_call = False
+        return (401, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
+      else:
+        self.first_call = None
+        return (201, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
 
     @responses.activate
     def test_put_request(self):
