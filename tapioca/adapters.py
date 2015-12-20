@@ -87,6 +87,7 @@ class TapiocaAdapter(object):
     def refresh_authentication(self, *args, **kwargs):
         raise NotImplementedError()
 
+
 class FormAdapterMixin(object):
 
     def format_data_to_request(self, data):
@@ -94,6 +95,7 @@ class FormAdapterMixin(object):
 
     def response_to_native(self, response):
         return {'text': response.text}
+
 
 class JSONAdapterMixin(object):
 
