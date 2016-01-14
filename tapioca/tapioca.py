@@ -7,6 +7,9 @@ import copy
 import requests
 import webbrowser
 
+import json
+from collections import OrderedDict
+
 from .exceptions import ResponseProcessException
 
 
@@ -129,11 +132,16 @@ class TapiocaClient(object):
         return []
 
     def __str__(self):
-        import pprint
-        pp = pprint.PrettyPrinter(indent=4)
-        return ("<{} object\n"
-                "{}>").format(
-            self.__class__.__name__, pp.pformat(self._data))
+        if type(self._data) == OrderedDict:
+            return ("<{} object, printing as dict:\n"
+                    "{}>").format(
+                self.__class__.__name__, json.dumps(self._data, indent=4))
+        else:
+            import pprint
+            pp = pprint.PrettyPrinter(indent=4)
+            return ("<{} object\n"
+                    "{}>").format(
+                self.__class__.__name__, pp.pformat(self._data))
 
     def _repr_pretty_(self, p, cycle):
         p.text(self.__str__())
