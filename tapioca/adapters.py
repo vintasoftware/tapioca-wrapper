@@ -22,6 +22,10 @@ class TapiocaAdapter(object):
             self.serializer = self.get_serializer()
 
     @classmethod
+    def authorize_application(cls):
+        raise NotImplementedError("This client does not have an authorizer")
+
+    @classmethod
     def request_token(cls):
         raise NotImplementedError("This client does not have a token requester")
 

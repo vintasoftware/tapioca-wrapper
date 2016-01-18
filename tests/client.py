@@ -65,3 +65,20 @@ class TokenRefreshClientAdapter(TesterClientAdapter):
 
 
 TokenRefreshClient = generate_wrapper_from_adapter(TokenRefreshClientAdapter)
+
+
+class TokenRequesterClientAdapter(TesterClientAdapter):
+
+    @classmethod
+    def authorize_application(cls):
+        return True
+
+    @classmethod
+    def request_token(cls):
+        return True
+
+    @classmethod
+    def prompt_request_token(cls):
+        return True
+
+TokenRequesterClient = generate_wrapper_from_adapter(TokenRequesterClientAdapter)

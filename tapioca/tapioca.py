@@ -23,6 +23,9 @@ class TapiocaInstantiator(object):
             self.adapter_class(serializer_class=serializer_class),
             api_params=kwargs)
 
+    def authorize_application(self, *args, **kwargs):
+        return self.adapter_class.authorize_application(*args, **kwargs)
+
     def request_token(self, *args, **kwargs):
         return self.adapter_class.request_token(*args, **kwargs)
 

@@ -11,6 +11,7 @@ Contents:
 	quickstart
 	features
 	serializers
+    accesstoken
 	exceptions
 	flavours
 	buildingawrapper

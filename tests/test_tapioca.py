@@ -4,15 +4,12 @@ from __future__ import unicode_literals
 
 import unittest
 import responses
-import arrow
 import json
-from decimal import Decimal
 
 from tapioca.tapioca import TapiocaClient
-from tapioca.serializers import SimpleSerializer
 from tapioca.exceptions import ClientError
 
-from tests.client import TesterClient, SerializerClient, TokenRefreshClient
+from tests.client import TesterClient, TokenRefreshClient, TokenRequesterClient
 
 
 class TestTapiocaClient(unittest.TestCase):
@@ -496,3 +493,27 @@ class TestTokenRefreshing(unittest.TestCase):
 
         # refresh_authentication method should be able to update api_params
         self.assertEqual(response._api_params['token'], 'new_token')
+
+
+class TestTapiocaTokenRequesters(unittest.TestCase):
+
+    def test_unimplemented_authorize_application(self):
+        with self.assertRaises(NotImplementedError):
+            TesterClient.authorize_application()
+
+    def test_unimplemented_request_token(self):
+        with self.assertRaises(NotImplementedError):
+            TesterClient.request_token()
+
+    def test_unimplemented_prompt_request_token(self):
+        with self.assertRaises(NotImplementedError):
+            TesterClient.prompt_request_token()
+
+    def test_authorize_application(self):
+        self.assertTrue(TokenRequesterClient.authorize_application())
+
+    def test_request_token(self):
+        self.assertTrue(TokenRequesterClient.request_token())
+
+    def test_prompt_request_token(self):
+        self.assertTrue(TokenRequesterClient.prompt_request_token())

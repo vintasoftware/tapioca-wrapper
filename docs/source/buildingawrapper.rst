@@ -99,3 +99,84 @@ You can implement the ```refresh_authentication``` and ```is_authentication_expi
 
     def refresh_authentication(self, api_params, *args, **kwargs):
         ...
+
+Requesting Authentication (optional)
+------------------------------------
+
+.. method:: authorize_application()
+
+Implement this method to authorize an application with a third party and document its call signature with examples. Some values should be hard-coded with the wrapper, for example, an authorization URL or the scope list might make sense to include hard-coded with your wrapper.
+
+The return value should be the authorization parameters returned from a 3rd party app (e.g. a redirect URI that includes authentication data).
+
+.. code-block:: python
+
+    class MyClientAdapter(TapiocaAdapter):
+
+        # other methods
+
+        @classmethod
+        def authorize_application(cls):
+            # your implementation here
+
+.. method:: request_token()
+
+Implement this method to request an access token (such as an Oauth2 token) and document its call signature with examples.
+
+The method should return a dictionary of at least an access token, along with metadata (e.g. expiry times, token type) and a refresh token if applicable.
+
+.. code-block:: python
+
+    class MyClientAdapter(TapiocaAdapter):
+
+        # other methods
+
+        @classmethod
+        def request_token(cls):
+            # your implementation here
+
+.. method:: prompt_request_token()
+
+Implement this method to walk the user through the steps of authorizing their application, and then obtaining a token. Some values may be hard-coded with the wrapper, for example, an authorization URL, the URL to obtain a token from, or the scope list.
+
+.. code-block:: python
+
+    class MyClientAdapter(TapiocaAdapter):
+
+        # other methods
+
+        @classmethod
+        def prompt_request_token(cls):
+            # your implementation here
+
+An example prompt may be:
+
+.. code-block:: python
+
+    In [1]: MyWrapper.prompt_request_token()
+
+    Enter your app's client id:
+    <waits for user to enter client id>
+
+    Enter your app's client secret:
+    <waits for user to enter client secret>
+
+    Enter your app's redirect URI:
+    <waits for user to enter redirect URI>
+
+    1. Please go to the following URL to authorize access:
+
+    <prints url returned by the application authorization AND uses webbrowser.open()>
+
+    2. Enter the full callback URL that your request was redirected to:
+    <waits for user to enter callback URL>
+
+    Out[1]:
+    {'access_token': '<access token>',
+     'expires_at': 1452733703.134222,
+     'expires_in': 3600,
+     'refresh_token': '<refresh token>',
+     'token_type': 'Bearer'}
+
+``requests-oauthlib`` has great examples of requesting tokens:
+`https://requests-oauthlib.readthedocs.org/en/latest/examples/github.html`_
