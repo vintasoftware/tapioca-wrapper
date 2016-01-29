@@ -57,6 +57,11 @@ Toggl
 -----
 `<https://github.com/hackebrot/tapioca-toggl>`_
 
+Braspag
+-------
+`<https://github.com/parafernalia/tapioca-braspag>`_
+
+
 Your flavour
 ============
 Send a pull request to add new ones to the list.
