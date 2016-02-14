@@ -121,9 +121,6 @@ class JSONAdapterMixin(object):
 
 class XMLAdapterMixin(object):
 
-    def __init__(self, serializer_class=None, *args, **kwargs):
-        super(XMLAdapterMixin, self).__init__(serializer_class, *args, **kwargs)
-
     def _input_branches_to_xml_bytestring(self, data):
         if isinstance(data, Mapping):
             return xmltodict.unparse(
