@@ -7,34 +7,33 @@ Using a tapioca package
 
 **Yes, you are in the right place**
 
-There is a good chance you found this page because you clicked a link from some python package called **tapioca-SOMETHING**. Well, welcome! You are in the right place, this page will teach you the basics of how to use the package that sent you here. If you didn't arrive here from other package, please keep reading, the concepts learned here applies to any tapioca-**package** available.
+There is a good chance you found this page because you clicked a link from some python package called **tapioca-SOMETHING**. Well, welcome! You are in the right place. This page will teach you the basics of how to use the package that sent you here. If you didn't arrive here from another package, then please keep reading. The concepts learned here apply to any tapioca-**package** available.
 
 What's tapioca?
 ===============
 
-**tapioca** is a *API wrapper maker*. It helps Python developers creating packages for APIs (like the :ref:`Facebook Graph API <flavour-facebook>` or the :ref:`Twitter REST API <flavour-twitter>`. You can find a full list of available API packages made with tapioca :doc:`here <flavours>`.  
+**tapioca** is an *API wrapper maker*. It helps Python developers creating packages for APIs (like the :ref:`Facebook Graph API <flavour-facebook>` or the :ref:`Twitter REST API <flavour-twitter>`. You can find a full list of available API packages made with tapioca :doc:`here <flavours>`.  
 
-All wrappers made with tapioca follow a simple interaction pattern that works uniformly so once you learn how tapioca works you will be able to work with any tapioca package available.
+All wrappers made with tapioca follow a simple interaction pattern that works uniformly, so once you learn how tapioca works, you will be able to work with any tapioca package available.
 
 Getting started
 ===============
 
-We will use ``tapioca-facebook`` as example to guide us through tapioca concepts.
-Lets install ``tapioca-facebook``:
+We will use ``tapioca-facebook`` as example to guide us through tapioca concepts. Let's install ``tapioca-facebook``:
 
 .. code-block:: bash
 
 	$ pip install tapioca-facebook
 
-To better experience tapioca, we will also use iPython:
+To better experience tapioca, we will also use IPython:
 
 .. code-block:: bash
 
 	$ pip install ipython
 
-Lets explore!  
+Let's explore!  
 
-Go to  `https://developers.facebook.com/tools/explorer/ <https://developers.facebook.com/tools/explorer/>`_, click "Get Access Token", select all "User Data Permissions" and "Extended Permissions" and click "Get Access Token". This will give you a temporary access token to play with Facebook API. In case it expires, just generate a new one.
+Go to  `https://developers.facebook.com/tools/explorer/ <https://developers.facebook.com/tools/explorer/>`_, click "Get Access Token", select all "User Data Permissions" and "Extended Permissions", and click "Get Access Token". This will give you a temporary access token to play with Facebook API. In case it expires, just generate a new one.
 
 TapiocaClient object
 ====================
@@ -48,7 +47,7 @@ This is how you initialize your tapioca client:
 	api = Facebook(access_token='{your_genereated_access_token}')
 
 
-If you are using iPython, you can now list available endpoints by typing ``api.`` and pressing ``tab``.
+If you are using IPython, you can now list available endpoints by typing ``api.`` and pressing ``tab``.
 
 .. code-block:: python
 
@@ -63,9 +62,9 @@ If you are using iPython, you can now list available endpoints by typing ``api.`
 Resources
 ---------
 
-Those are the available endpoints for the facebook API. As we can see there is one called: ``user_likes``, lets take a closer look.
+Those are the available endpoints for the Facebook API. As we can see, there is one called ``user_likes``. Let's take a closer look.
 
-Type ``api.user_likes?`` and press ``enter``
+Type ``api.user_likes?`` and press ``enter``.
 
 .. code-block:: python
 
@@ -77,7 +76,7 @@ Type ``api.user_likes?`` and press ``enter``
 	Docs: https://developers.facebook.com/docs/graph-api/reference/v2.2/user/likes
 
 
-As we can see, ``user_likes`` resource requires an ``id`` to be passed to the url. Lets do it:
+As we can see, the ``user_likes`` resource requires an ``id`` to be passed to the URL. Let's do it:
 
 .. code-block:: python
 
@@ -87,14 +86,14 @@ As we can see, ``user_likes`` resource requires an ``id`` to be passed to the ur
 Fetching data
 -------------
 
-To request current user likes, its easy:
+To request the current user likes, its easy:
 
 .. code-block:: python
 
 	likes = api.user_likes(id='me').get()
 
 
-To print the returned data do:
+To print the returned data:
 
 .. code-block:: python
 
@@ -108,7 +107,7 @@ To print the returned data do:
 Exploring data
 --------------
 
-We can also explore the returned data using the iPython ``tab`` auto-complete
+We can also explore the returned data using the IPython ``tab`` auto-complete:
 
 .. code-block:: python
 
@@ -133,16 +132,16 @@ Items passed to the ``for`` loop will be wrapped in tapioca so you still have ac
 TapiocaClientExecutor object
 ============================
 
-Whenever you make a "call" on a ``TapiocaClient`` it will return to you an ``TapiocaClientExecutor`` object. You will use the executor every time you want to perform an action over data you possess. 
+Whenever you make a "call" on a ``TapiocaClient``, it will return an ``TapiocaClientExecutor`` object. You will use the executor every time you want to perform an action over data you possess. 
 
-An example was when we filled url params for the ``user_like`` resource (calling it and passing the argument ``id='me'``). In this new object you will find many methods to help you play with the data available.
+We did this already when we filled the URL parameters for the ``user_like`` resource (calling it and passing the argument ``id='me'``). In this new object, you will find many methods to help you play with the data available.
 
 Here is the list of the methods available in a ``TapiocaClientExecutor``:
 
 Making requests
 ---------------
 
-Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ library to make requests, so http methods will work just the same (get()/post()/put()/delete()/head()/options()). The only difference is that we don't need to pass a url since tapioca will take care of this.
+Tapioca uses the `requests <http://docs.python-requests.org/en/latest/>`_ library to make requests so HTTP methods will work just the same (get()/post()/put()/delete()/head()/options()). The only difference is that we don't need to pass a URL since tapioca will take care of this.
 
 .. code-block:: python
 
@@ -151,7 +150,7 @@ Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ library to
 
 **URL params**
 
-To pass querystring parameters in the url, your can use the ```params``` parameter:
+To pass query string parameters in the URL, you can use the ```params``` parameter:
 
 .. code-block:: python
 
@@ -162,7 +161,7 @@ This will return only 5 results.
 
 **Body data**
 
-If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, lets post a message to a facebook wall:
+If you need to pass data in the body of your request, you can use the ```data``` parameter. For example, let's post a message to a Facebook wall:
 
 .. code-block:: python
 
@@ -193,8 +192,7 @@ Use ``data`` to return data contained in the Tapioca object.
 Dynamically fetching pages
 -------------------------
 
-Many APIs use paging concept to provide large amounts of data. This way data is returned in multiple requests avoiding a single long request.
-Tapioca is built to provide an easy way to access paged data using ``pages()`` method:
+Many APIs use a paging concept to provide large amounts of data. This way, data is returned in multiple requests to avoid a single long request. Tapioca is built to provide an easy way to access paged data using the ``pages()`` method:
 
 .. code-block:: python
 
@@ -205,19 +203,19 @@ Tapioca is built to provide an easy way to access paged data using ``pages()`` m
 
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 
-This method also accepts ``max_pages`` and ``max_items`` parameters. If both parameters are used, the for loop will stop after ``max_pages`` are fetched or ``max_items`` are yielded, witch ever comes first:
+This method also accepts ``max_pages`` and ``max_items`` parameters. If both parameters are used, the ``for`` loop will stop after ``max_pages`` are fetched or ``max_items`` are yielded, whichever comes first:
 
 .. code-block:: python
 
 	for item in resp().pages(max_pages=2, max_items=40):
 		print(item)
 	# in this example, the for loop will stop after two pages are fetched or 40 items are yielded, 
-	# witch ever comes first.
+	# whichever comes first.
 
 Accessing wrapped data attributes
 ---------------------------------
 
-It's possible to access wrapped data attributes on executor. For example it's possible to reverse a wrapped list:
+It's possible to access wrapped data attributes on executor. For example, it's possible to reverse a wrapped list:
 
 .. code-block:: python
 
@@ -231,7 +229,7 @@ It's possible to access wrapped data attributes on executor. For example it's po
 Opening documentation in the browser
 ------------------------------------
 
-If you are accessing a resource, you can call ``open_docs`` to open resource documentation in browser:
+If you are accessing a resource, you can call ``open_docs`` to open the resource documentation in a browser:
 
 .. code-block:: python
 
@@ -240,4 +238,4 @@ If you are accessing a resource, you can call ``open_docs`` to open resource doc
 Opening any link in the browser
 -------------------------------
 
-Whenever the data contained in Tapioca object is a URL, you can open it in browser by using the ``open_in_browser()`` method.
+Whenever the data contained in a tapioca object is a URL, you can open it in a browser by using the ``open_in_browser()`` method.
