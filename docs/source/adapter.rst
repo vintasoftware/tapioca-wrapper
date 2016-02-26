@@ -15,10 +15,11 @@ If the authentication is expired, ```refresh_authentication``` is called. This m
 
 .. code-block:: python
 
-    def is_authentication_expired(self,error)
+    def is_authentication_expired(self, exception=None, *args, **kwargs):
         ....
     
-    def refresh_authentication(self):
+
+    def refresh_authentication(self, *args, **kwargs):
         ...
 
 
