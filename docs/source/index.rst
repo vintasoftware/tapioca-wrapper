@@ -9,6 +9,7 @@ Contents:
 
 	about
 	quickstart
+	features
 	serializers
 	exceptions
 	flavours
