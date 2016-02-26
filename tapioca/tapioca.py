@@ -84,7 +84,10 @@ class TapiocaClient(object):
         if client is not None:
             return client
 
-        normal_camel_case_name = camel_case_name[0].upper()
+        try:
+            normal_camel_case_name = camel_case_name[0].upper()
+        except Exception:
+            return None
         normal_camel_case_name += camel_case_name[1:]
 
         client = self._get_client_from_name(normal_camel_case_name)
