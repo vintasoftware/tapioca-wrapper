@@ -1,6 +1,7 @@
 language: python
 install:
   - pip install tox
+  - pip install 'virtualenv<14.0.0'
 script:
   - tox
 python:
