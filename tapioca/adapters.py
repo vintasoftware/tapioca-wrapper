@@ -81,10 +81,10 @@ class TapiocaAdapter(object):
                                          response_data, response):
         raise NotImplementedError()
 
-    def is_authentication_expired(self, exception=None, *args, **kwargs):
-        raise NotImplementedError()
+    def is_authentication_expired(self, exception, *args, **kwargs):
+        return False
 
-    def refresh_authentication(self, *args, **kwargs):
+    def refresh_authentication(self, api_params, *args, **kwargs):
         raise NotImplementedError()
 
 
@@ -102,7 +102,7 @@ class JSONAdapterMixin(object):
     def get_request_kwargs(self, api_params, *args, **kwargs):
         arguments = super(JSONAdapterMixin, self).get_request_kwargs(
             api_params, *args, **kwargs)
-        
+
         if 'headers' not in arguments:
             arguments['headers'] = {}
         arguments['headers']['Content-Type'] = 'application/json'

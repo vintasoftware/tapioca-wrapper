@@ -1,25 +1,107 @@
-=======
-Adapter
-=======
+====================
+TapiocaAdapter class
+====================
 
-**This document is under devolpment, it should show describe all Adapter methods and how to use them**
+.. class:: TapiocaAdapter
 
+Attributes
+----------
 
-Authentication helpers
-----------------------
+.. attribute:: api_root
 
-You can implement the ```refresh_authentication``` and ```is_authentication_expired``` methods in your Tapioca Client to refresh your authentication token every time that it expires.
-```is_authentication_expired``` receives an error object from the request method (it contains the server response and HTTP Status code). You can use it to decide if a request failed because of the token. This method should return true if the authentication is expired or false otherwise.
+This should contain the base URL that will be concatenated with the resource mapping itens and generate the final request URL. You can either set this attribute or use the ``get_api_root`` method.
 
-If the authentication is expired, ```refresh_authentication``` is called. This method does not receive any parameter.
+.. attribute:: serializer_class
+
+For more information about the ``serializer_class`` attribute, read the :doc:`serializers documentation <serializers>`.
+
+Methods
+-------
+
+.. method:: get_api_root(self, api_params)
+
+This method can be used instead of the ``api_root`` attribute. You might also use it to decide which base URL to use according to a user input.
 
 .. code-block:: python
 
-    def is_authentication_expired(self, exception=None, *args, **kwargs):
-        ....
-    
+	def get_api_root(self, api_params):
+		if api_params.get('development'):
+			return 'http://api.the-dev-url.com/'
+		return 'http://api.the-production-url.com/'
 
-    def refresh_authentication(self, *args, **kwargs):
-        ...
+.. method:: get_request_kwargs(self, api_params, *args, **kwargs)
 
+This method is called just before any request is made. You should use it to set whatever credentials the request might need. The **api_params** argument is a dictionary and has the parameters passed during the initialization of the tapioca client:
 
+.. code-block:: python
+	
+	cli = Facebook(access_token='blablabla', client_id='thisistheis')
+
+For this example, api_params will be a dictionary with the keys ``access_token`` and ``client_id``.
+
+Here is an example of how to implement Basic Auth:
+
+.. code-block:: python
+
+	from requests.auth import HTTPBasicAuth
+
+	class MyServiceClientAdapter(TapiocaAdapter):
+		...
+		def get_request_kwargs(self, api_params, *args, **kwargs):
+			params = super(MyServiceClientAdapter, self).get_request_kwargs(
+				api_params, *args, **kwargs)
+
+			params['auth'] = HTTPBasicAuth(
+				api_params.get('user'), api_params.get('password'))
+
+			return params
+
+.. method:: process_response(self, response)
+
+This method is responsible for converting data returned in a response to a dictionary (which should be returned). It should also be used to raise exceptions when an error message or error response status is returned.
+
+.. method:: format_data_to_request(self, data)
+
+This converts data passed to the body of the request into text. For example, if you need to send JSON, you should use ``json.dumps(data)`` and return the response. **See the mixins section above.**
+
+.. method:: response_to_native(self, response)
+
+This method receives the response of a request and should return a dictionay with the data contained in the response. **see the mixins section above.**
+
+.. method:: get_iterator_next_request_kwargs(self, iterator_request_kwargs, response_data, response)
+
+Override this method if the service you are using supports pagination. It should return a dictionary that will be used to fetch the next batch of data, e.g.:
+
+.. code-block:: python
+	
+	def get_iterator_next_request_kwargs(self,
+			iterator_request_kwargs, response_data, response):
+		paging = response_data.get('paging')
+		if not paging:
+			return
+		url = paging.get('next')
+
+		if url:
+			iterator_request_kwargs['url'] = url
+			return iterator_request_kwargs
+
+In this example, we are updating the URL from the last call made. ``iterator_request_kwargs`` contains the paramenters from the last call made, ``response_data`` contains the response data after it was parsed by ``process_response`` method, and ``response`` is the full response object with all its attributes like headers and status code. 
+
+.. method:: get_iterator_list(self, response_data)
+
+Many APIs enclose the returned list of objects in one of the returned attributes. Use this method to extract and return only the list from the response.
+
+.. code-block:: python
+
+	def get_iterator_list(self, response_data):
+		return response_data['data']
+
+In this example, the object list is enclosed in the ``data`` attribute.
+
+.. method:: is_authentication_expired(self, exception, *args, **kwargs)
+
+Given an exception, should returne if the authentication is expired. If so, tapioca will call ``refresh_authentication``. After ``refresh_authentication`` is done, and if ``refresh_auth`` was passed to the HTTP method being called, it will retry the request with the new keys.
+
+.. method:: refresh_authentication(self, api_params, *args, **kwargs): 
+
+Should run refresh authentication logic.

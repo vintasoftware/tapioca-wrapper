@@ -206,7 +206,7 @@ class TapiocaClientExecutor(TapiocaClient):
                                             request_kwargs=request_kwargs)
             tapioca_exception = e.tapioca_exception(client=client)
             if refresh_auth and self._api.is_authentication_expired(tapioca_exception):
-                self._api.refresh_authentication()
+                self._api.refresh_authentication(self._api_params)
                 return self._make_request(request_method, *args, **kwargs)
             else:
                 raise tapioca_exception

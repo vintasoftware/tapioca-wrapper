@@ -237,7 +237,7 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
           callback=self.request_callback,
           content_type='application/json',
         )
-        
+
         response = self.wrapper.test().post(refresh_auth=True)
 
     def request_callback(self, request):
