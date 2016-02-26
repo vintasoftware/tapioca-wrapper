@@ -2,6 +2,13 @@
 Changelog
 =========
 
+1.1
+===
+- Automatic refresh token support
+- Added Python 3.5 support
+- Added support for ``OrderedDict``
+- Documentation cleanup
+
 1.0
 ===
 - Data serialization and deserialization
