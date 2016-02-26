@@ -9,9 +9,9 @@ Contents:
 
 	about
 	quickstart
-	adapter
 	serializers
 	exceptions
+	adapter
 	flavours
 	newflavour
 	contributors
