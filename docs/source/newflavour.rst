@@ -35,6 +35,8 @@ Take a look in the generated code from the cookiecutter or in the `tapioca-faceb
 
 	Facebook = generate_wrapper_from_adapter(FacebookClientAdapter)
 
+Plase refer to the :doc:`TapiocaAdapter class <adapter_class>` document for more information on the available methods.
+
 Features
 ========
 

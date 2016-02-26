@@ -11,8 +11,8 @@ Contents:
 	quickstart
 	serializers
 	exceptions
-	adapter
 	flavours
 	newflavour
+	adapter_class
 	contributors
 	changelog
