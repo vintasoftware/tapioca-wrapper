@@ -450,7 +450,7 @@ class TestIteratorFeatures(unittest.TestCase):
 class TestTokenRefreshing(unittest.TestCase):
 
     def setUp(self):
-        self.wrapper = TokenRefreshClient()
+        self.wrapper = TokenRefreshClient(token='token')
 
     @responses.activate
     def test_not_token_refresh_ready_client_call_raises_not_implemented(self):
@@ -474,21 +474,25 @@ class TestTokenRefreshing(unittest.TestCase):
         with self.assertRaises(ClientError) as context:
             response = self.wrapper.test().post()
 
-    def request_callback(self, request):
-      if self.first_call:
-        self.first_call = False
-        return (401, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
-      else:
-        self.first_call = None
-        return (201, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
-
     @responses.activate
     def test_token_expired_with_active_refresh_flag(self):
         self.first_call = True
+
+        def request_callback(request):
+            if self.first_call:
+                self.first_call = False
+                return (401, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
+            else:
+                self.first_call = None
+                return (201, {'content_type':'application/json'}, '')
+
         responses.add_callback(
             responses.POST, self.wrapper.test().data,
-            callback=self.request_callback,
+            callback=request_callback,
             content_type='application/json',
         )
 
         response = self.wrapper.test().post(refresh_auth=True)
+
+        # refresh_authentication method should be able to update api_params
+        self.assertEqual(response._api_params['token'], 'new_token')
