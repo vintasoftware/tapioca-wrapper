@@ -84,10 +84,7 @@ class TapiocaClient(object):
         if client is not None:
             return client
 
-        try:
-            normal_camel_case_name = camel_case_name[0].upper()
-        except Exception:
-            return None
+        normal_camel_case_name = camel_case_name[0].upper()
         normal_camel_case_name += camel_case_name[1:]
 
         client = self._get_client_from_name(normal_camel_case_name)
@@ -97,12 +94,11 @@ class TapiocaClient(object):
         return None
 
     def _get_client_from_name(self, name):
-
-        if self._data and \
-            (isinstance(self._data, list) and isinstance(name, int) or
+        if (isinstance(self._data, list) and isinstance(name, int) or
                 hasattr(self._data, '__iter__') and name in self._data):
             return self._wrap_in_tapioca(data=self._data[name])
 
+        # if could not access, falback to resource mapping
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
             resource = resource_mapping[name]
