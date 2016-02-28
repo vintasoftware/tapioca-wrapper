@@ -44,11 +44,6 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
         if url:
             return {'url': url}
 
-    def is_authentication_expired(self, exception, *args, **kwargs):
-        return exception.status_code == 401
-
-    def refresh_authentication(self, api_params, *args, **kwargs):
-        pass
 
 TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)
 
@@ -58,3 +53,15 @@ class SerializerClientAdapter(TesterClientAdapter):
 
 
 SerializerClient = generate_wrapper_from_adapter(SerializerClientAdapter)
+
+
+class TokenRefreshClientAdapter(TesterClientAdapter):
+
+    def is_authentication_expired(self, exception, *args, **kwargs):
+        return exception.status_code == 401
+
+    def refresh_authentication(self, api_params, *args, **kwargs):
+        api_params['token'] = 'new_token'
+
+
+TokenRefreshClient = generate_wrapper_from_adapter(TokenRefreshClientAdapter)

@@ -104,4 +104,4 @@ Given an exception, should returne if the authentication is expired. If so, tapi
 
 .. method:: refresh_authentication(self, api_params, *args, **kwargs): 
 
-Should run refresh authentication logic.
+Should run refresh authentication logic. Make sure you update `api_params` dictionary with the new token.

@@ -82,7 +82,7 @@ class TapiocaAdapter(object):
         raise NotImplementedError()
 
     def is_authentication_expired(self, exception, *args, **kwargs):
-        return False
+        raise NotImplementedError()
 
     def refresh_authentication(self, api_params, *args, **kwargs):
         raise NotImplementedError()

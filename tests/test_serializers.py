@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import arrow
 import unittest
 import responses
+import json
 from decimal import Decimal
 
 from tapioca.serializers import BaseSerializer, SimpleSerializer
@@ -39,6 +40,27 @@ class TestSerlializer(unittest.TestCase):
 
         self.assertIn('to_datetime', e_dir)
         self.assertIn('to_decimal', e_dir)
+
+    @responses.activate
+    def test_request_with_data_serialization(self):
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body='{}', status=200, content_type='application/json')
+
+        string_date = '2014-11-13T14:53:18.694072+00:00'
+        string_decimal = '1.45'
+
+        data = {
+            'date': arrow.get(string_date).datetime,
+            'decimal': Decimal(string_decimal),
+        }
+
+        self.wrapper.test().post(data=data)
+
+        request_body = responses.calls[0].request.body
+
+        self.assertEqual(
+            json.loads(request_body),
+            {'date': string_date, 'decimal': string_decimal})
 
 
 class TestDeserialization(unittest.TestCase):

@@ -12,7 +12,7 @@ from tapioca.tapioca import TapiocaClient
 from tapioca.serializers import SimpleSerializer
 from tapioca.exceptions import ClientError
 
-from tests.client import TesterClient, SerializerClient
+from tests.client import TesterClient, SerializerClient, TokenRefreshClient
 
 
 class TestTapiocaClient(unittest.TestCase):
@@ -57,7 +57,7 @@ class TestTapiocaClient(unittest.TestCase):
         self.assertNotIn('wat', response)
 
     @responses.activate
-    def test_trasnform_camelCase_in_snake_case(self):
+    def test_transform_camelCase_in_snake_case(self):
         next_url = 'http://api.teste.com/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
@@ -72,6 +72,48 @@ class TestTapiocaClient(unittest.TestCase):
         self.assertEqual(response.data.camel_case().data, 'data in camel case')
         self.assertEqual(response.data.normal_camel_case().data, 'data in camel case')
 
+    @responses.activate
+    def test_should_be_able_to_access_by_index(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='["a", "b", "c"]',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        self.assertEqual(response[0]().data, 'a')
+        self.assertEqual(response[1]().data, 'b')
+        self.assertEqual(response[2]().data, 'c')
+
+    @responses.activate
+    def test_accessing_index_out_of_bounds_should_raise_index_error(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='["a", "b", "c"]',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        with self.assertRaises(IndexError):
+            response[3]
+
+    @responses.activate
+    def test_accessing_empty_list_should_raise_index_error(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='[]',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        with self.assertRaises(IndexError):
+            response[3]
 
 
 class TestTapiocaExecutor(unittest.TestCase):
@@ -221,34 +263,6 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         self.assertEqual(response().data, {'data': {'key': 'value'}})
 
     @responses.activate
-    def test_token_expired_and_not_refresh_flag(self):
-        responses.add(responses.POST, self.wrapper.test().data,
-                      body='{"error": "Token expired"}',
-                      status=401,
-                      content_type='application/json')
-        with self.assertRaises(ClientError) as context:
-            response = self.wrapper.test().post()
-
-    @responses.activate
-    def test_token_expired_and_refresh_flag(self):
-        self.first_call = True
-        responses.add_callback(
-          responses.POST, self.wrapper.test().data,
-          callback=self.request_callback,
-          content_type='application/json',
-        )
-
-        response = self.wrapper.test().post(refresh_auth=True)
-
-    def request_callback(self, request):
-      if self.first_call:
-        self.first_call = False
-        return (401, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
-      else:
-        self.first_call = None
-        return (201, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
-
-    @responses.activate
     def test_put_request(self):
         responses.add(responses.PUT, self.wrapper.test().data,
                       body='{"data": {"key": "value"}}',
@@ -280,6 +294,12 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         response = self.wrapper.test().delete()
 
         self.assertEqual(response().data, {'data': {'key': 'value'}})
+
+
+class TestIteratorFeatures(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = TesterClient()
 
     @responses.activate
     def test_simple_pages_iterator(self):
@@ -426,26 +446,53 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
             self.assertIn(item.key().data, 'value')
             iterations_count += 1
 
+
+class TestTokenRefreshing(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = TokenRefreshClient(token='token')
+
     @responses.activate
-    def test_data_serialization(self):
-        wrapper = SerializerClient()
+    def test_not_token_refresh_ready_client_call_raises_not_implemented(self):
+        no_refresh_client = TesterClient()
 
+        responses.add_callback(
+            responses.POST, no_refresh_client.test().data,
+            callback=lambda *a, **k: (401, {}, ''),
+            content_type='application/json',
+        )
+
+        with self.assertRaises(NotImplementedError):
+            no_refresh_client.test().post(refresh_auth=True)
+
+    @responses.activate
+    def test_token_expired_and_no_refresh_flag(self):
         responses.add(responses.POST, self.wrapper.test().data,
-                      body='{}', status=200, content_type='application/json')
+                    body='{"error": "Token expired"}',
+                    status=401,
+                    content_type='application/json')
+        with self.assertRaises(ClientError) as context:
+            response = self.wrapper.test().post()
 
-        string_date = '2014-11-13T14:53:18.694072+00:00'
-        string_decimal = '1.45'
+    @responses.activate
+    def test_token_expired_with_active_refresh_flag(self):
+        self.first_call = True
 
-        data = {
-            'date': arrow.get(string_date).datetime,
-            'decimal': Decimal(string_decimal),
-        }
+        def request_callback(request):
+            if self.first_call:
+                self.first_call = False
+                return (401, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
+            else:
+                self.first_call = None
+                return (201, {'content_type':'application/json'}, '')
 
-        wrapper.test().post(data=data)
+        responses.add_callback(
+            responses.POST, self.wrapper.test().data,
+            callback=request_callback,
+            content_type='application/json',
+        )
 
-        request_body = responses.calls[0].request.body
+        response = self.wrapper.test().post(refresh_auth=True)
 
-        self.assertEqual(
-            json.loads(request_body),
-            {'date': string_date, 'decimal': string_decimal})
-
+        # refresh_authentication method should be able to update api_params
+        self.assertEqual(response._api_params['token'], 'new_token')
