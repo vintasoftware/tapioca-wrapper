@@ -239,3 +239,6 @@ Opening any link in the browser
 -------------------------------
 
 Whenever the data contained in a tapioca object is a URL, you can open it in a browser by using the ``open_in_browser()`` method.
+
+
+For more information on what wrappers are capable of, please refer to the :doc:`features <features>` section.

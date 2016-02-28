@@ -11,7 +11,6 @@ Facebook
 --------
 `<https://github.com/vintasoftware/tapioca-facebook>`_
 
-
 .. _flavour-twitter:
 Twitter
 -------
