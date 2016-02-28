@@ -1,6 +1,6 @@
-============
-New Flavours
-============
+==================
+Building a wrapper
+==================
 
 
 Wrapping an API with Tapioca

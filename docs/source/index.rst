@@ -13,7 +13,7 @@ Contents:
 	serializers
 	exceptions
 	flavours
-	newflavour
+	buildingawrapper
 	adapter_class
 	contributors
 	changelog
