@@ -1,6 +1,6 @@
-============
-New Flavours
-============
+==================
+Building a wrapper
+==================
 
 
 Wrapping an API with Tapioca
@@ -40,6 +40,8 @@ Plase refer to the :doc:`TapiocaAdapter class <adapter_class>` document for more
 Features
 ========
 
+Here is some information you should know when building your wrapper. You may chose to or not to support features marked with `(optional)`.
+
 Resource Mapping
 ----------------
 
@@ -48,8 +50,12 @@ The resource mapping is a very simple dictionary which will tell your tapioca cl
 Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ to perform HTTP requests. This is important to know because you will be using the method ``get_request_kwargs`` to set authentication details and return a dictionary that will be passed directly to ther request method. 
 
 
-Data formatting Mixins
-----------------------
+Formating data
+--------------
+
+Use the methods ``format_data_to_request`` and ``response_to_native`` to correctly treat data leaving and being received in your wrapper.
+
+**TODO: add examples**
 
 You might want to use one of the following mixins to help you with data format handling in your wrapper: 
 
@@ -57,8 +63,30 @@ You might want to use one of the following mixins to help you with data format h
 - ``JSONAdapterMixin``
 
 
-Refreshing Authentication
--------------------------
+Exceptions
+----------
+
+Overwrite the ``process_response`` method to identify API server and client errors raising the correct exception accordingly. Please refer to the :doc:`exceptions <exceptions>` for more information about exceptions.
+
+**TODO: add examples**
+
+Pagination (optional)
+---------------------
+
+``get_iterator_list`` and ``get_iterator_next_request_kwargs`` are the two methods you will need to implement for the executor ``pages()`` method to work.
+
+**TODO: add examples**
+
+Serializers (optional)
+----------------------
+
+Set a ``serializer_class`` attribute or overwrite the ``get_serializer()`` method in your wrapper for it to have a default serializer. Please refer to the :doc:`serializers <serializers>` for more information about serializers.
+
+**TODO: add examples**
+
+
+Refreshing Authentication (optional)
+------------------------------------
 
 You can implement the ```refresh_authentication``` and ```is_authentication_expired``` methods in your Tapioca Client to refresh your authentication token every time that it expires.
 ```is_authentication_expired``` receives an error object from the request method (it contains the server response and HTTP Status code). You can use it to decide if a request failed because of the token. This method should return true if the authentication is expired or false otherwise. If the authentication is expired, ```refresh_authentication``` is called automatically.
