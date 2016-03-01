@@ -9,10 +9,11 @@ Contents:
 
 	about
 	quickstart
+	features
 	serializers
 	exceptions
 	flavours
-	newflavour
+	buildingawrapper
 	adapter_class
 	contributors
 	changelog
