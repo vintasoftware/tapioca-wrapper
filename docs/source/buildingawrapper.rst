@@ -53,7 +53,9 @@ Tapioca uses `requests <http://docs.python-requests.org/en/latest/>`_ to perform
 Formating data
 --------------
 
-TODO
+Use the methods ``format_data_to_request`` and ``response_to_native`` to correctly treat data leaving and being received in your wrapper.
+
+**TODO: add examples**
 
 You might want to use one of the following mixins to help you with data format handling in your wrapper: 
 
@@ -64,13 +66,23 @@ You might want to use one of the following mixins to help you with data format h
 Exceptions
 ----------
 
-TODO
+Overwrite the ``process_response`` method to identify API server and client errors raising the correct exception accordingly. Please refer to the :doc:`exceptions <exceptions>` for more information about exceptions.
 
+**TODO: add examples**
+
+Pagination (optional)
+---------------------
+
+``get_iterator_list`` and ``get_iterator_next_request_kwargs`` are the two methods you will need to implement for the executor ``pages()`` method to work.
+
+**TODO: add examples**
 
 Serializers (optional)
 ----------------------
 
-TODO
+Set a ``serializer_class`` attribute or overwrite the ``get_serializer()`` method in your wrapper for it to have a default serializer. Please refer to the :doc:`serializers <serializers>` for more information about serializers.
+
+**TODO: add examples**
 
 
 Refreshing Authentication (optional)
