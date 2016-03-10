@@ -59,7 +59,7 @@ Toggl
 
 Braspag
 -------
-`<https://github.com/parafernalia/tapioca-braspag>`_
+`<https://github.com/parafernalia/tapioca_braspag>`_
 
 
 Your flavour
