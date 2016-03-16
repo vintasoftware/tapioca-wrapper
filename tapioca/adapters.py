@@ -21,6 +21,18 @@ class TapiocaAdapter(object):
         else:
             self.serializer = self.get_serializer()
 
+    @classmethod
+    def authorize_application(cls):
+        raise NotImplementedError("This client does not have an authorizer")
+
+    @classmethod
+    def request_token(cls):
+        raise NotImplementedError("This client does not have a token requester")
+
+    @classmethod
+    def prompt_request_token(cls):
+        raise NotImplementedError("This client does not have a token requester prompt")
+
     def _get_to_native_method(self, method_name, value):
         if not self.serializer:
             raise NotImplementedError("This client does not have a serializer")
