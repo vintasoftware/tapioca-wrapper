@@ -80,10 +80,32 @@ Pagination (optional)
 Serializers (optional)
 ----------------------
 
-Set a ``serializer_class`` attribute or overwrite the ``get_serializer()`` method in your wrapper for it to have a default serializer. Please refer to the :doc:`serializers <serializers>` for more information about serializers.
+Set a ``serializer_class`` attribute or overwrite the ``get_serializer()`` method in your wrapper for it to have a default serializer. 
 
-**TODO: add examples**
+.. code-block:: python
 
+	from tapioca import TapiocaAdapter
+	from tapioca.serializers import SimpleSerializer
+
+	class MyAPISerializer(SimpleSerializer):
+		
+		def serialize_datetime(self, data):
+			return data.isoformat()
+
+
+	class MyAPIAdapter(TapiocaAdapter):
+		serializer_class = MyAPISerializer
+		...
+
+In the example, everytime a ``datetime`` is passed to the parameters of a HTTP method, it will be converted to a iso formated ``string``.
+
+It's important that you let people know you are providing a serializer, so make sure you have it documented in your  `README`. Here is a example on how to do it:
+
+	## Serialization/Deserialization
+
+	`tapioca-blablabla` uses an extended version of [SimpleSerializer](http://tapioca-wrapper.readthedocs.org/en/stable/serializers.html#built-ins). Apart from being able to deserialize to `Decimal` and `datetime`, you can directly pass `datetime` objects to HTTP methods and they will be automatically formated to string before being sent.
+
+Please refer to the :doc:`serializers <serializers>` for more information about serializers.
 
 Refreshing Authentication (optional)
 ------------------------------------
@@ -93,9 +115,9 @@ You can implement the ```refresh_authentication``` and ```is_authentication_expi
 
 .. code-block:: python
 
-    def is_authentication_expired(self, exception, *args, **kwargs):
-        ....
-    
+	def is_authentication_expired(self, exception, *args, **kwargs):
+		....
+	
 
-    def refresh_authentication(self, api_params, *args, **kwargs):
-        ...
+	def refresh_authentication(self, api_params, *args, **kwargs):
+		...
