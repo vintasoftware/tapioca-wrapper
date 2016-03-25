@@ -60,16 +60,26 @@ Built-ins
 
 .. class:: SimpleSerializer
 
-``SimpleSerializer`` is a very basic and generic serializer. It is included by default in adapters unless explicitly removed. These are the deserialization methods it provides:
+``SimpleSerializer`` is a very basic and generic serializer. It is included by default in adapters unless explicitly removed. It supports serialization from `Decimal` and `datetime` and deserialization methods to those two types as well. Here is it's full code:
 
-.. method:: to_datetime()
+.. code-block:: python
+	
+	class SimpleSerializer(BaseSerializer):
 
-Uses `Arrow <http://crsmithdev.com/arrow/>`_ to parse the data to a Python ``datetime``.
+    def to_datetime(self, value):
+        return arrow.get(value).datetime
 
-.. method:: to_decimal()
+    def to_decimal(self, value):
+        return Decimal(value)
 
-Converts data to ``Decimal``
+    def serialize_decimal(self, data):
+        return str(data)
 
+    def serialize_datetime(self, data):
+        return arrow.get(data).isoformat()
+
+
+As you can see, `datetime` values will be formatted to iso format.
 
 Writing a custom serializer
 ===========================
