@@ -75,4 +75,24 @@ Tapioca built in exceptions will help you to beautifuly catch and handle wheneve
 Serializers
 ===========
 
-Serializers will help you processing data before it is sent to the endpoint and transforming data from responses into python objects. Please refer to the :doc:`serializers <serializers>` for more information about serializers.
+Serializers will help you processing data before it is sent to the endpoint and transforming data from responses into python objects. 
+
+.. code-block:: python
+
+	from tapioca import TapiocaAdapter
+	from tapioca.serializers import SimpleSerializer
+
+	class MyAPISerializer(SimpleSerializer):
+		
+		def serialize_datetime(self, data):
+        	return data.isoformat()
+
+
+    class MyAPIAdapter(TapiocaAdapter):
+    	serializer_class = MyAPISerializer
+
+    	...
+
+In the example, everytime a ``datetime`` is passed to the parameters of a HTTP method, it will be converted to a iso formated ``string``.
+
+Please refer to the :doc:`serializers <serializers>` for more information about serializers.

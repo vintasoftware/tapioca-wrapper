@@ -101,7 +101,7 @@ Any method starting with ``to_`` in your custom serializer class will be availab
 
 	class MyCustomSerializer(BaseSerializer):
 
-		to_striped(self, value):
+		def to_striped(self, value):
 			return value.strip()
 
 Here's a usage example for it:
