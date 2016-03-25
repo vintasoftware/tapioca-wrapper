@@ -56,6 +56,11 @@ Toggl
 -----
 `<https://github.com/hackebrot/tapioca-toggl>`_
 
+Braspag
+-------
+`<https://github.com/parafernalia/tapioca_braspag>`_
+
+
 Your flavour
 ============
 To create a new wrapper, please refer to :doc:`Building a wrapper <buildingawrapper>`. Upload it to pypi and send a pull request here for it to be added to the list.
