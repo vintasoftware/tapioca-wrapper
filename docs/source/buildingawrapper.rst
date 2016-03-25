@@ -99,11 +99,17 @@ Set a ``serializer_class`` attribute or overwrite the ``get_serializer()`` metho
 
 In the example, everytime a ``datetime`` is passed to the parameters of a HTTP method, it will be converted to a iso formatted ``string``.
 
-It's important that you let people know you are providing a serializer, so make sure you have it documented in your  `README`. Here is a example on how to do it:
+It's important that you let people know you are providing a serializer, so make sure you have it documented in your  `README`.
 
-	## Serialization/Deserialization
+.. code-block:: text
 
-	`tapioca-blablabla` uses an extended version of [SimpleSerializer](http://tapioca-wrapper.readthedocs.org/en/stable/serializers.html#built-ins). Apart from being able to deserialize to `Decimal` and `datetime`, you can directly pass `datetime` objects to HTTP methods and they will be automatically formatted to string before being sent.
+	## Serialization
+	- datetime
+	- Decimal
+
+	## Deserialization
+	- datetime
+	- Decimal
 
 Please refer to the :doc:`serializers <serializers>` for more information about serializers.
 
