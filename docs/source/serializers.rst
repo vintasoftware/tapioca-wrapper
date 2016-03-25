@@ -66,17 +66,17 @@ Built-ins
 	
 	class SimpleSerializer(BaseSerializer):
 
-    def to_datetime(self, value):
-        return arrow.get(value).datetime
+	def to_datetime(self, value):
+		return arrow.get(value).datetime
 
-    def to_decimal(self, value):
-        return Decimal(value)
+	def to_decimal(self, value):
+		return Decimal(value)
 
-    def serialize_decimal(self, data):
-        return str(data)
+	def serialize_decimal(self, data):
+		return str(data)
 
-    def serialize_datetime(self, data):
-        return arrow.get(data).isoformat()
+	def serialize_datetime(self, data):
+		return arrow.get(data).isoformat()
 
 
 As you can see, `datetime` values will be formatted to iso format.
