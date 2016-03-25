@@ -79,7 +79,7 @@ Built-ins
 		return arrow.get(data).isoformat()
 
 
-As you can see, `datetime` values will be formatted to iso format.
+As you can see, ``datetime`` values will be formatted to iso format.
 
 Writing a custom serializer
 ===========================
