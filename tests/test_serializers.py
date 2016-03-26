@@ -23,6 +23,19 @@ class TestSerlializer(unittest.TestCase):
         serializer = wrapper._api.serializer
         self.assertTrue(isinstance(serializer, BaseSerializer))
 
+    @responses.activate
+    def test_external_serializer_is_passed_along_clients(self):
+        serializer_wrapper = TesterClient(serializer_class=SimpleSerializer)
+
+        responses.add(responses.GET, serializer_wrapper.test().data,
+                      body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
+                      status=200,
+                      content_type='application/json')
+
+        response = serializer_wrapper.test().get()
+
+        self.assertTrue(response._api.serializer.__class__, SimpleSerializer)
+
     def test_serializer_client_adapter_has_serializer(self):
         serializer = self.wrapper._api.serializer
         self.assertTrue(isinstance(serializer, BaseSerializer))
