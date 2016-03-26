@@ -36,13 +36,18 @@ class TapiocaClient(object):
         self._resource = resource
 
     def _wrap_in_tapioca(self, data, *args, **kwargs):
+        request_kwargs = kwargs.pop('request_kwargs', self._request_kwargs)
         return TapiocaClient(self._api.__class__(), data=data,
-                             api_params=self._api_params, *args, **kwargs)
+                             api_params=self._api_params,
+                             request_kwargs=request_kwargs,
+                             *args, **kwargs)
 
     def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
+        request_kwargs = kwargs.pop('request_kwargs', self._request_kwargs)
         return TapiocaClientExecutor(self._api.__class__(), data=data,
-                                     api_params=self._api_params, *args,
-                                     **kwargs)
+                                     api_params=self._api_params,
+                                     request_kwargs=request_kwargs,
+                                     *args, **kwargs)
 
     def _get_doc(self):
         resources = copy.copy(self._resource)
