@@ -2,6 +2,12 @@
 Changelog
 =========
 
+1.1.10
+======
+- Fixed bugs regarding ``request_kwargs`` passing over calls
+- Fixed bugs regarding external ``serializer`` passing over calls
+- Wrapper instatiation now accepts ``default_url_params``
+
 1.1
 ===
 - Automatic refresh token support
