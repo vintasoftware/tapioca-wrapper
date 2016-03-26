@@ -71,8 +71,11 @@ class TapiocaClient(object):
 
     def __call__(self, *args, **kwargs):
         data = self._data
-        if kwargs:
-            data = self._api.fill_resource_template_url(self._data, kwargs)
+
+        url_params = self._api_params.get('default_url_params', {})
+        url_params.update(kwargs)
+        if self._resource and url_params:
+            data = self._api.fill_resource_template_url(self._data, url_params)
 
         return self._wrap_in_tapioca_executor(data, resource=self._resource,
                                               response=self._response)
@@ -85,6 +88,22 @@ class TapiocaClient(object):
             return name
         components = name.split('_')
         return components[0] + "".join(x.title() for x in components[1:])
+
+    def _get_client_from_name(self, name):
+        if (isinstance(self._data, list) and isinstance(name, int) or
+                hasattr(self._data, '__iter__') and name in self._data):
+            return self._wrap_in_tapioca(data=self._data[name])
+
+        # if could not access, falback to resource mapping
+        resource_mapping = self._api.resource_mapping
+        if name in resource_mapping:
+            resource = resource_mapping[name]
+            api_root = self._api.get_api_root(self._api_params)
+
+            url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
+            return self._wrap_in_tapioca(url, resource=resource)
+
+        return None
 
     def _get_client_from_name_or_fallback(self, name):
         client = self._get_client_from_name(name)
@@ -105,21 +124,6 @@ class TapiocaClient(object):
 
         return None
 
-    def _get_client_from_name(self, name):
-        if (isinstance(self._data, list) and isinstance(name, int) or
-                hasattr(self._data, '__iter__') and name in self._data):
-            return self._wrap_in_tapioca(data=self._data[name])
-
-        # if could not access, falback to resource mapping
-        resource_mapping = self._api.resource_mapping
-        if name in resource_mapping:
-            resource = resource_mapping[name]
-            api_root = self._api.get_api_root(self._api_params)
-
-            url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
-            return self._wrap_in_tapioca(url, resource=resource)
-
-        return None
 
     def __getattr__(self, name):
         ret = self._get_client_from_name_or_fallback(name)

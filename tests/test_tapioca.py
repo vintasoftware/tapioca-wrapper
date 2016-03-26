@@ -115,6 +115,10 @@ class TestTapiocaClient(unittest.TestCase):
         with self.assertRaises(IndexError):
             response[3]
 
+    def test_fill_url_from_default_params(self):
+        wrapper = TesterClient(default_url_params={'id': 123})
+        self.assertEqual(wrapper.user().data, 'https://api.test.com/user/123/')
+
 
 class TestTapiocaExecutor(unittest.TestCase):
 
