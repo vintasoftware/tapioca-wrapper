@@ -12,6 +12,25 @@ The first object you get after you instanciate a tapioca wrapper is an instance 
 
 **TODO: add examples**
 
+Default URL params
+------------------
+
+Sometimes URLs templates need parameters that will be repeated across all call. For example, your user id:
+
+.. code-block:: bash
+	
+	http://www.someapi.com/{user_id}/resources/   
+	http://www.someapi.com/{user_id}/resources/{resource_id}/   
+	http://www.someapi.com/{user_id}/other-resources/{other_id}/   
+
+
+In this cases you can instantiate the wrapper passing a ``default_url_params`` parameter, and they will be used automatically to fill URL templates.
+
+.. code-block:: python
+	
+	cli = MyWrapper(access_token='some_token', default_url_params={'user_id': 123456})
+	cli.resources() # http://www.someapi.com/123456/resources/
+
 TapiocaClientExecutor
 =====================
 
@@ -48,25 +67,6 @@ Use ``pages()`` method to call an endpoint that returns a collection of objects 
 **TODO: add examples**
 
 *the wrapper you are current using may not support this feature
-
-Default URL params
-------------------
-
-Sometimes URLs templates need parameters that will be repeated across all call. For example, your user id:
-
-.. code-block:: bash
-	
-	http://www.someapi.com/{user_id}/resources/   
-	http://www.someapi.com/{user_id}/resources/{resource_id}/   
-	http://www.someapi.com/{user_id}/other-resources/{other_id}/   
-
-
-In this cases you can instantiate the wrapper passing a ``default_url_params`` parameter, and they will be used automatically to fill URL templates.
-
-.. code-block:: python
-	
-	cli = MyWrapper(access_token='some_token', default_url_params={'user_id': 123456})
-	cli.resources() # http://www.someapi.com/123456/resources/
 
 
 Open docs (\*)

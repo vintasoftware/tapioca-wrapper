@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 __author__ = 'Filipe Ximenes'
 __email__ = 'filipeximenes@gmail.com'
-__version__ = '1.1.10'
+__version__ = '1.1.11'
 
 
 from .adapters import (
