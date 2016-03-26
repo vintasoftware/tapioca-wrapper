@@ -304,7 +304,7 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
 
         response = self.wrapper.test().get()
 
-        request_kwargs = response.data.key._request_kwargs
+        request_kwargs = response.data.key()._request_kwargs
 
         self.assertIn('url', request_kwargs)
         self.assertIn('data', request_kwargs)
