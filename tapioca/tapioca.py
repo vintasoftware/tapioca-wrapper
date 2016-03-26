@@ -35,16 +35,23 @@ class TapiocaClient(object):
         self._request_kwargs = request_kwargs
         self._resource = resource
 
+    def _instatiate_api(self):
+        serializer_class = None
+        if self._api.serializer:
+            serializer_class = self._api.serializer.__class__
+        return self._api.__class__(
+            serializer_class=serializer_class)
+
     def _wrap_in_tapioca(self, data, *args, **kwargs):
         request_kwargs = kwargs.pop('request_kwargs', self._request_kwargs)
-        return TapiocaClient(self._api.__class__(), data=data,
+        return TapiocaClient(self._instatiate_api(), data=data,
                              api_params=self._api_params,
                              request_kwargs=request_kwargs,
                              *args, **kwargs)
 
     def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
         request_kwargs = kwargs.pop('request_kwargs', self._request_kwargs)
-        return TapiocaClientExecutor(self._api.__class__(), data=data,
+        return TapiocaClientExecutor(self._instatiate_api(), data=data,
                                      api_params=self._api_params,
                                      request_kwargs=request_kwargs,
                                      *args, **kwargs)
