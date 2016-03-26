@@ -295,6 +295,21 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
 
         self.assertEqual(response().data, {'data': {'key': 'value'}})
 
+    @responses.activate
+    def test_carries_request_kwargs_over_calls(self):
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"data": {"key": "value"}}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        request_kwargs = response.data.key()._request_kwargs
+
+        self.assertIn('url', request_kwargs)
+        self.assertIn('data', request_kwargs)
+        self.assertIn('headers', request_kwargs)
+
 
 class TestIteratorFeatures(unittest.TestCase):
 
