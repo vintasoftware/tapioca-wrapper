@@ -124,7 +124,6 @@ class TapiocaClient(object):
 
         return None
 
-
     def __getattr__(self, name):
         ret = self._get_client_from_name_or_fallback(name)
         if ret is None:
