@@ -103,7 +103,7 @@ To allow serialization of any desired data type, add a method to your serializer
 
 Deserializing
 -------------
-Any method starting with ``to_`` in your custom serializer class will be available for data deserialization.
+Any method starting with ``to_`` in your custom serializer class will be available for data deserialization. It also accepts key word arguments.
 
 .. code-block:: python
 	
@@ -111,7 +111,7 @@ Any method starting with ``to_`` in your custom serializer class will be availab
 
 	class MyCustomSerializer(BaseSerializer):
 
-		def to_striped(self, value):
+		def to_striped(self, value, **kwargs): 
 			return value.strip()
 
 Here's a usage example for it:
@@ -127,3 +127,5 @@ Here's a usage example for it:
 	response = cli.the_resource().get()
 
 	striped_data = response.the_data().to_striped()
+
+
