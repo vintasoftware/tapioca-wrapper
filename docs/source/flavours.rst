@@ -7,11 +7,13 @@ Available Flavours
 
 
 .. _flavour-facebook:
+
 Facebook
 --------
 `<https://github.com/vintasoftware/tapioca-facebook>`_
 
 .. _flavour-twitter:
+
 Twitter
 -------
 `<https://github.com/vintasoftware/tapioca-twitter>`_
@@ -60,9 +62,14 @@ Braspag
 -------
 `<https://github.com/parafernalia/tapioca_braspag>`_
 
-Iugu                                                                         
--------                                                                         
-`<https://github.com/solidarium/tapioca-iugu>`_  
+Iugu
+----
+`<https://github.com/solidarium/tapioca-iugu>`_
+
+Instagram
+---------
+`<https://github.com/vintasoftware/tapioca-instagram>`_
+
 
 Your flavour
 ============
