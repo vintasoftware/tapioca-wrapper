@@ -5,9 +5,9 @@ from decimal import Decimal
 
 class BaseSerializer(object):
 
-    def deserialize(self, method_name, value):
+    def deserialize(self, method_name, value, **kwargs):
         if hasattr(self, method_name):
-            return getattr(self, method_name)(value)
+            return getattr(self, method_name)(value, **kwargs)
         raise NotImplementedError("Desserialization method not found")
 
     def serialize_dict(self, data):

@@ -48,8 +48,14 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
 TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)
 
 
+class CustomSerializer(SimpleSerializer):
+
+    def to_kwargs(self, data, **kwargs):
+        return kwargs
+
+
 class SerializerClientAdapter(TesterClientAdapter):
-    serializer_class = SimpleSerializer
+    serializer_class = CustomSerializer
 
 
 SerializerClient = generate_wrapper_from_adapter(SerializerClientAdapter)

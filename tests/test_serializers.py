@@ -89,7 +89,8 @@ class TestDeserialization(unittest.TestCase):
                       content_type='application/json')
 
         response = self.wrapper.test().get()
-        self.assertEqual(response.decimal_value().to_decimal(),
+        self.assertEqual(
+            response.decimal_value().to_decimal(),
             Decimal('10.51'))
 
     @responses.activate
@@ -130,6 +131,19 @@ class TestDeserialization(unittest.TestCase):
         response = wrapper.test().get()
         with self.assertRaises(NotImplementedError):
             response.any_data().to_datetime()
+
+    @responses.activate
+    def test_pass_kwargs(self):
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"decimal_value": "10.51"}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        self.assertEqual(
+            response.decimal_value().to_kwargs(some_key='some value'),
+            {'some_key': 'some value'})
 
 
 class TestSerialization(unittest.TestCase):

@@ -25,13 +25,13 @@ class TapiocaAdapter(object):
         if not self.serializer:
             raise NotImplementedError("This client does not have a serializer")
 
-        def to_native_wrapper():
-            return self._value_to_native(method_name, value)
+        def to_native_wrapper(**kwargs):
+            return self._value_to_native(method_name, value, **kwargs)
 
         return to_native_wrapper
 
-    def _value_to_native(self, method_name, value):
-        return self.serializer.deserialize(method_name, value)
+    def _value_to_native(self, method_name, value, **kwargs):
+        return self.serializer.deserialize(method_name, value, **kwargs)
 
     def get_serializer(self):
         if self.serializer_class:
