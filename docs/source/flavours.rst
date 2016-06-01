@@ -60,6 +60,9 @@ Braspag
 -------
 `<https://github.com/parafernalia/tapioca_braspag>`_
 
+Iugu                                                                         
+-------                                                                         
+`<https://github.com/solidarium/tapioca-iugu>`_  
 
 Your flavour
 ============
