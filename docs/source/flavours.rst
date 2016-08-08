@@ -70,6 +70,10 @@ Instagram
 ---------
 `<https://github.com/vintasoftware/tapioca-instagram>`_
 
+Youtube
+---------
+`<https://github.com/vintasoftware/tapioca-youtube>`_
+
 
 Your flavour
 ============
