@@ -214,7 +214,7 @@ class TapiocaClientExecutor(TapiocaClient):
             data = self._api.process_response(response)
         except ResponseProcessException as e:
             client = self._wrap_in_tapioca(e.data, response=response,
-                                            request_kwargs=request_kwargs)
+                                           request_kwargs=request_kwargs)
             tapioca_exception = e.tapioca_exception(client=client)
             if self._api.is_authentication_expired(tapioca_exception):
                 self._api.refresh_authentication(self._api_params)
@@ -260,11 +260,11 @@ class TapiocaClientExecutor(TapiocaClient):
         item_count = 0
 
         while iterator_list:
-            if self._reached_max_limits(page_count, item_count,  max_pages,
+            if self._reached_max_limits(page_count, item_count, max_pages,
                                         max_items):
                 break
             for item in iterator_list:
-                if self._reached_max_limits(page_count, item_count,  max_pages,
+                if self._reached_max_limits(page_count, item_count, max_pages,
                                             max_items):
                     break
                 yield self._wrap_in_tapioca(item)
