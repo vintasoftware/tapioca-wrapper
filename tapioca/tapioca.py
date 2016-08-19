@@ -201,7 +201,7 @@ class TapiocaClientExecutor(TapiocaClient):
     def status_code(self):
         return self.response.status_code
 
-    def _make_request(self, request_method, refresh_auth=False, *args, **kwargs):
+    def _make_request(self, request_method, *args, **kwargs):
         if 'url' not in kwargs:
             kwargs['url'] = self._data
 
@@ -216,7 +216,7 @@ class TapiocaClientExecutor(TapiocaClient):
             client = self._wrap_in_tapioca(e.data, response=response,
                                             request_kwargs=request_kwargs)
             tapioca_exception = e.tapioca_exception(client=client)
-            if refresh_auth and self._api.is_authentication_expired(tapioca_exception):
+            if self._api.is_authentication_expired(tapioca_exception):
                 self._api.refresh_authentication(self._api_params)
                 return self._make_request(request_method, *args, **kwargs)
             else:
