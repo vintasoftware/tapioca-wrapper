@@ -472,7 +472,7 @@ class TestTokenRefreshing(unittest.TestCase):
         self.wrapper = TokenRefreshClient(token='token')
 
     @responses.activate
-    def test_not_token_refresh_ready_client_call_raises_not_implemented(self):
+    def test_not_token_refresh_client_propagates_client_error(self):
         no_refresh_client = TesterClient()
 
         responses.add_callback(
@@ -481,20 +481,11 @@ class TestTokenRefreshing(unittest.TestCase):
             content_type='application/json',
         )
 
-        with self.assertRaises(NotImplementedError):
-            no_refresh_client.test().post(refresh_auth=True)
+        with self.assertRaises(ClientError):
+            no_refresh_client.test().post()
 
     @responses.activate
-    def test_token_expired_and_no_refresh_flag(self):
-        responses.add(responses.POST, self.wrapper.test().data,
-                    body='{"error": "Token expired"}',
-                    status=401,
-                    content_type='application/json')
-        with self.assertRaises(ClientError) as context:
-            response = self.wrapper.test().post()
-
-    @responses.activate
-    def test_token_expired_with_active_refresh_flag(self):
+    def test_token_expired_automatically_refresh_authentication(self):
         self.first_call = True
 
         def request_callback(request):
@@ -511,7 +502,7 @@ class TestTokenRefreshing(unittest.TestCase):
             content_type='application/json',
         )
 
-        response = self.wrapper.test().post(refresh_auth=True)
+        response = self.wrapper.test().post()
 
         # refresh_authentication method should be able to update api_params
         self.assertEqual(response._api_params['token'], 'new_token')
