@@ -9,8 +9,8 @@
 
 ![](docs/static/logo.png)
 
-Tapioca provides an easy way to make explorable Python API wrappers.
-APIs wrapped by Tapioca follow a simple interaction pattern that works uniformly so developers don't need to learn how to use a new coding interface/style for each service API.
+Tapioca helps you generating Python clients for APIs.
+APIs wrapped by Tapioca are explorable and follow a simple interaction pattern that works uniformly so developers don't need to learn how to use a new coding interface/style for each service API.
 
 
 ## Documentation
