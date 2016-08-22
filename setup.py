@@ -11,13 +11,13 @@ import re
 import os
 import sys
 
+description = """
+Tapioca provides an easy way to make explorable Python API wrappers.
+APIs wrapped by Tapioca follow a simple interaction pattern that works uniformly so developers don't need to learn how to use a new coding interface/style for each service API.
 
-try:
-    import pypandoc
-    readme = pypandoc.convert('README.md', 'rst')
-except (IOError, ImportError, RuntimeError):
-    readme = ''
-
+Source code hosted on Github: https://github.com/vintasoftware/tapioca-wrapper
+Documentation hosted by Readthedocs: http://tapioca-wrapper.readthedocs.io/en/stable/
+"""
 
 package = 'tapioca'
 requirements = [
@@ -52,8 +52,8 @@ if sys.argv[-1] == 'publish':
 setup(
     name='tapioca-wrapper',
     version=get_version(package),
-    description='Tapioca API wrapper',
-    long_description=readme,
+    description='Python API client generator',
+    long_description=description,
     author='Filipe Ximenes',
     author_email='filipeximenes@gmail.com',
     url='https://github.com/vintasoftware/tapioca-wrapper',
