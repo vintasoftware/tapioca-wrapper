@@ -438,7 +438,7 @@ class TestIteratorFeatures(unittest.TestCase):
 class TestTokenRefreshing(unittest.TestCase):
 
     def setUp(self):
-        self.wrapper = TokenRefreshClient(token='token')
+        self.wrapper = TokenRefreshClient(token='token', refresh_token_by_default=True)
 
     @responses.activate
     def test_not_token_refresh_client_propagates_client_error(self):
@@ -452,6 +452,17 @@ class TestTokenRefreshing(unittest.TestCase):
 
         with self.assertRaises(ClientError):
             no_refresh_client.test().post()
+
+    @responses.activate
+    def test_disable_token_refreshing(self):
+        responses.add_callback(
+            responses.POST, self.wrapper.test().data,
+            callback=lambda *a, **k: (401, {}, ''),
+            content_type='application/json',
+        )
+
+        with self.assertRaises(ClientError):
+            self.wrapper.test().post(refresh_token=False)
 
     @responses.activate
     def test_token_expired_automatically_refresh_authentication(self):
