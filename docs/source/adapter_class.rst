@@ -15,13 +15,6 @@ This should contain the base URL that will be concatenated with the resource map
 
 For more information about the ``serializer_class`` attribute, read the :doc:`serializers documentation <serializers>`.
 
-.. attribute:: refresh_token_by_default
-
-The default value for this attribute is ```False```.
-If set to ```True```, automatically calls ```refresh_authentication``` if ```is_authentication_expired``` returns ```True```.
-
-For more information about token refreshing, read the doc :doc:`buildingawrapper`.
-
 
 Methods
 -------
