@@ -2,6 +2,10 @@
 Changelog
 =========
 
+1.2.3
+======
+- ``refresh_token_by_default`` introduced to prevent passing ``refresh_token`` on every request.
+
 1.1.10
 ======
 - Fixed bugs regarding ``request_kwargs`` passing over calls
