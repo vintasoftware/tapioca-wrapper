@@ -53,7 +53,10 @@ Executors have access to make HTTP calls using the current data it possesses as 
 Auth refreshing (\*)
 --------------------
 
-Make any HTTP call passing ``refresh_auth=True`` and in case you have an expired API token, it will automatically be refreshed and the call retried.
+Some clients needs to update its token once they have expired. If the clients supports, you might instantiate it passing
+```refresh_token_by_default=True``` or make any HTTP call passing ```refresh_auth=True``` (both defaults to
+```False```). Note that if your client instance have ```refresh_token_by_default=True```, then you don't need to
+explicity set it on HTTP calls.
 
 **TODO: add examples**
 

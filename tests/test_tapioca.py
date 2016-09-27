@@ -4,15 +4,12 @@ from __future__ import unicode_literals
 
 import unittest
 import responses
-import arrow
 import json
-from decimal import Decimal
 
 from tapioca.tapioca import TapiocaClient
-from tapioca.serializers import SimpleSerializer
 from tapioca.exceptions import ClientError
 
-from tests.client import TesterClient, SerializerClient, TokenRefreshClient
+from tests.client import TesterClient, TokenRefreshClient
 
 
 class TestTapiocaClient(unittest.TestCase):
@@ -65,7 +62,6 @@ class TestTapiocaClient(unittest.TestCase):
                       status=200,
                       content_type='application/json')
 
-
         response = self.wrapper.test().get()
 
         self.assertEqual(response.data.key_snake().data, 'value')
@@ -74,8 +70,6 @@ class TestTapiocaClient(unittest.TestCase):
 
     @responses.activate
     def test_should_be_able_to_access_by_index(self):
-        next_url = 'http://api.teste.com/next_batch'
-
         responses.add(responses.GET, self.wrapper.test().data,
                       body='["a", "b", "c"]',
                       status=200,
@@ -89,8 +83,6 @@ class TestTapiocaClient(unittest.TestCase):
 
     @responses.activate
     def test_accessing_index_out_of_bounds_should_raise_index_error(self):
-        next_url = 'http://api.teste.com/next_batch'
-
         responses.add(responses.GET, self.wrapper.test().data,
                       body='["a", "b", "c"]',
                       status=200,
@@ -103,8 +95,6 @@ class TestTapiocaClient(unittest.TestCase):
 
     @responses.activate
     def test_accessing_empty_list_should_raise_index_error(self):
-        next_url = 'http://api.teste.com/next_batch'
-
         responses.add(responses.GET, self.wrapper.test().data,
                       body='[]',
                       status=200,
@@ -444,35 +434,14 @@ class TestIteratorFeatures(unittest.TestCase):
 
         self.assertEqual(iterations_count, 0)
 
-    @responses.activate
-    def test_simple_pages_max_item_zero_iterator(self):
-        next_url = 'http://api.teste.com/next_batch'
-
-        responses.add(responses.GET, self.wrapper.test().data,
-                      body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
-                      status=200,
-                      content_type='application/json')
-
-        responses.add(responses.GET, next_url,
-                      body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
-                      status=200,
-                      content_type='application/json')
-
-        response = self.wrapper.test().get()
-
-        iterations_count = 0
-        for item in response().pages(max_items=0):
-            self.assertIn(item.key().data, 'value')
-            iterations_count += 1
-
 
 class TestTokenRefreshing(unittest.TestCase):
 
     def setUp(self):
-        self.wrapper = TokenRefreshClient(token='token')
+        self.wrapper = TokenRefreshClient(token='token', refresh_token_by_default=True)
 
     @responses.activate
-    def test_not_token_refresh_ready_client_call_raises_not_implemented(self):
+    def test_not_token_refresh_client_propagates_client_error(self):
         no_refresh_client = TesterClient()
 
         responses.add_callback(
@@ -481,29 +450,31 @@ class TestTokenRefreshing(unittest.TestCase):
             content_type='application/json',
         )
 
-        with self.assertRaises(NotImplementedError):
-            no_refresh_client.test().post(refresh_auth=True)
+        with self.assertRaises(ClientError):
+            no_refresh_client.test().post()
 
     @responses.activate
-    def test_token_expired_and_no_refresh_flag(self):
-        responses.add(responses.POST, self.wrapper.test().data,
-                    body='{"error": "Token expired"}',
-                    status=401,
-                    content_type='application/json')
-        with self.assertRaises(ClientError) as context:
-            response = self.wrapper.test().post()
+    def test_disable_token_refreshing(self):
+        responses.add_callback(
+            responses.POST, self.wrapper.test().data,
+            callback=lambda *a, **k: (401, {}, ''),
+            content_type='application/json',
+        )
+
+        with self.assertRaises(ClientError):
+            self.wrapper.test().post(refresh_token=False)
 
     @responses.activate
-    def test_token_expired_with_active_refresh_flag(self):
+    def test_token_expired_automatically_refresh_authentication(self):
         self.first_call = True
 
         def request_callback(request):
             if self.first_call:
                 self.first_call = False
-                return (401, {'content_type':'application/json'}, json.dumps('{"error": "Token expired"}'))
+                return (401, {'content_type': 'application/json'}, json.dumps('{"error": "Token expired"}'))
             else:
                 self.first_call = None
-                return (201, {'content_type':'application/json'}, '')
+                return (201, {'content_type': 'application/json'}, '')
 
         responses.add_callback(
             responses.POST, self.wrapper.test().data,
@@ -511,7 +482,7 @@ class TestTokenRefreshing(unittest.TestCase):
             content_type='application/json',
         )
 
-        response = self.wrapper.test().post(refresh_auth=True)
+        response = self.wrapper.test().post()
 
         # refresh_authentication method should be able to update api_params
         self.assertEqual(response._api_params['token'], 'new_token')
