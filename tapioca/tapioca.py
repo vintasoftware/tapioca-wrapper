@@ -220,7 +220,12 @@ class TapiocaClientExecutor(TapiocaClient):
         except ResponseProcessException as e:
             client = self._wrap_in_tapioca(e.data, response=response,
                                            request_kwargs=request_kwargs)
-            tapioca_exception = e.tapioca_exception(client=client)
+            message = ""
+            if e.data:
+                if type(e.data) == str:
+                   e.data = json.loads(e.data)
+                message = e.data.get("error", "")
+            tapioca_exception = e.tapioca_exception(client=client, message=message)
 
             should_refresh_token = (refresh_token is not False and
                                     self._refresh_token_default)

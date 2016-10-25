@@ -7,7 +7,7 @@ import responses
 import json
 
 from tapioca.tapioca import TapiocaClient
-from tapioca.exceptions import ClientError
+from tapioca.exceptions import ClientError, ServerError
 
 from tests.client import TesterClient, TokenRefreshClient
 
@@ -303,6 +303,23 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         self.assertIn('url', request_kwargs)
         self.assertIn('data', request_kwargs)
         self.assertIn('headers', request_kwargs)
+
+    @responses.activate
+    def test_thrown_tapioca_exception_with_error_data(self):
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"error": "bad request test"}',
+                      status=400,
+                      content_type='application/json')
+        with self.assertRaises(ClientError) as client_exception:
+            self.wrapper.test().get()
+        self.assertIn("bad request test", client_exception.exception.args)
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"error": "server error test"}',
+                      status=500,
+                      content_type='application/json')
+        with self.assertRaises(ServerError) as client_exception:
+            self.wrapper.test().get()
+        self.assertIn("server error test", client_exception.exception.args)
 
 
 class TestIteratorFeatures(unittest.TestCase):
