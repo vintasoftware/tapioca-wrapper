@@ -15,7 +15,7 @@ APIs wrapped by Tapioca are explorable and follow a simple interaction pattern t
 
 ## Documentation
 
-Documentation hosted by [readthedocs](http://tapioca-wrapper.readthedocs.org/)
+Full documentation hosted by [readthedocs](http://tapioca-wrapper.readthedocs.org/).
 
 ## Flavours
 
@@ -23,13 +23,12 @@ You can find the full list of available tapioca clients [here](http://tapioca-wr
 
 To create new flavours, refer to [Building a wrapper](http://tapioca-wrapper.readthedocs.org/en/stable/buildingawrapper.html) in the documentation. There is also a [cookiecutter template](https://github.com/vintasoftware/cookiecutter-tapioca) to help bootstraping new API clients.
 
-## Contributors
 
-[http://tapioca-wrapper.readthedocs.org/en/stable/contributors/](http://tapioca-wrapper.readthedocs.org/en/stable/contributors.html)
+## Other resources
 
-## Changelog
-
-[http://tapioca-wrapper.readthedocs.org/en/stable/changelog/](http://tapioca-wrapper.readthedocs.org/en/stable/changelog.html)
+- [Contributors](https://github.com/vintasoftware/tapioca-wrapper/graphs/contributors)
+- [Changelog](http://tapioca-wrapper.readthedocs.org/en/stable/changelog.html)
+- [Blog post explaining the basics about Tapioca](http://www.vinta.com.br/blog/2016/python-api-clients-with-tapioca/)
 
 ## Help
 
