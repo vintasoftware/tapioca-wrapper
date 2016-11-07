@@ -52,12 +52,13 @@ class TapiocaAdapter(object):
         return kwargs
 
     def process_response(self, response):
-        if str(response.status_code).startswith('5'):
+
+        if 500 <= response.status_code < 600:
             raise ResponseProcessException(ServerError, None)
 
         data = self.response_to_native(response)
 
-        if str(response.status_code).startswith('4'):
+        if 400 <= response.status_code < 500:
             raise ResponseProcessException(ClientError, data)
 
         return data
