@@ -333,6 +333,14 @@ class TestIteratorFeatures(unittest.TestCase):
 
         self.assertEqual(iterations_count, 2)
 
+        responses.mock.calls.reset()
+        iterations_count = 0
+        for item in self.wrapper.test().pages():
+            self.assertIn(item.key().data, 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 2)
+
     @responses.activate
     def test_simple_pages_with_max_items_iterator(self):
         next_url = 'http://api.teste.com/next_batch'
@@ -351,6 +359,14 @@ class TestIteratorFeatures(unittest.TestCase):
 
         iterations_count = 0
         for item in response().pages(max_items=3, max_pages=2):
+            self.assertIn(item.key().data, 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 3)
+
+        responses.mock.calls.reset()
+        iterations_count = 0
+        for item in self.wrapper.test().pages(max_items=3, max_pages=2):
             self.assertIn(item.key().data, 'value')
             iterations_count += 1
 
@@ -388,6 +404,14 @@ class TestIteratorFeatures(unittest.TestCase):
 
         self.assertEqual(iterations_count, 7)
 
+        responses.mock.calls.reset()
+        iterations_count = 0
+        for item in self.wrapper.test().pages(max_pages=3):
+            self.assertIn(item.key().data, 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 7)
+
     @responses.activate
     def test_simple_pages_max_page_zero_iterator(self):
         next_url = 'http://api.teste.com/next_batch'
@@ -406,6 +430,14 @@ class TestIteratorFeatures(unittest.TestCase):
 
         iterations_count = 0
         for item in response().pages(max_pages=0):
+            self.assertIn(item.key().data, 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 0)
+
+        responses.mock.calls.reset()
+        iterations_count = 0
+        for item in self.wrapper.test().pages(max_pages=0):
             self.assertIn(item.key().data, 'value')
             iterations_count += 1
 
@@ -433,6 +465,68 @@ class TestIteratorFeatures(unittest.TestCase):
             iterations_count += 1
 
         self.assertEqual(iterations_count, 0)
+
+        responses.mock.calls.reset()
+        iterations_count = 0
+        for item in self.wrapper.test().pages(max_items=0):
+            self.assertIn(item.key().data, 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 0)
+
+    @responses.activate
+    def test_cant_pass_param_after_first_get(self):
+        next_url = 'http://api.teste.com/next_batch'
+
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+                      status=200,
+                      content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+                      body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
+                      status=200,
+                      content_type='application/json')
+
+        with self.assertRaises(Exception) as exception_cm:
+            response = self.wrapper.test().get()
+            for item in response().pages(params={'param-key': 'param-value'}):
+                break
+
+        self.assertEqual(str(exception_cm.exception),
+                         "Since you're paging after the first .get call, "
+                         "you can't pass params here."
+                         "Pass params on the .get call instead.")
+
+    def test_params_are_kept_between_pages_gets(self):
+        def add_responses(rsps):
+            next_url = 'http://api.teste.com/next_batch'
+
+            rsps.add(responses.GET, self.wrapper.test().data + '?keep-me=please',
+                     body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+                     status=200,
+                     content_type='application/json',
+                     match_querystring=True)
+
+            rsps.add(responses.GET, next_url + '?keep-me=please',
+                     body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
+                     status=200,
+                     content_type='application/json',
+                     match_querystring=True)
+
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            add_responses(rsps)
+
+            response = self.wrapper.test().get(params={'keep-me': 'please'})
+
+            for item in response().pages():
+                self.assertIn(item.key().data, 'value')
+
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            add_responses(rsps)
+
+            for item in self.wrapper.test().pages(params={'keep-me': 'please'}):
+                self.assertIn(item.key().data, 'value')
 
 
 class TestTokenRefreshing(unittest.TestCase):

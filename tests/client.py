@@ -42,7 +42,8 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
         url = paging.get('next')
 
         if url:
-            return {'url': url}
+            iterator_request_kwargs['url'] = url
+            return iterator_request_kwargs
 
 
 TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)

@@ -261,8 +261,19 @@ class TapiocaClientExecutor(TapiocaClient):
         reached_item_limit = max_items is not None and max_items <= item_count
         return reached_page_limit or reached_item_limit
 
-    def pages(self, max_pages=None, max_items=None, **kwargs):
-        executor = self
+    def pages(self, max_pages=None, max_items=None, params=None, **kwargs):
+        if self._response is not None:
+            if params is not None:
+                raise Exception("Since you're paging after the first .get call, "
+                                "you can't pass params here."
+                                "Pass params on the .get call instead.")
+            executor = self
+        else:
+            # this mean .pages() was called before the first .get,
+            # like `api.statuses_user_timeline().pages()`
+            response = self.get(params=params)
+            executor = response()
+
         iterator_list = executor._get_iterator_list()
         page_count = 0
         item_count = 0
