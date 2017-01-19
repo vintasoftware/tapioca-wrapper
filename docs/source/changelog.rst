@@ -2,6 +2,12 @@
 Changelog
 =========
 
+1.3
+===
+- ``refresh_authentication`` should return data about the refresh token process
+- If a falsy value is returned by ``refresh_authentication`` the request wont be retried automatically
+- Data returned by ``refresh_authentication`` is stored in the tapioca class and can be accessed in the executor via the attribute ``refresh_data``
+
 1.2.3
 ======
 - ``refresh_token_by_default`` introduced to prevent passing ``refresh_token`` on every request.

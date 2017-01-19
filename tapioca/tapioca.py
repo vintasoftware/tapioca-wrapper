@@ -29,7 +29,7 @@ class TapiocaClient(object):
 
     def __init__(self, api, data=None, response=None, request_kwargs=None,
                  api_params=None, resource=None, refresh_token_by_default=False,
-                 *args, **kwargs):
+                 refresh_data=None, *args, **kwargs):
         self._api = api
         self._data = data
         self._response = response
@@ -37,6 +37,7 @@ class TapiocaClient(object):
         self._request_kwargs = request_kwargs
         self._resource = resource
         self._refresh_token_default = refresh_token_by_default
+        self._refresh_data = refresh_data
 
     def _instatiate_api(self):
         serializer_class = None
@@ -51,6 +52,7 @@ class TapiocaClient(object):
                              api_params=self._api_params,
                              request_kwargs=request_kwargs,
                              refresh_token_by_default=self._refresh_token_default,
+                             refresh_data=self._refresh_data,
                              *args, **kwargs)
 
     def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
@@ -59,6 +61,7 @@ class TapiocaClient(object):
                                      api_params=self._api_params,
                                      request_kwargs=request_kwargs,
                                      refresh_token_by_default=self._refresh_token_default,
+                                     refresh_data=self._refresh_data,
                                      *args, **kwargs)
 
     def _get_doc(self):
@@ -206,6 +209,10 @@ class TapiocaClientExecutor(TapiocaClient):
     def status_code(self):
         return self.response.status_code
 
+    @property
+    def refresh_data(self):
+        return self._refresh_data
+
     def _make_request(self, request_method, refresh_token=None, *args, **kwargs):
         if 'url' not in kwargs:
             kwargs['url'] = self._data
@@ -224,10 +231,18 @@ class TapiocaClientExecutor(TapiocaClient):
 
             should_refresh_token = (refresh_token is not False and
                                     self._refresh_token_default)
-            if should_refresh_token and self._api.is_authentication_expired(tapioca_exception):
-                self._api.refresh_authentication(self._api_params)
-                return self._make_request(request_method, *args, **kwargs)
-            else:
+            auth_expired = self._api.is_authentication_expired(tapioca_exception)
+
+            propagate_exception = True
+
+            if should_refresh_token and auth_expired:
+                self._refresh_data = self._api.refresh_authentication(self._api_params)
+                if self._refresh_data:
+                    propagate_exception = False
+                    return self._make_request(request_method,
+                                              refresh_token=False, *args, **kwargs)
+
+            if propagate_exception:
                 raise tapioca_exception
 
         return self._wrap_in_tapioca(data, response=response,

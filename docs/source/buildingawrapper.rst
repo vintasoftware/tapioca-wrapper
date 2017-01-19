@@ -120,6 +120,8 @@ You can implement the ```refresh_authentication``` and ```is_authentication_expi
 
 ```is_authentication_expired``` receives an error object from the request method (it contains the server response and HTTP Status code). You can use it to decide if a request failed because of the token. This method should return ```True``` if the authentication is expired or ```False``` otherwise  (default behavior).
 
+``refresh_authentication`` receives ``api_params`` and should perform the token refresh protocol. If it is successfull it should return a truthy value (the original request will then be automatically tried). If the token refresh fails, it should return a falsy value (and the the  original request wont be retried).
+
 Once these methods are implemented, the client can be instantiated with ```refresh_token_by_default=True``` (or pass
 ```refresh_token=True``` in HTTP calls) and ```refresh_authentication``` will be called automatically.
 
