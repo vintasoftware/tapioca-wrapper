@@ -9,7 +9,7 @@ import json
 from tapioca.tapioca import TapiocaClient
 from tapioca.exceptions import ClientError
 
-from tests.client import TesterClient, TokenRefreshClient
+from tests.client import TesterClient, TokenRefreshClient, FailTokenRefreshClient
 
 
 class TestTapiocaClient(unittest.TestCase):
@@ -486,3 +486,48 @@ class TestTokenRefreshing(unittest.TestCase):
 
         # refresh_authentication method should be able to update api_params
         self.assertEqual(response._api_params['token'], 'new_token')
+
+    @responses.activate
+    def test_raises_error_if_refresh_authentication_method_returns_falsy_value(self):
+        client = FailTokenRefreshClient(token='token', refresh_token_by_default=True)
+
+        self.first_call = True
+
+        def request_callback(request):
+            if self.first_call:
+                self.first_call = False
+                return (401, {}, '')
+            else:
+                self.first_call = None
+                return (201, {}, '')
+
+        responses.add_callback(
+            responses.POST, client.test().data,
+            callback=request_callback,
+            content_type='application/json',
+        )
+
+        with self.assertRaises(ClientError):
+            client.test().post()
+
+    @responses.activate
+    def test_stores_refresh_authentication_method_response_for_further_access(self):
+        self.first_call = True
+
+        def request_callback(request):
+            if self.first_call:
+                self.first_call = False
+                return (401, {}, '')
+            else:
+                self.first_call = None
+                return (201, {}, '')
+
+        responses.add_callback(
+            responses.POST, self.wrapper.test().data,
+            callback=request_callback,
+            content_type='application/json',
+        )
+
+        response = self.wrapper.test().post()
+
+        self.assertEqual(response().refresh_data, 'new_token')

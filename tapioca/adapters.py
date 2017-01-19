@@ -52,7 +52,6 @@ class TapiocaAdapter(object):
         return kwargs
 
     def process_response(self, response):
-
         if 500 <= response.status_code < 600:
             raise ResponseProcessException(ServerError, None)
 

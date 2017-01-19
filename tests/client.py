@@ -67,7 +67,18 @@ class TokenRefreshClientAdapter(TesterClientAdapter):
         return exception.status_code == 401
 
     def refresh_authentication(self, api_params, *args, **kwargs):
-        api_params['token'] = 'new_token'
+        new_token = 'new_token'
+        api_params['token'] = new_token
+        return new_token
 
 
 TokenRefreshClient = generate_wrapper_from_adapter(TokenRefreshClientAdapter)
+
+
+class FailTokenRefreshClientAdapter(TokenRefreshClientAdapter):
+
+    def refresh_authentication(self, api_params, *args, **kwargs):
+        return None
+
+
+FailTokenRefreshClient = generate_wrapper_from_adapter(FailTokenRefreshClientAdapter)

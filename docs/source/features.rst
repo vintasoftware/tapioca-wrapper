@@ -39,7 +39,7 @@ Everytive you ``call`` in ``TapiocaClient`` you will get a ``TapiocaClientExecut
 Accessing raw response data
 ---------------------------
 
-To access the raw data contained in the executor, use the ``data`` **attribute**. To access the raw response, use the ``response`` **attribute**. To access the status code of the response, use the ``status_code`` **attribute**.
+To access the raw data contained in the executor, use the ``data`` **attribute**. To access the raw response, use the ``response`` **attribute**. To access the status code of the response, use the ``status_code`` **attribute**. If during the request the ``Auth refreshing`` process was executed, the returned value from it will be accessible in the ``refresh_data`` **attribute**.
 
 **TODO: add examples**
 

@@ -110,4 +110,4 @@ defaults to ```False``` in the client initialization.
 
 .. method:: refresh_authentication(self, api_params, *args, **kwargs): 
 
-Should run refresh authentication logic. Make sure you update `api_params` dictionary with the new token.
+Should do refresh authentication logic. Make sure you update `api_params` dictionary with the new token. If it successfully refreshs token it should return a truthy value that will be stored for later access in the executor class in the ``refresh_data`` attribute. If the refresh logic fails, return a falsy value. The original request will be retried only if a truthy is returned.
