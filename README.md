@@ -33,3 +33,7 @@ To create new flavours, refer to [Building a wrapper](http://tapioca-wrapper.rea
 ## Help
 
 If you have any questions or need help, please send an email to: contact@vinta.com.br
+
+## Commercial Support
+
+This project, as other Vinta open-source projects, is used in products of Vinta clients. We are always looking for exciting work, so if you need any commercial support, feel free to get in touch: contact@vinta.com.br
