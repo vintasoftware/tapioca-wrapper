@@ -2,6 +2,10 @@
 Changelog
 =========
 
+1.4
+===
+- Adds support to Session requests
+
 1.3
 ===
 - ``refresh_authentication`` should return data about the refresh token process
