@@ -56,9 +56,10 @@ For example caching for github requests using `cachecontrol`_:
 
     session = CacheControl(requests.Session(), cache=FileCache('webcache'))
     gh = tapioca_github.Github(client_id='some_id', access_token='some_token', session=session)
-    repo_data  = gh.repo_single(owner="vintasoftware", repo="tapioca-wrapper").get()().data
+    response  = gh.repo_single(owner="vintasoftware", repo="tapioca-wrapper").get()
+    repo_data = response().data
 
-This will correct cache the E-tags provided by github to the folder webcache such that tapioca will work with cached responses where available.
+This will cache the E-tags provided by github to the folder `webcache`.
 
 .. _Session object: http://docs.python-requests.org/en/master/user/advanced/#session-objects
 .. _cachecontrol: https://cachecontrol.readthedocs.io/en/latest/
