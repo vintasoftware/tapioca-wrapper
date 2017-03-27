@@ -18,18 +18,19 @@ class TapiocaInstantiator(object):
     def __init__(self, adapter_class):
         self.adapter_class = adapter_class
 
-    def __call__(self, serializer_class=None, **kwargs):
+    def __call__(self, serializer_class=None, session=None, **kwargs):
         refresh_token_default = kwargs.pop('refresh_token_by_default', False)
         return TapiocaClient(
             self.adapter_class(serializer_class=serializer_class),
-            api_params=kwargs, refresh_token_by_default=refresh_token_default)
+            api_params=kwargs, refresh_token_by_default=refresh_token_default,
+            session=session)
 
 
 class TapiocaClient(object):
 
     def __init__(self, api, data=None, response=None, request_kwargs=None,
                  api_params=None, resource=None, refresh_token_by_default=False,
-                 refresh_data=None, *args, **kwargs):
+                 refresh_data=None, session=None, *args, **kwargs):
         self._api = api
         self._data = data
         self._response = response
@@ -38,6 +39,7 @@ class TapiocaClient(object):
         self._resource = resource
         self._refresh_token_default = refresh_token_by_default
         self._refresh_data = refresh_data
+        self._session = session or requests.Session()
 
     def _instatiate_api(self):
         serializer_class = None
@@ -53,6 +55,7 @@ class TapiocaClient(object):
                              request_kwargs=request_kwargs,
                              refresh_token_by_default=self._refresh_token_default,
                              refresh_data=self._refresh_data,
+                             session=self._session,
                              *args, **kwargs)
 
     def _wrap_in_tapioca_executor(self, data, *args, **kwargs):
@@ -62,6 +65,7 @@ class TapiocaClient(object):
                                      request_kwargs=request_kwargs,
                                      refresh_token_by_default=self._refresh_token_default,
                                      refresh_data=self._refresh_data,
+                                     session=self._session,
                                      *args, **kwargs)
 
     def _get_doc(self):
@@ -220,7 +224,7 @@ class TapiocaClientExecutor(TapiocaClient):
         request_kwargs = self._api.get_request_kwargs(
             self._api_params, request_method, *args, **kwargs)
 
-        response = requests.request(request_method, **request_kwargs)
+        response = self._session.request(request_method, **request_kwargs)
 
         try:
             data = self._api.process_response(response)

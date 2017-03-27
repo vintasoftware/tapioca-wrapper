@@ -18,18 +18,50 @@ Default URL params
 Sometimes URLs templates need parameters that will be repeated across all call. For example, your user id:
 
 .. code-block:: bash
-	
-	http://www.someapi.com/{user_id}/resources/   
-	http://www.someapi.com/{user_id}/resources/{resource_id}/   
-	http://www.someapi.com/{user_id}/other-resources/{other_id}/   
+
+	http://www.someapi.com/{user_id}/resources/
+	http://www.someapi.com/{user_id}/resources/{resource_id}/
+	http://www.someapi.com/{user_id}/other-resources/{other_id}/
 
 
 In this cases you can instantiate the wrapper passing a ``default_url_params`` parameter, and they will be used automatically to fill URL templates.
 
 .. code-block:: python
-	
+
 	cli = MyWrapper(access_token='some_token', default_url_params={'user_id': 123456})
 	cli.resources() # http://www.someapi.com/123456/resources/
+
+Using an existing requests.Session
+----------------------------------
+
+Requests provides access to a number of advanced features by letting users maintain a `Session object`_.
+
+To use these features you can create a ``TapiocaClient`` with an existing session by passing it to the new client as the ``session`` paramter:
+
+.. code-block:: python
+
+    session = requests.Session()
+    cli = MyWrapper(access_token='some_token', session=session)
+	cli.resources() # http://www.someapi.com/123456/resources/
+
+This allows us to perform some interesting operations without having to support them directly in ``TapiocaClient``.
+For example caching for github requests using `cachecontrol`_:
+
+.. code-block:: python
+
+    from cachecontrol import CacheControl
+    from cachecontrol.caches import FileCache
+    import requests
+    import tapioca_github
+
+    session = CacheControl(requests.Session(), cache=FileCache('webcache'))
+    gh = tapioca_github.Github(client_id='some_id', access_token='some_token', session=session)
+    repo_data  = gh.repo_single(owner="vintasoftware", repo="tapioca-wrapper").get()().data
+
+This will correct cache the E-tags provided by github to the folder webcache such that tapioca will work with cached responses where available.
+
+.. _Session object: http://docs.python-requests.org/en/master/user/advanced/#session-objects
+.. _cachecontrol: https://cachecontrol.readthedocs.io/en/latest/
 
 TapiocaClientExecutor
 =====================
