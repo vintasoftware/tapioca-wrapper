@@ -6,6 +6,8 @@ from .tapioca import TapiocaInstantiator
 from .exceptions import (
     ResponseProcessException, ClientError, ServerError)
 from .serializers import SimpleSerializer
+from .xml_helpers import (
+    input_branches_to_xml_bytestring, xml_string_to_etree_elt_dict)
 
 
 def generate_wrapper_from_adapter(adapter_class):
@@ -115,3 +117,27 @@ class JSONAdapterMixin(object):
     def response_to_native(self, response):
         if response.content.strip():
             return response.json()
+
+
+class XMLAdapterMixin(object):
+
+    def get_request_kwargs(self, api_params, *args, **kwargs):
+        arguments = super(XMLAdapterMixin, self).get_request_kwargs(
+            api_params, *args, **kwargs)
+
+        if 'headers' not in arguments:
+            # allows user to override for formats like 'application/atom+xml'
+            arguments['headers'] = {}
+            arguments['headers']['Content-Type'] = 'application/xml'
+        return arguments
+
+    def format_data_to_request(self, data):
+        if data:
+            return input_branches_to_xml_bytestring(data)
+
+    def response_to_native(self, response):
+        if response.content.strip():
+            if 'xml' in response.headers['content-type']:
+                return {'xml': response.content,
+                        'dict': xml_string_to_etree_elt_dict(response.content)}
+            return {'text': response.text}
