@@ -27,13 +27,13 @@ class TapiocaAdapter(object):
         if not self.serializer:
             raise NotImplementedError("This client does not have a serializer")
 
-        def to_native_wrapper():
-            return self._value_to_native(method_name, value)
+        def to_native_wrapper(**kwargs):
+            return self._value_to_native(method_name, value, **kwargs)
 
         return to_native_wrapper
 
-    def _value_to_native(self, method_name, value):
-        return self.serializer.deserialize(method_name, value)
+    def _value_to_native(self, method_name, value, **kwargs):
+        return self.serializer.deserialize(method_name, value, **kwargs)
 
     def get_serializer(self):
         if self.serializer_class:
@@ -54,12 +54,12 @@ class TapiocaAdapter(object):
         return kwargs
 
     def process_response(self, response):
-        if str(response.status_code).startswith('5'):
+        if 500 <= response.status_code < 600:
             raise ResponseProcessException(ServerError, None)
 
         data = self.response_to_native(response)
 
-        if str(response.status_code).startswith('4'):
+        if 400 <= response.status_code < 500:
             raise ResponseProcessException(ClientError, data)
 
         return data
@@ -84,7 +84,7 @@ class TapiocaAdapter(object):
         raise NotImplementedError()
 
     def is_authentication_expired(self, exception, *args, **kwargs):
-        raise NotImplementedError()
+        return False
 
     def refresh_authentication(self, api_params, *args, **kwargs):
         raise NotImplementedError()

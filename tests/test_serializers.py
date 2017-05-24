@@ -23,6 +23,19 @@ class TestSerlializer(unittest.TestCase):
         serializer = wrapper._api.serializer
         self.assertTrue(isinstance(serializer, BaseSerializer))
 
+    @responses.activate
+    def test_external_serializer_is_passed_along_clients(self):
+        serializer_wrapper = TesterClient(serializer_class=SimpleSerializer)
+
+        responses.add(responses.GET, serializer_wrapper.test().data,
+                      body='{"date": "2014-11-13T14:53:18.694072+00:00"}',
+                      status=200,
+                      content_type='application/json')
+
+        response = serializer_wrapper.test().get()
+
+        self.assertTrue(response._api.serializer.__class__, SimpleSerializer)
+
     def test_serializer_client_adapter_has_serializer(self):
         serializer = self.wrapper._api.serializer
         self.assertTrue(isinstance(serializer, BaseSerializer))
@@ -76,7 +89,8 @@ class TestDeserialization(unittest.TestCase):
                       content_type='application/json')
 
         response = self.wrapper.test().get()
-        self.assertEqual(response.decimal_value().to_decimal(),
+        self.assertEqual(
+            response.decimal_value().to_decimal(),
             Decimal('10.51'))
 
     @responses.activate
@@ -117,6 +131,19 @@ class TestDeserialization(unittest.TestCase):
         response = wrapper.test().get()
         with self.assertRaises(NotImplementedError):
             response.any_data().to_datetime()
+
+    @responses.activate
+    def test_pass_kwargs(self):
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"decimal_value": "10.51"}',
+                      status=200,
+                      content_type='application/json')
+
+        response = self.wrapper.test().get()
+
+        self.assertEqual(
+            response.decimal_value().to_kwargs(some_key='some value'),
+            {'some_key': 'some value'})
 
 
 class TestSerialization(unittest.TestCase):

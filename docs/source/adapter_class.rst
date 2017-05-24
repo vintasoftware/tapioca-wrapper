@@ -15,6 +15,7 @@ This should contain the base URL that will be concatenated with the resource map
 
 For more information about the ``serializer_class`` attribute, read the :doc:`serializers documentation <serializers>`.
 
+
 Methods
 -------
 
@@ -100,8 +101,13 @@ In this example, the object list is enclosed in the ``data`` attribute.
 
 .. method:: is_authentication_expired(self, exception, *args, **kwargs)
 
-Given an exception, should returne if the authentication is expired. If so, tapioca will call ``refresh_authentication``. After ``refresh_authentication`` is done, and if ``refresh_auth`` was passed to the HTTP method being called, it will retry the request with the new keys.
+Given an exception, checks if the authentication has expired or not. If so and ```refresh_token_by_default=True``` or
+the HTTP method was called with ```refresh_token=True```, then it will automatically call ```refresh_authentication```
+method and retry the original request.
+
+If not implemented, ```is_authentication_expired``` will assume ```False```, ```refresh_token_by_default``` also
+defaults to ```False``` in the client initialization.
 
 .. method:: refresh_authentication(self, api_params, *args, **kwargs): 
 
-Should run refresh authentication logic. Make sure you update `api_params` dictionary with the new token.
+Should do refresh authentication logic. Make sure you update `api_params` dictionary with the new token. If it successfully refreshs token it should return a truthy value that will be stored for later access in the executor class in the ``refresh_data`` attribute. If the refresh logic fails, return a falsy value. The original request will be retried only if a truthy is returned.

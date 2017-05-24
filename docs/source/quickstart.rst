@@ -199,7 +199,7 @@ Many APIs use a paging concept to provide large amounts of data. This way, data 
 	likes = api.user_likes(id='me').get()
 
 	for like in likes().pages():
-		print(like.name().data
+		print(like.name().data)
 
 This will keep fetching user likes until there are none left. Items passed to the ``for`` loop will be wrapped in tapioca so you still have access to all features.
 

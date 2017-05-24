@@ -48,8 +48,14 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
 TesterClient = generate_wrapper_from_adapter(TesterClientAdapter)
 
 
+class CustomSerializer(SimpleSerializer):
+
+    def to_kwargs(self, data, **kwargs):
+        return kwargs
+
+
 class SerializerClientAdapter(TesterClientAdapter):
-    serializer_class = SimpleSerializer
+    serializer_class = CustomSerializer
 
 
 SerializerClient = generate_wrapper_from_adapter(SerializerClientAdapter)
@@ -61,10 +67,21 @@ class TokenRefreshClientAdapter(TesterClientAdapter):
         return exception.status_code == 401
 
     def refresh_authentication(self, api_params, *args, **kwargs):
-        api_params['token'] = 'new_token'
+        new_token = 'new_token'
+        api_params['token'] = new_token
+        return new_token
 
 
 TokenRefreshClient = generate_wrapper_from_adapter(TokenRefreshClientAdapter)
+
+
+class FailTokenRefreshClientAdapter(TokenRefreshClientAdapter):
+
+    def refresh_authentication(self, api_params, *args, **kwargs):
+        return None
+
+
+FailTokenRefreshClient = generate_wrapper_from_adapter(FailTokenRefreshClientAdapter)
 
 
 class XMLClientAdapter(XMLAdapterMixin, TapiocaAdapter):
