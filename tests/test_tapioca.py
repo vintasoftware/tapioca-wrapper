@@ -6,10 +6,14 @@ import unittest
 import responses
 import json
 
+import xmltodict
+from collections import OrderedDict
+from decimal import Decimal
+
 from tapioca.tapioca import TapiocaClient
 from tapioca.exceptions import ClientError
 
-from tests.client import TesterClient, TokenRefreshClient, FailTokenRefreshClient
+from tests.client import TesterClient, TokenRefreshClient, XMLClient, FailTokenRefreshClient
 
 
 class TestTapiocaClient(unittest.TestCase):
@@ -531,3 +535,92 @@ class TestTokenRefreshing(unittest.TestCase):
         response = self.wrapper.test().post()
 
         self.assertEqual(response().refresh_data, 'new_token')
+
+
+class TestXMLRequests(unittest.TestCase):
+
+    def setUp(self):
+        self.wrapper = XMLClient()
+
+    @responses.activate
+    def test_xml_post_string(self):
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body='Any response', status=200, content_type='application/json')
+
+        data = ('<tag1 attr1="val1">'
+                '<tag2>text1</tag2>'
+                '<tag3>text2</tag3>'
+                '</tag1>')
+
+        self.wrapper.test().post(data=data)
+
+        request_body = responses.calls[0].request.body
+
+        self.assertEqual(request_body, data.encode('utf-8'))
+
+    @responses.activate
+    def test_xml_post_dict(self):
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body='Any response', status=200, content_type='application/json')
+
+        data = OrderedDict([
+            ('tag1', OrderedDict([
+                ('@attr1', 'val1'), ('tag2', 'text1'), ('tag3', 'text2')
+            ]))
+        ])
+
+        self.wrapper.test().post(data=data)
+
+        request_body = responses.calls[0].request.body
+
+        self.assertEqual(request_body, xmltodict.unparse(data).encode('utf-8'))
+
+    @responses.activate
+    def test_xml_post_dict_passes_unparse_param(self):
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body='Any response', status=200, content_type='application/json')
+
+        data = OrderedDict([
+            ('tag1', OrderedDict([
+                ('@attr1', 'val1'), ('tag2', 'text1'), ('tag3', 'text2')
+            ]))
+        ])
+
+        self.wrapper.test().post(data=data, xmltodict_unparse__full_document=False)
+
+        request_body = responses.calls[0].request.body
+
+        self.assertEqual(request_body, xmltodict.unparse(
+            data, full_document=False).encode('utf-8'))
+
+    @responses.activate
+    def test_xml_returns_text_if_response_not_xml(self):
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body='Any response', status=200, content_type='any content')
+
+        data = OrderedDict([
+            ('tag1', OrderedDict([
+                ('@attr1', 'val1'), ('tag2', 'text1'), ('tag3', 'text2')
+            ]))
+        ])
+
+        response = self.wrapper.test().post(data=data)
+
+        self.assertEqual('Any response', response().data['text'])
+
+    @responses.activate
+    def test_xml_post_dict_returns_dict_if_response_xml(self):
+        xml_body = '<tag1 attr1="val1">text1</tag1>'
+        responses.add(responses.POST, self.wrapper.test().data,
+                      body=xml_body, status=200,
+                      content_type='application/xml')
+
+        data = OrderedDict([
+            ('tag1', OrderedDict([
+                ('@attr1', 'val1'), ('tag2', 'text1'), ('tag3', 'text2')
+            ]))
+        ])
+
+        response = self.wrapper.test().post(data=data)
+
+        self.assertEqual(response().data, xmltodict.parse(xml_body))

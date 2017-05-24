@@ -1,6 +1,8 @@
 # coding: utf-8
 
 import json
+import xmltodict
+from collections import Mapping
 
 from .tapioca import TapiocaInstantiator
 from .exceptions import (
@@ -115,3 +117,44 @@ class JSONAdapterMixin(object):
     def response_to_native(self, response):
         if response.content.strip():
             return response.json()
+
+
+class XMLAdapterMixin(object):
+
+    def _input_branches_to_xml_bytestring(self, data):
+        if isinstance(data, Mapping):
+            return xmltodict.unparse(
+                data, **self._xmltodict_unparse_kwargs).encode('utf-8')
+        try:
+            return data.encode('utf-8')
+        except Exception as e:
+            raise type(e)('Format not recognized, please enter an XML as string or a dictionary'
+                          'in xmltodict spec: \n%s' % e.message)
+
+    def get_request_kwargs(self, api_params, *args, **kwargs):
+        # stores kwargs prefixed with 'xmltodict_unparse__' for use by xmltodict.unparse
+        self._xmltodict_unparse_kwargs = {k[len('xmltodict_unparse__'):]: kwargs.pop(k)
+                                          for k in kwargs.copy().keys()
+                                          if k.startswith('xmltodict_unparse__')}
+        # stores kwargs prefixed with 'xmltodict_parse__' for use by xmltodict.parse
+        self._xmltodict_parse_kwargs = {k[len('xmltodict_parse__'):]: kwargs.pop(k)
+                                        for k in kwargs.copy().keys()
+                                        if k.startswith('xmltodict_parse__')}
+
+        arguments = super(XMLAdapterMixin, self).get_request_kwargs(
+            api_params, *args, **kwargs)
+
+        if 'headers' not in arguments:
+            arguments['headers'] = {}
+        arguments['headers']['Content-Type'] = 'application/xml'
+        return arguments
+
+    def format_data_to_request(self, data):
+        if data:
+            return self._input_branches_to_xml_bytestring(data)
+
+    def response_to_native(self, response):
+        if response.content.strip():
+            if 'xml' in response.headers['content-type']:
+                return xmltodict.parse(response.content, **self._xmltodict_parse_kwargs)
+            return {'text': response.text}
