@@ -12,12 +12,15 @@ class TapiocaException(Exception):
     def __init__(self, message, client):
         self.status_code = None
         self.client = client
+        self.message = message
+
         if client is not None:
             self.status_code = client().status_code
 
         if not message:
-            message = "response status code: {}".format(self.status_code)
-        super(TapiocaException, self).__init__(message)
+            self.message = "response status code: {}".format(self.status_code)
+
+        super(TapiocaException, self).__init__(self.message)
 
 
 class ClientError(TapiocaException):
