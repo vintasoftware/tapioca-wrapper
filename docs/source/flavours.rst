@@ -74,6 +74,9 @@ Youtube
 ---------
 `<https://github.com/vintasoftware/tapioca-youtube>`_
 
+Asana
+-----
+`<https://github.com/henriquebastos/tapioca-asana>`_
 
 Your flavour
 ============
