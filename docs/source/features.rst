@@ -36,7 +36,7 @@ Using an existing requests.Session
 
 Requests provides access to a number of advanced features by letting users maintain a `Session object`_.
 
-To use these features you can create a ``TapiocaClient`` with an existing session by passing it to the new client as the ``session`` paramter:
+To use these features you can create a ``TapiocaClient`` with an existing session by passing it to the new client as the ``session`` parameter:
 
 .. code-block:: python
 
@@ -67,7 +67,7 @@ This will cache the E-tags provided by github to the folder `webcache`.
 TapiocaClientExecutor
 =====================
 
-Everytive you ``call`` in ``TapiocaClient`` you will get a ``TapiocaClientExecutor``. Here are the features available in a ``TapiocaClientExecutor``:
+Every time you ``call`` in ``TapiocaClient`` you will get a ``TapiocaClientExecutor``. Here are the features available in a ``TapiocaClientExecutor``:
 
 Accessing raw response data
 ---------------------------
