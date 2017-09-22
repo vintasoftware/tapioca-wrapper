@@ -78,6 +78,10 @@ Asana
 -----
 `<https://github.com/henriquebastos/tapioca-asana>`_
 
+Desk
+-----
+`<https://github.com/medeirosthiago/tapioca-desk>`_
+
 Your flavour
 ============
 To create a new wrapper, please refer to :doc:`Building a wrapper <buildingawrapper>`. Upload it to pypi and send a pull request here for it to be added to the list.
