@@ -1,8 +1,13 @@
+sudo: false
 language: python
 install:
-  - pip install tox
+  - pip install tox-travis
   - pip install 'virtualenv<14.0.0'
 script:
   - tox
 python:
-  - 3.5
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
