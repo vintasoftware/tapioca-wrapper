@@ -258,6 +258,9 @@ class TapiocaClientExecutor(TapiocaClient):
     def post(self, *args, **kwargs):
         return self._make_request('POST', *args, **kwargs)
 
+    def options(self, *args, **kwargs):
+        return self._make_request('OPTIONS', *args, **kwargs)
+    
     def put(self, *args, **kwargs):
         return self._make_request('PUT', *args, **kwargs)
 
