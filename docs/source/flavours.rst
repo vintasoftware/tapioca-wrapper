@@ -82,6 +82,10 @@ Desk
 -----
 `<https://github.com/medeirosthiago/tapioca-desk>`_
 
+Mailgun
+-----
+`<https://github.com/vintasoftware/tapioca-mailgun>`_
+
 Discourse
 -----
 `<https://github.com/humrochagf/tapioca-discourse>`_
