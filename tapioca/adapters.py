@@ -53,6 +53,9 @@ class TapiocaAdapter(object):
         })
         return kwargs
 
+    def get_error_message(self, data, response=None):
+        return str(data)
+
     def process_response(self, response):
         if 500 <= response.status_code < 600:
             raise ResponseProcessException(ServerError, None)
@@ -117,6 +120,14 @@ class JSONAdapterMixin(object):
     def response_to_native(self, response):
         if response.content.strip():
             return response.json()
+
+    def get_error_message(self, data, response=None):
+        if not data and response.content.strip():
+            data = json.loads(response.content.decode('utf-8'))
+
+        if data:
+            return data.get('error', None)
+
 
 
 class XMLAdapterMixin(object):

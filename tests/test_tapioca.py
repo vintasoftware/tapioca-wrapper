@@ -8,10 +8,9 @@ import json
 
 import xmltodict
 from collections import OrderedDict
-from decimal import Decimal
 
 from tapioca.tapioca import TapiocaClient
-from tapioca.exceptions import ClientError
+from tapioca.exceptions import ClientError, ServerError
 
 from tests.client import TesterClient, TokenRefreshClient, XMLClient, FailTokenRefreshClient
 
@@ -308,6 +307,26 @@ class TestTapiocaExecutorRequests(unittest.TestCase):
         self.assertIn('data', request_kwargs)
         self.assertIn('headers', request_kwargs)
 
+    @responses.activate
+    def test_thrown_tapioca_exception_with_clienterror_data(self):
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"error": "bad request test"}',
+                      status=400,
+                      content_type='application/json')
+        with self.assertRaises(ClientError) as client_exception:
+            self.wrapper.test().get()
+        self.assertIn("bad request test", client_exception.exception.args)
+
+    @responses.activate
+    def test_thrown_tapioca_exception_with_servererror_data(self):
+        responses.add(responses.GET, self.wrapper.test().data,
+                      body='{"error": "server error test"}',
+                      status=500,
+                      content_type='application/json')
+        with self.assertRaises(ServerError) as server_exception:
+            self.wrapper.test().get()
+        self.assertIn("server error test", server_exception.exception.args)
+
 
 class TestIteratorFeatures(unittest.TestCase):
 
@@ -475,7 +494,7 @@ class TestTokenRefreshing(unittest.TestCase):
         def request_callback(request):
             if self.first_call:
                 self.first_call = False
-                return (401, {'content_type': 'application/json'}, json.dumps('{"error": "Token expired"}'))
+                return (401, {'content_type': 'application/json'}, json.dumps({"error": "Token expired"}))
             else:
                 self.first_call = None
                 return (201, {'content_type': 'application/json'}, '')
