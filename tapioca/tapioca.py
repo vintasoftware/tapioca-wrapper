@@ -231,7 +231,11 @@ class TapiocaClientExecutor(TapiocaClient):
         except ResponseProcessException as e:
             client = self._wrap_in_tapioca(e.data, response=response,
                                            request_kwargs=request_kwargs)
-            tapioca_exception = e.tapioca_exception(client=client)
+
+            error_message = self._api.get_error_message(data=e.data,
+                                                        response=response)
+            tapioca_exception = e.tapioca_exception(message=error_message,
+                                                    client=client)
 
             should_refresh_token = (refresh_token is not False and
                                     self._refresh_token_default)
