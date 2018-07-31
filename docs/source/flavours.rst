@@ -94,6 +94,10 @@ StatusPage
 -----
 `<https://github.com/olist/tapioca-statuspage>`_
 
+Trello
+------
+`<https://github.com/humrochagf/tapioca-trello>`_
+
 Your flavour
 ============
 To create a new wrapper, please refer to :doc:`Building a wrapper <buildingawrapper>`. Upload it to pypi and send a pull request here for it to be added to the list.
