@@ -79,7 +79,7 @@ To access the raw data contained in the executor, use the ``data`` **attribute**
 HTTP calls
 ----------
 
-Executors have access to make HTTP calls using the current data it possesses as the URL. `requests <http://docs.python-requests.org/en/latest/>`_ library, is used as the engine to perform API calls. Every key word parameter you pass to: ``get()``, ``post()``, ``put()``, ``patch()``, ``delete()`` methods will be directly passed to the request library call. This means you will be using ``params={'myparam': 'paramvalue'}`` to send querystring arguments in the url and ``data={'datakey': 'keyvalue'}`` to send data in the body of the request.
+Executors have access to make HTTP calls using the current data it possesses as the URL. The `requests <http://docs.python-requests.org/en/latest/>`_ library is used as the engine to perform API calls. Every key word parameter you pass to: ``get()``, ``post()``, ``put()``, ``patch()``, ``delete()`` methods will be directly passed to the request library call. This means you will be using ``params={'myparam': 'paramvalue'}`` to send querystring arguments in the url and ``data={'datakey': 'keyvalue'}`` to send data in the body of the request.
 
 **TODO: add examples**
 
