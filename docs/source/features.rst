@@ -15,7 +15,7 @@ The first object you get after you instanciate a tapioca wrapper is an instance 
 Default URL params
 ------------------
 
-Sometimes URLs templates need parameters that will be repeated across all call. For example, your user id:
+Sometimes URLs templates need parameters that will be repeated across all API calls. For example, an user id:
 
 .. code-block:: bash
 
