@@ -86,8 +86,8 @@ Executors have access to make HTTP calls using the current data it possesses as 
 Auth refreshing (\*)
 --------------------
 
-Some clients needs to update its token once they have expired. If the clients supports, you might instantiate it passing
-```refresh_token_by_default=True``` or make any HTTP call passing ```refresh_auth=True``` (both defaults to
+Some clients need to update its token once they have expired. If the client supports this feature, you might instantiate it
+passing ```refresh_token_by_default=True``` or make any HTTP call passing ```refresh_auth=True``` (both defaults to
 ```False```). Note that if your client instance have ```refresh_token_by_default=True```, then you don't need to
 explicity set it on HTTP calls.
 
