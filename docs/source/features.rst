@@ -8,14 +8,14 @@ Here are some features tapioca supports. The wrapper you are using may support t
 TapiocaClient
 =============
 
-The first object you get after you instanciate a tapioca wrapper is an instance of the ``TapiocaClient`` class. This class is capable of accessing the API endpoints of the wrapper and traversing respose objects. No other action besides those can be achieved from a ``TapiocaClient``. To retrieve the raw data returned from the API call you will need to transform it in a ``TapiocaClientExecutor``.
+The first object you get after you instanciate a tapioca wrapper is an instance of the ``TapiocaClient`` class. This class is capable of accessing the API endpoints of the wrapper and traversing response objects. No other action besides those can be achieved from a ``TapiocaClient``. To retrieve the raw data returned from the API call you will need to transform it in a ``TapiocaClientExecutor``.
 
 **TODO: add examples**
 
 Default URL params
 ------------------
 
-Sometimes URLs templates need parameters that will be repeated across all call. For example, your user id:
+Sometimes URLs templates need parameters that will be repeated across all API calls. For example, an user id:
 
 .. code-block:: bash
 
@@ -79,15 +79,15 @@ To access the raw data contained in the executor, use the ``data`` **attribute**
 HTTP calls
 ----------
 
-Executors have access to make HTTP calls using the current data it possesses as the URL. `requests <http://docs.python-requests.org/en/latest/>`_ library, is used as the engine to perform API calls. Every key word parameter you pass to: ``get()``, ``post()``, ``put()``, ``patch()``, ``delete()`` methods will be directly passed to the request library call. This means you will be using ``params={'myparam': 'paramvalue'}`` to send querystring arguments in the url and ``data={'datakey': 'keyvalue'}`` to send data in the body of the request.
+Executors have access to make HTTP calls using the current data it possesses as the URL. The `requests <http://docs.python-requests.org/en/latest/>`_ library is used as the engine to perform API calls. Every key word parameter you pass to: ``get()``, ``post()``, ``put()``, ``patch()``, ``delete()`` methods will be directly passed to the request library call. This means you will be using ``params={'myparam': 'paramvalue'}`` to send querystring arguments in the url and ``data={'datakey': 'keyvalue'}`` to send data in the body of the request.
 
 **TODO: add examples**
 
 Auth refreshing (\*)
 --------------------
 
-Some clients needs to update its token once they have expired. If the clients supports, you might instantiate it passing
-```refresh_token_by_default=True``` or make any HTTP call passing ```refresh_auth=True``` (both defaults to
+Some clients need to update its token once they have expired. If the client supports this feature, you might instantiate it
+passing ```refresh_token_by_default=True``` or make any HTTP call passing ```refresh_auth=True``` (both defaults to
 ```False```). Note that if your client instance have ```refresh_token_by_default=True```, then you don't need to
 explicity set it on HTTP calls.
 
