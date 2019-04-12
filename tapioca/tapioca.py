@@ -110,7 +110,7 @@ class TapiocaClient(object):
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
             resource = resource_mapping[name]
-            api_root = self._api.get_api_root(self._api_params)
+            api_root = self._api.get_api_root(self._api_params, name)
 
             url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
             return self._wrap_in_tapioca(url, resource=resource)
@@ -264,7 +264,7 @@ class TapiocaClientExecutor(TapiocaClient):
 
     def options(self, *args, **kwargs):
         return self._make_request('OPTIONS', *args, **kwargs)
-    
+
     def put(self, *args, **kwargs):
         return self._make_request('PUT', *args, **kwargs)
 
