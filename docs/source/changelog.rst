@@ -2,6 +2,15 @@
 Changelog
 =========
 
+1.5.1
+=====
+- Adds a ``resource_name`` kwarg to the ``get_api_root`` method
+
+1.5
+===
+- Removes support for Python 3.3
+
+
 1.4
 ===
 - Adds support to Session requests
