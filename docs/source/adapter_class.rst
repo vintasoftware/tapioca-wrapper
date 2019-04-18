@@ -30,12 +30,12 @@ This method can be used instead of the ``api_root`` attribute. You might also us
 			return 'http://api.the-dev-url.com/'
 		return 'http://api.the-production-url.com/'
 
-You can also need to set different api_root to a specific resource. To do that you can access the ``resource_name`` inside ``kwargs``.
+You may also need to set different api_root to a specific resource. To do that you can access the ``resource_name`` inside ``kwargs``.
 
 .. code-block:: python
 
     def get_api_root(self, api_params, **kwargs):
-        if kwargs.get('resource_name') == 'another_root':
+        if kwargs.get('resource_name') == 'some_resource_name':
             return 'http://api.another.com/'
         else:
             return self.api_root
