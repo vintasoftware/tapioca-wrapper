@@ -27,6 +27,13 @@ class TestTapiocaClient(unittest.TestCase):
 
         self.assertEqual(resource.data, expected_url)
 
+    def test_fill_another_root_url_template(self):
+        expected_url = 'https://api.another.com/another-root/'
+
+        resource = self.wrapper.another_root()
+
+        self.assertEqual(resource.data, expected_url)
+
     def test_calling_len_on_tapioca_list(self):
         client = self.wrapper._wrap_in_tapioca([0, 1, 2])
         self.assertEqual(len(client), 3)

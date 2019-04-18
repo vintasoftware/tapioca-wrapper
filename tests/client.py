@@ -23,6 +23,10 @@ RESOURCE_MAPPING = {
         'spam': 'eggs',
         'foo': 'bar'
     },
+    'another_root': {
+        'resource': 'another-root/',
+        'docs': 'http://www.test.com/another-root'
+    },
 }
 
 
@@ -30,6 +34,12 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
     serializer_class = None
     api_root = 'https://api.test.com'
     resource_mapping = RESOURCE_MAPPING
+
+    def get_api_root(self, api_params, **kwargs):
+        if kwargs.get('resource_name') == 'another_root':
+            return 'https://api.another.com/'
+        else:
+            return self.api_root
 
     def get_iterator_list(self, response_data):
         return response_data['data']

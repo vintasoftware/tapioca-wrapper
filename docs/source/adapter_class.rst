@@ -19,18 +19,28 @@ For more information about the ``serializer_class`` attribute, read the :doc:`se
 Methods
 -------
 
-.. method:: get_api_root(self, api_params)
+.. method:: get_api_root(self, api_params, \*\*kwargs)
 
 This method can be used instead of the ``api_root`` attribute. You might also use it to decide which base URL to use according to a user input.
 
 .. code-block:: python
 
-	def get_api_root(self, api_params):
+	def get_api_root(self, api_params, **kwargs):
 		if api_params.get('development'):
 			return 'http://api.the-dev-url.com/'
 		return 'http://api.the-production-url.com/'
 
-.. method:: get_request_kwargs(self, api_params, *args, **kwargs)
+You may also need to set different api_root to a specific resource. To do that you can access the ``resource_name`` inside ``kwargs``.
+
+.. code-block:: python
+
+    def get_api_root(self, api_params, **kwargs):
+        if kwargs.get('resource_name') == 'some_resource_name':
+            return 'http://api.another.com/'
+        else:
+            return self.api_root
+
+.. method:: get_request_kwargs(self, api_params, \*args, \*\*kwargs)
 
 This method is called just before any request is made. You should use it to set whatever credentials the request might need. The **api_params** argument is a dictionary and has the parameters passed during the initialization of the tapioca client:
 
@@ -99,7 +109,7 @@ Many APIs enclose the returned list of objects in one of the returned attributes
 
 In this example, the object list is enclosed in the ``data`` attribute.
 
-.. method:: is_authentication_expired(self, exception, *args, **kwargs)
+.. method:: is_authentication_expired(self, exception, \*args, \*\*kwargs)
 
 Given an exception, checks if the authentication has expired or not. If so and ```refresh_token_by_default=True``` or
 the HTTP method was called with ```refresh_token=True```, then it will automatically call ```refresh_authentication```
@@ -108,6 +118,6 @@ method and retry the original request.
 If not implemented, ```is_authentication_expired``` will assume ```False```, ```refresh_token_by_default``` also
 defaults to ```False``` in the client initialization.
 
-.. method:: refresh_authentication(self, api_params, *args, **kwargs): 
+.. method:: refresh_authentication(self, api_params, \*args, \*\*kwargs): 
 
 Should do refresh authentication logic. Make sure you update `api_params` dictionary with the new token. If it successfully refreshs token it should return a truthy value that will be stored for later access in the executor class in the ``refresh_data`` attribute. If the refresh logic fails, return a falsy value. The original request will be retried only if a truthy is returned.
