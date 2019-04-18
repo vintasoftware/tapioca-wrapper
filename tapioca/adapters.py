@@ -39,7 +39,7 @@ class TapiocaAdapter(object):
         if self.serializer_class:
             return self.serializer_class()
 
-    def get_api_root(self, api_params, resource_name=None):
+    def get_api_root(self, api_params, **kwargs):
         return self.api_root
 
     def fill_resource_template_url(self, template, params):

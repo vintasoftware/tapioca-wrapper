@@ -35,9 +35,9 @@ class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
     api_root = 'https://api.test.com'
     resource_mapping = RESOURCE_MAPPING
 
-    def get_api_root(self, api_params, resource_name=None):
-        if resource_name == 'another_root':
-            return 'https://api.another.com'
+    def get_api_root(self, api_params, **kwargs):
+        if kwargs.get('resource_name') == 'another_root':
+            return 'https://api.another.com/'
         else:
             return self.api_root
 

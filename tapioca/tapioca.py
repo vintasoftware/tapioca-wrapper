@@ -110,7 +110,9 @@ class TapiocaClient(object):
         resource_mapping = self._api.resource_mapping
         if name in resource_mapping:
             resource = resource_mapping[name]
-            api_root = self._api.get_api_root(self._api_params, name)
+            api_root = self._api.get_api_root(
+                self._api_params, resource_name=name
+            )
 
             url = api_root.rstrip('/') + '/' + resource['resource'].lstrip('/')
             return self._wrap_in_tapioca(url, resource=resource)
