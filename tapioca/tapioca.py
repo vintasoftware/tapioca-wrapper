@@ -299,12 +299,16 @@ class TapiocaClientExecutor(TapiocaClient):
             if self._reached_max_limits(page_count, item_count, max_pages,
                                         max_items):
                 break
-            for item in iterator_list:
-                if self._reached_max_limits(page_count, item_count, max_pages,
-                                            max_items):
-                    break
-                yield self._wrap_in_tapioca(item)
-                item_count += 1
+            
+            if not isinstance(iterator_list, list):
+                yield self._wrap_in_tapioca(iterator_list)
+            else:
+                for item in iterator_list:
+                    if self._reached_max_limits(page_count, item_count, max_pages,
+                                                max_items):
+                        break
+                    yield self._wrap_in_tapioca(item)
+                    item_count += 1
 
             page_count += 1
 
