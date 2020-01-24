@@ -184,7 +184,7 @@ Use ``data`` to return data contained in the Tapioca object.
 		'data': [...],
 		'paging': {...}
 	}
-	>>> this will print only the array contained 
+	>>> # this will print only the array contained 
 	>>> # in the 'data' field of the response
 	>>> likes.data().data
 	>>> [...]
