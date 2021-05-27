@@ -19,7 +19,7 @@ Base class for tapioca exceptions. Example usage:
 	try:
 		cli.fetch_something().get()
 	except TapiocaException, e:
-		print("API call failed with error %s", e.status)
+		print("API call failed with error %s", e.status_code)
 
 You can also access a tapioca client that contains response data from the exception:
 
@@ -30,7 +30,7 @@ You can also access a tapioca client that contains response data from the except
 	try:
 		cli.fetch_something().get()
 	except TapiocaException, e:
-		print(e.client.error_message().data)
+		print(e.client().data)
 
 .. class:: ClientError
 
