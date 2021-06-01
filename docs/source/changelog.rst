@@ -2,6 +2,15 @@
 Changelog
 =========
 
+2.0.1
+=====
+- Updates the list of supported versions in setup.py
+
+2.0
+===
+- Drops support for python 2.7 and 3.4
+- Adds support for python 3.7 and 3.8
+
 1.5.1
 =====
 - Adds a ``resource_name`` kwarg to the ``get_api_root`` method
