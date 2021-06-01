@@ -2,6 +2,10 @@
 Changelog
 =========
 
+2.0.1
+=====
+- Updates the list of supported versions in setup.py
+
 2.0
 ===
 - Drops support for python 2.7 and 3.4
