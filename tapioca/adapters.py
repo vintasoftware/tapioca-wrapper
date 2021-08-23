@@ -2,7 +2,7 @@
 
 import json
 import xmltodict
-from collections import Mapping
+from collections.abc import Mapping
 
 from .tapioca import TapiocaInstantiator
 from .exceptions import (
