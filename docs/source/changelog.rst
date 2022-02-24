@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.0.2
+=====
+- Updated deprecated collections import
+- Adds support for python 3.10
+
 2.0.1
 =====
 - Updates the list of supported versions in setup.py
