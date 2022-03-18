@@ -2,6 +2,10 @@
 Changelog
 =========
 
+2.1.0
+=====
+- Make ``TapiocaClient`` and ``TapiocaClientExecutor`` pickle-able.
+
 2.0.2
 =====
 - Updated deprecated collections import

@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import unittest
 import responses
 import json
+import pickle
 
 import xmltodict
 from collections import OrderedDict
@@ -21,7 +22,7 @@ class TestTapiocaClient(unittest.TestCase):
         self.wrapper = TesterClient()
 
     def test_fill_url_template(self):
-        expected_url = 'https://api.test.com/user/123/'
+        expected_url = 'https://api.example.org/user/123/'
 
         resource = self.wrapper.user(id='123')
 
@@ -65,7 +66,7 @@ class TestTapiocaClient(unittest.TestCase):
 
     @responses.activate
     def test_transform_camelCase_in_snake_case(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data" :{"key_snake": "value", "camelCase": "data in camel case", "NormalCamelCase": "data in camel case"}, "paging": {"next": "%s"}}' % next_url,
@@ -117,7 +118,34 @@ class TestTapiocaClient(unittest.TestCase):
 
     def test_fill_url_from_default_params(self):
         wrapper = TesterClient(default_url_params={'id': 123})
-        self.assertEqual(wrapper.user().data, 'https://api.test.com/user/123/')
+        self.assertEqual(wrapper.user().data, 'https://api.example.org/user/123/')
+
+    @responses.activate
+    def test_is_pickleable(self):
+        wrapper = TesterClient()
+        wrapper = pickle.loads(pickle.dumps(wrapper))
+
+        # ensure requests keep working after pickle:
+        next_url = 'http://api.example.org/next_batch'
+
+        responses.add(responses.GET, wrapper.test().data,
+                      body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
+                      status=200,
+                      content_type='application/json')
+
+        responses.add(responses.GET, next_url,
+                      body='{"data": [{"key": "value"}], "paging": {"next": ""}}',
+                      status=200,
+                      content_type='application/json')
+
+        response = wrapper.test().get()
+
+        iterations_count = 0
+        for item in response().pages():
+            self.assertIn(item.key().data, 'value')
+            iterations_count += 1
+
+        self.assertEqual(iterations_count, 2)
 
 
 class TestTapiocaExecutor(unittest.TestCase):
@@ -126,7 +154,7 @@ class TestTapiocaExecutor(unittest.TestCase):
         self.wrapper = TesterClient()
 
     def test_resource_executor_data_should_be_composed_url(self):
-        expected_url = 'https://api.test.com/test/'
+        expected_url = 'https://api.example.org/test/'
         resource = self.wrapper.test()
 
         self.assertEqual(resource.data, expected_url)
@@ -181,7 +209,7 @@ class TestTapiocaExecutor(unittest.TestCase):
 
     @responses.activate
     def test_response_executor_object_has_a_response(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
@@ -342,7 +370,7 @@ class TestIteratorFeatures(unittest.TestCase):
 
     @responses.activate
     def test_simple_pages_iterator(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
@@ -365,7 +393,7 @@ class TestIteratorFeatures(unittest.TestCase):
 
     @responses.activate
     def test_simple_pages_with_max_items_iterator(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
@@ -388,7 +416,7 @@ class TestIteratorFeatures(unittest.TestCase):
 
     @responses.activate
     def test_simple_pages_with_max_pages_iterator(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
@@ -420,7 +448,7 @@ class TestIteratorFeatures(unittest.TestCase):
 
     @responses.activate
     def test_simple_pages_max_page_zero_iterator(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,
@@ -443,7 +471,7 @@ class TestIteratorFeatures(unittest.TestCase):
 
     @responses.activate
     def test_simple_pages_max_item_zero_iterator(self):
-        next_url = 'http://api.teste.com/next_batch'
+        next_url = 'http://api.example.org/next_batch'
 
         responses.add(responses.GET, self.wrapper.test().data,
                       body='{"data": [{"key": "value"}], "paging": {"next": "%s"}}' % next_url,

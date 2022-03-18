@@ -139,6 +139,10 @@ class TapiocaClient(object):
         return None
 
     def __getattr__(self, name):
+        # Fix to be pickle-able:
+        # return None for all unimplemented dunder methods
+        if name.startswith('__') and name.endswith('__'):
+            raise AttributeError(name)
         ret = self._get_client_from_name_or_fallback(name)
         if ret is None:
             raise AttributeError(name)
@@ -194,6 +198,10 @@ class TapiocaClientExecutor(TapiocaClient):
         raise Exception("Cannot iterate over a TapiocaClientExecutor object")
 
     def __getattr__(self, name):
+        # Fix to be pickle-able:
+        # return None for all unimplemented dunder methods
+        if name.startswith('__') and name.endswith('__'):
+            raise AttributeError(name)
         if name.startswith('to_'):  # deserializing
             return self._api._get_to_native_method(name, self._data)
         return self._wrap_in_tapioca_executor(getattr(self._data, name))
