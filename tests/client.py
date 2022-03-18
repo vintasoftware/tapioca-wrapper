@@ -11,28 +11,28 @@ from tapioca.serializers import SimpleSerializer
 RESOURCE_MAPPING = {
     'test': {
         'resource': 'test/',
-        'docs': 'http://www.test.com'
+        'docs': 'http://www.example.org'
     },
     'user': {
         'resource': 'user/{id}/',
-        'docs': 'http://www.test.com/user'
+        'docs': 'http://www.example.org/user'
     },
     'resource': {
         'resource': 'resource/{number}/',
-        'docs': 'http://www.test.com/resource',
+        'docs': 'http://www.example.org/resource',
         'spam': 'eggs',
         'foo': 'bar'
     },
     'another_root': {
         'resource': 'another-root/',
-        'docs': 'http://www.test.com/another-root'
+        'docs': 'http://www.example.org/another-root'
     },
 }
 
 
 class TesterClientAdapter(JSONAdapterMixin, TapiocaAdapter):
     serializer_class = None
-    api_root = 'https://api.test.com'
+    api_root = 'https://api.example.org'
     resource_mapping = RESOURCE_MAPPING
 
     def get_api_root(self, api_params, **kwargs):
@@ -95,7 +95,7 @@ FailTokenRefreshClient = generate_wrapper_from_adapter(FailTokenRefreshClientAda
 
 
 class XMLClientAdapter(XMLAdapterMixin, TapiocaAdapter):
-    api_root = 'https://api.test.com'
+    api_root = 'https://api.example.org'
     resource_mapping = RESOURCE_MAPPING
 
 
