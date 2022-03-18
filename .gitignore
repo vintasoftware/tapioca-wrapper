@@ -42,3 +42,9 @@ output/*/index.html
 
 # Sphinx
 docs/_build
+
+# Virtual Env
+/venv/
+
+# pyenv
+.python-version
