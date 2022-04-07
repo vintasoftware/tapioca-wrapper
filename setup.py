@@ -23,7 +23,7 @@ Documentation hosted by Readthedocs: http://tapioca-wrapper.readthedocs.io/en/st
 package = 'tapioca'
 requirements = [
     'requests[security]>=2.6',
-    'arrow>=0.6.0,<1',
+    'arrow<2',
     'six>=1',
     'xmltodict>=0.9.2'
 ]
