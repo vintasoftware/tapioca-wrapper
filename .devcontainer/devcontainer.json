@@ -17,8 +17,10 @@
                 "ms-python.flake8",
                 "the-compiler.python-tox",
                 "ms-azuretools.vscode-docker",
-                "editorconfig.editorconfig"
+                "editorconfig.editorconfig",
+                "redhat.vscode-yaml"
             ],
+            // if it grows create a .vscode/settings.json
             "settings": {
                 "python.linting.flake8Enabled": true
             }

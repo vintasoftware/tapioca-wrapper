@@ -129,7 +129,6 @@ class JSONAdapterMixin(object):
             return data.get('error', None)
 
 
-
 class XMLAdapterMixin(object):
 
     def _input_branches_to_xml_bytestring(self, data):

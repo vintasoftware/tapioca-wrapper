@@ -10,5 +10,5 @@ RUN pyenv install 3.9
 RUN pyenv install 3.10
 RUN pyenv install 3.11
 
-RUN pip install tox tox-pyenv
+RUN pip install tox tox-pyenv coverage
 RUN pyenv local 3.7 3.8 3.9 3.10 3.11
