@@ -15,8 +15,12 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-azuretools.vscode-docker",
-				"the-compiler.python-tox"
-			]
+				"the-compiler.python-tox",
+				"ms-python.flake8"
+			],
+			"settings": {
+				"python.linting.flake8Enabled": true
+			}
 		}
 	}
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
