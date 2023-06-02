@@ -58,7 +58,6 @@ docs:
 	sphinx-apidoc -o docs/ tapioca
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	open docs/_build/html/index.html
 
 dist: clean
 	python setup.py sdist

@@ -18,7 +18,8 @@
                 "the-compiler.python-tox",
                 "ms-azuretools.vscode-docker",
                 "editorconfig.editorconfig",
-                "redhat.vscode-yaml"
+                "redhat.vscode-yaml",
+                "github.vscode-github-actions"
             ],
             // if it grows create a .vscode/settings.json
             "settings": {

@@ -1,4 +1,4 @@
-name: tests
+name: build
 
 on:
   push:
@@ -7,6 +7,21 @@ on:
       - master
 
 jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: apt-get -qq update && apt-get install -qq -y python3-sphinx
+      - name: Build docs
+        run: make docs
+      - name: Build sdist and wheel
+        run: make dist
+
   tests:
     runs-on: ubuntu-22.04
     strategy:
