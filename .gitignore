@@ -51,3 +51,4 @@ docs/_build
 
 # pyenv
 .python-version
+.pyenv-cache

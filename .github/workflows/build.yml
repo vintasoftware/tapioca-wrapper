@@ -1,4 +1,4 @@
-name: CI QA
+name: build
 
 on:
   push:
