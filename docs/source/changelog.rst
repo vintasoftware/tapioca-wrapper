@@ -2,6 +2,12 @@
 Changelog
 =========
 
+2.2.0
+=====
+- Remove unnecessary version pinning of arrow library
+- Drops support for python 3.6 and 3.7
+- Adds support for python 3.11
+
 2.1.0
 =====
 - Make ``TapiocaClient`` and ``TapiocaClientExecutor`` pickle-able.

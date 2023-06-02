@@ -1,0 +1,19 @@
+name: build
+
+on: workflow_dispatch
+
+jobs:
+  build-release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Release
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          python setup.py sdist upload
+          python setup.py bdist_wheel upload

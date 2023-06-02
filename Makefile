@@ -10,7 +10,6 @@ help:
 	@echo "test - run tests on every Python version with tox"
 	@echo "coverage - check code coverage quickly with the default Python"
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
-	@echo "release - package and upload a release"
 	@echo "dist - package"
 
 setup-devcontainer:
@@ -60,10 +59,6 @@ docs:
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
-
-release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
 
 dist: clean
 	python setup.py sdist
