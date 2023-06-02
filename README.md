@@ -27,8 +27,22 @@ To create new flavours, refer to [Building a wrapper](http://tapioca-wrapper.rea
 
 ### Setup dev environment
 
-Tapioca-Wrapper is ready for development in with Dev Container. After downloading the code you just need to use Reopen in Container option and after building run `make setup-devcontainer` just once.
+Tapioca-Wrapper is ready for development with Dev Container. After downloading the code you just need to use Reopen in Container option and after building run `make setup-devcontainer` just once.
 
+If you are not familiar to vscode follow this [tutorial](https://code.visualstudio.com/docs/devcontainers/tutorial) until the "Install the extension" part, then when you open the folder with the project on vscode you will be prompted with the Reopen in Container option  
+Also, fell free to setup your environment in your way
+
+### How to Release:
+
+#### Pre release:
+- Include the changes in `docs/source/changelog.rst`
+- Update the version in `tapioca/__init__.py`
+
+#### Release:
+- Run the github action [build](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build-release.yml)
+
+#### Pos release:
+- Update docs... TBD
 
 ## Other resources
 
