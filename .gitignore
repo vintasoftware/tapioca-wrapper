@@ -28,6 +28,9 @@ pip-log.txt
 nosetests.xml
 htmlcov
 
+# mypy
+.mypy_cache
+
 # Translations
 *.mo
 

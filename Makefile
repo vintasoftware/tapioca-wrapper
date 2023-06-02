@@ -32,13 +32,10 @@ clean-test:
 	rm -fr htmlcov/
 
 lint:
-	flake8 tapioca tests
+	flake8
 
 test:
-	python setup.py test
-
-test-all:
-	tox
+	tox -e py38,py39,py310,py311
 
 coverage:
 	coverage run --source tapioca setup.py test
