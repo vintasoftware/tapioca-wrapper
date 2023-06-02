@@ -38,7 +38,7 @@ Tapioca-Wrapper is ready for development with [Dev Container](https://code.visua
 #### Release:
 - Run the github action [build](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build-release.yml)
 
-#### Pos release:
+#### Post release:
 - Update docs... TBD
 
 ## Other resources
