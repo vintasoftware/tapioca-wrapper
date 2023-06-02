@@ -1,7 +1,7 @@
 # Tapioca-Wrapper
 
 [![Join the chat at https://gitter.im/vintasoftware/tapioca-wrapper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vintasoftware/tapioca-wrapper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build.yml/badge.svg)](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build.yml)
+[![Build Status](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build-release.yml/badge.svg)](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build-release.yml)
 [![Coverage Status](https://coveralls.io/repos/vintasoftware/tapioca-wrapper/badge.svg?branch=master&service=github)](https://coveralls.io/github/vintasoftware/tapioca-wrapper?branch=master)
 [![Current version at PyPI](https://img.shields.io/pypi/v/tapioca-wrapper.svg)](https://pypi.python.org/pypi/tapioca-wrapper)
 ![Supported Python Versions](https://img.shields.io/pypi/pyversions/tapioca-wrapper.svg)
@@ -22,6 +22,12 @@ Full documentation hosted by [readthedocs](http://tapioca-wrapper.readthedocs.or
 You can find the full list of available tapioca clients [here](http://tapioca-wrapper.readthedocs.org/en/stable/flavours.html).
 
 To create new flavours, refer to [Building a wrapper](http://tapioca-wrapper.readthedocs.org/en/stable/buildingawrapper.html) in the documentation. There is also a [cookiecutter template](https://github.com/vintasoftware/cookiecutter-tapioca) to help bootstraping new API clients.
+
+## Contributing
+
+### Setup dev environment
+
+Tapioca-Wrapper is ready for development in with Dev Container. After downloading the code you just need to use Reopen in Container option and after building run `make setup-devcontainer` just once.
 
 
 ## Other resources
