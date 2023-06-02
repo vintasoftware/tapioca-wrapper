@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install dependencies
-        run: sudo apt-get install -qq -y python3-sphinx
+        run: sudo -qq apt-get update && sudo apt-get -qq install python3-sphinx gcc libpq-dev build-essential -y
       - name: Build docs
         run: make docs
       - name: Build sdist and wheel
