@@ -1,0 +1,31 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+    "name": "Tapioca Env",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/tapioca-wrapper",
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    "features": {
+        "ghcr.io/jungaretti/features/make:1": {}
+    },
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.flake8",
+                "the-compiler.python-tox",
+                "ms-azuretools.vscode-docker",
+                "editorconfig.editorconfig",
+                "redhat.vscode-yaml"
+            ],
+            // if it grows create a .vscode/settings.json
+            "settings": {
+                "python.linting.flake8Enabled": true
+            }
+        }
+    }
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+}

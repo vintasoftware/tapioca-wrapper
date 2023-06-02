@@ -13,7 +13,8 @@ import sys
 
 description = """
 Tapioca provides an easy way to make explorable Python API wrappers.
-APIs wrapped by Tapioca follow a simple interaction pattern that works uniformly so developers don't need to learn how to use a new coding interface/style for each service API.
+APIs wrapped by Tapioca follow a simple interaction pattern that works uniformly so
+developers don't need to learn how to use a new coding interface/style for each service API.
 
 Source code hosted on Github: https://github.com/vintasoftware/tapioca-wrapper
 
@@ -23,7 +24,7 @@ Documentation hosted by Readthedocs: http://tapioca-wrapper.readthedocs.io/en/st
 package = 'tapioca'
 requirements = [
     'requests[security]>=2.6',
-    'arrow>=0.6.0,<1',
+    'arrow>=0.6.0',
     'six>=1',
     'xmltodict>=0.9.2'
 ]
