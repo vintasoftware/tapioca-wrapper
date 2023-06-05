@@ -15,5 +15,4 @@ jobs:
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          python setup.py sdist upload
-          python setup.py bdist_wheel upload
+          sed 's,REPLACE_TOKEN,'"$SHELL"',' .pypirc.ini > .pypirc
