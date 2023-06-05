@@ -11,13 +11,22 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.8"
-      - name: Create pypi config file
+      # - name: Create pypi config file
+      #   run: sed 's,REPLACE_TOKEN,'"$PYPI_TOKEN"',' .pypirc.ini > .pypirc
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip && pip install build twine
+      - name: Build
+        run: make build
+      - name: Release
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-        run: sed 's,REPLACE_TOKEN,'"$PYPI_TOKEN"',' .pypirc.ini > .pypirc
-      - name: Release
-        run: |
-          python setup.py sdist upload
-          python setup.py bdist_wheel upload
-      - name: Remove pypi file
-        run: rm .pypirc
+        run: twine upload dist/*
+      # - name: Release
+      #   env:
+      #     PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+      #   run: |
+      #     python setup.py sdist upload
+      #     python setup.py bdist_wheel upload
+      # - name: Remove pypi file
+      #   run: rm .pypirc

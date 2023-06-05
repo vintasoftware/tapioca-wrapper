@@ -60,6 +60,6 @@ docs:
 	$(MAKE) -C docs html
 
 dist: clean
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python -m build
+	twine check dist/*
 	ls -l dist
