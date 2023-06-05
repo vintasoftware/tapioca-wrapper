@@ -11,10 +11,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.8"
+      - name: Install dependencies
+        run: pip install --upgrade pip && pip install build twine
+      - name: Build
+        run: make dist
       - name: Release
         env:
-          PYPI_USER: __token__
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          python setup.py sdist upload
-          python setup.py bdist_wheel upload
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: twine upload dist/*
