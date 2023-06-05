@@ -19,8 +19,8 @@ jobs:
         run: make dist
       - name: Release
         env:
-          PYPI_USER: __token__
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: twine upload dist/*
       # - name: Release
       #   env:
