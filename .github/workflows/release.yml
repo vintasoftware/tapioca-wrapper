@@ -13,6 +13,6 @@ jobs:
           python-version: "3.8"
       - name: Release
         env:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.TEST_SECRET }}
         run: |
-          sed 's,REPLACE_TOKEN,'"$SHELL"',' .pypirc.ini > .pypirc
+          sed 's,REPLACE_TOKEN,'"$PYPI_TOKEN"',' .pypirc.ini > .pypirc
