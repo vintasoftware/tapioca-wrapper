@@ -14,12 +14,12 @@ jobs:
       # - name: Create pypi config file
       #   run: sed 's,REPLACE_TOKEN,'"$PYPI_TOKEN"',' .pypirc.ini > .pypirc
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip && pip install build twine
+        run: pip install --upgrade pip && pip install build twine
       - name: Build
         run: make dist
       - name: Release
         env:
+          PYPI_USER: __token__
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: twine upload dist/*
       # - name: Release

@@ -17,8 +17,8 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: |
-          sudo apt-get -qq update && sudo apt-get -qq install python3-sphinx gcc build-essential python3-wheel -y
-          pip install --upgrade pip && pip install wheel build twine
+          sudo apt-get -qq update && sudo apt-get -qq install python3-sphinx -y
+          pip install --upgrade pip && pip install build twine
       - name: Build docs
         run: make docs
       - name: Build
