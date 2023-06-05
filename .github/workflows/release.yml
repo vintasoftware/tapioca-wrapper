@@ -13,6 +13,9 @@ jobs:
           python-version: "3.8"
       - name: Release
         env:
-          PYPI_TOKEN: ${{ secrets.TEST_SECRET }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
           sed 's,REPLACE_TOKEN,'"$PYPI_TOKEN"',' .pypirc.ini > .pypirc
+          python setup.py sdist upload
+          python setup.py bdist_wheel upload
+          rm .pypirc
