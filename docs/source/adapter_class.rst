@@ -40,6 +40,18 @@ You may also need to set different api_root to a specific resource. To do that y
         else:
             return self.api_root
 
+.. method:: get_resource_mapping(self, api_params)
+
+You can use it to customize the resource map dynamically.
+
+.. code-block:: python
+
+    def get_resource_mapping(self, api_params):
+        if api_params.get('version') == 'v2':
+            return RESOURCE_MAPPING_V2
+
+        return self.resource_mapping
+
 .. method:: get_request_kwargs(self, api_params, \*args, \*\*kwargs)
 
 This method is called just before any request is made. You should use it to set whatever credentials the request might need. The **api_params** argument is a dictionary and has the parameters passed during the initialization of the tapioca client:

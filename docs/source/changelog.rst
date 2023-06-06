@@ -2,6 +2,10 @@
 Changelog
 =========
 
+2.3.0
+=====
+- Adds get_resource_mapping on TapiocaAdapter to customize the resource map dynamically.
+
 2.2.0
 =====
 - Remove unnecessary version pinning of arrow library
