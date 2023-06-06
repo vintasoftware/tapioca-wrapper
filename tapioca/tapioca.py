@@ -107,7 +107,7 @@ class TapiocaClient(object):
             return self._wrap_in_tapioca(data=self._data[name])
 
         # if could not access, falback to resource mapping
-        resource_mapping = self._api.resource_mapping
+        resource_mapping = self._api.get_resource_mapping(self._api_params)
         if name in resource_mapping:
             resource = resource_mapping[name]
             api_root = self._api.get_api_root(
@@ -156,7 +156,8 @@ class TapiocaClient(object):
 
     def __dir__(self):
         if self._api and self._data is None:
-            return [key for key in self._api.resource_mapping.keys()]
+            return [key for key in
+                    self._api.get_resource_mapping(self._api_params).keys()]
 
         if isinstance(self._data, dict):
             return self._data.keys()
