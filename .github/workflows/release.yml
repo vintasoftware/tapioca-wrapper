@@ -13,6 +13,8 @@ jobs:
           python-version: "3.8"
       - name: Install dependencies
         run: pip install --upgrade pip && pip install build twine
+      - name: set up env
+        run: echo "TAG=$(eval 'python setup.py version')" >> $GITHUB_ENV
       - name: Build
         run: make dist
       - name: Release
@@ -20,3 +22,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: twine upload dist/*
+      - uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: ${{ env.TAG }}

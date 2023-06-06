@@ -36,10 +36,10 @@ Tapioca-Wrapper is ready for development with [Dev Container](https://code.visua
 - Update the version in `tapioca/__init__.py`
 
 #### Release:
-- Run the github action [build](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/build-release.yml)
+- Run the github action [release](https://github.com/vintasoftware/tapioca-wrapper/actions/workflows/release.yml)
 
 #### Post release:
-- Create tag with the version number to deploy the docs
+- Check if docs were updated at [readthedocs](http://tapioca-wrapper.readthedocs.org/).
 
 ## Other resources
 
